@@ -1,0 +1,290 @@
+{
+  "tasks": [
+    {
+      "id": "167747af-41b5-4030-b78c-075791e80f3b",
+      "name": "기존 스타터킷 정리 및 불필요 파일 삭제",
+      "description": "기존 Next.js Supabase 스타터킷의 불필요한 파일과 폴더를 삭제하여 새로운 구조를 위한 준비를 합니다.",
+      "notes": "삭제 전 git status로 현재 상태 확인 권장",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:03:08.342Z",
+      "relatedFiles": [
+        {
+          "path": "app/protected/",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        },
+        {
+          "path": "components/tutorial/",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        },
+        {
+          "path": "components/hero.tsx",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        }
+      ],
+      "implementationGuide": "1. app/protected/ 폴더 전체 삭제\\n2. components/tutorial/ 폴더 전체 삭제\\n3. components/hero.tsx 삭제\\n4. components/deploy-button.tsx 삭제\\n5. components/next-logo.tsx 삭제\\n6. components/supabase-logo.tsx 삭제\\n7. 기존 app/page.tsx 내용 비우기 (빈 placeholder로 대체)",
+      "verificationCriteria": "1. app/protected/ 폴더가 존재하지 않음\\n2. components/tutorial/ 폴더가 존재하지 않음\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "기존 스타터킷의 불필요한 파일 정리 완료: app/protected 폴더 삭제, components/tutorial 폴더 삭제, hero.tsx, deploy-button.tsx, next-logo.tsx, supabase-logo.tsx 삭제. app/page.tsx를 간단한 플레이스홀더로 교체. npm run build 성공 확인.",
+      "completedAt": "2026-01-20T07:03:08.341Z"
+    },
+    {
+      "id": "f717ed37-2751-4b27-8784-ae48feb8e088",
+      "name": "(public) 라우트 그룹 생성",
+      "description": "비로그인 사용자가 접근 가능한 공개 페이지를 위한 (public) 라우트 그룹을 생성합니다.",
+      "notes": "각 페이지는 export default function Page() { return <div>페이지명</div> } 형태의 placeholder",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:05:23.379Z",
+      "relatedFiles": [
+        {
+          "path": "app/(public)/",
+          "type": "CREATE",
+          "description": "공개 라우트 그룹"
+        },
+        {
+          "path": "app/(public)/layout.tsx",
+          "type": "CREATE",
+          "description": "공개 페이지 레이아웃"
+        },
+        {
+          "path": "app/(public)/invite/[code]/page.tsx",
+          "type": "CREATE",
+          "description": "초대 링크 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(public)/ 디렉토리 생성\\n2. app/(public)/layout.tsx 생성 (기본 레이아웃)\\n3. 기존 app/page.tsx를 app/(public)/page.tsx로 이동\\n4. app/(public)/invite/[code]/page.tsx 생성 (초대 링크 페이지 placeholder)",
+      "verificationCriteria": "1. / 경로 접근 시 랜딩 페이지 표시\\n2. /invite/test 경로 접근 가능\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "(public) 라우트 그룹 생성 완료: app/(public)/layout.tsx 생성, app/(public)/page.tsx 랜딩 페이지 생성, app/(public)/invite/[code]/page.tsx 초대 링크 페이지 생성. Next.js 16 Cache Components 호환을 위해 Suspense 경계 적용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:05:23.378Z"
+    },
+    {
+      "id": "397959b1-6e85-4114-a309-314c0b3610d8",
+      "name": "(auth) 라우트 그룹 재구성",
+      "description": "인증 관련 페이지를 (auth) 라우트 그룹으로 재구성합니다.",
+      "notes": "기존 로그인/회원가입 페이지 기능은 유지하고 라우트 그룹만 변경",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:06:12.681Z",
+      "relatedFiles": [
+        {
+          "path": "app/(auth)/",
+          "type": "CREATE",
+          "description": "인증 라우트 그룹"
+        },
+        {
+          "path": "app/auth/",
+          "type": "TO_MODIFY",
+          "description": "기존 auth 폴더 이동"
+        }
+      ],
+      "implementationGuide": "1. app/(auth)/ 디렉토리 생성\\n2. 기존 app/auth/ 폴더를 app/(auth)/auth/로 이동\\n3. app/(auth)/layout.tsx 생성 (인증 페이지용 심플 레이아웃)",
+      "verificationCriteria": "1. /auth/login 경로 접근 가능\\n2. /auth/sign-up 경로 접근 가능\\n3. 기존 인증 기능 정상 동작",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "(auth) 라우트 그룹 재구성 완료: 기존 app/auth 폴더를 app/(auth)/auth로 이동, app/(auth)/layout.tsx 생성 (인증 페이지용 중앙 정렬 레이아웃). /auth/login, /auth/sign-up 등 모든 인증 경로 정상 동작 확인.",
+      "completedAt": "2026-01-20T07:06:12.680Z"
+    },
+    {
+      "id": "7f4c9461-15e4-4d84-b687-71630cf78bbf",
+      "name": "(dashboard) 라우트 그룹 및 페이지 생성",
+      "description": "로그인 사용자 전용 대시보드 페이지들을 위한 (dashboard) 라우트 그룹과 모든 하위 페이지를 생성합니다.",
+      "notes": "layout.tsx는 별도 태스크에서 구현 (레이아웃 통합 태스크)",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:02.439Z",
+      "updatedAt": "2026-01-20T07:07:32.734Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/",
+          "type": "CREATE",
+          "description": "대시보드 라우트 그룹"
+        },
+        {
+          "path": "app/(dashboard)/dashboard/page.tsx",
+          "type": "CREATE",
+          "description": "대시보드 홈"
+        },
+        {
+          "path": "app/(dashboard)/groups/",
+          "type": "CREATE",
+          "description": "모임 관련 페이지들"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/ 디렉토리 생성\\n2. 하위 페이지 생성 (모두 placeholder):\\n   - dashboard/page.tsx (대시보드 홈)\\n   - groups/page.tsx (모임 목록)\\n   - groups/new/page.tsx (모임 생성)\\n   - groups/[groupId]/page.tsx (모임 상세)\\n   - groups/[groupId]/members/page.tsx (멤버 관리)\\n   - groups/[groupId]/events/new/page.tsx (이벤트 생성)\\n   - groups/[groupId]/events/[eventId]/page.tsx (이벤트 상세)\\n   - events/page.tsx (내 이벤트)\\n   - notifications/page.tsx (알림)\\n   - settings/page.tsx (설정)",
+      "verificationCriteria": "1. 10개 페이지 파일 모두 생성됨\\n2. 각 경로 접근 시 placeholder 표시\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 계속: (dashboard) 라우트 그룹과 나머지 컴포넌트 태스크 추가",
+      "summary": "(dashboard) 라우트 그룹 및 10개 페이지 생성 완료: dashboard, groups, groups/new, groups/[groupId], groups/[groupId]/members, groups/[groupId]/events/new, groups/[groupId]/events/[eventId], events, notifications, settings. 동적 라우트는 Suspense 경계 적용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:07:32.733Z"
+    },
+    {
+      "id": "d3fb0c89-acf2-4f4d-966f-639070873aae",
+      "name": "TypeScript 타입 정의 파일 생성",
+      "description": "Supabase 데이터베이스 스키마 기반 TypeScript 타입과 API 응답 타입, 컴포넌트 Props 타입을 정의합니다.",
+      "notes": "PRD 데이터 모델 섹션(330-539줄) 참조",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-20T06:48:02.439Z",
+      "updatedAt": "2026-01-20T07:08:56.124Z",
+      "relatedFiles": [
+        {
+          "path": "types/",
+          "type": "CREATE",
+          "description": "타입 정의 디렉토리"
+        },
+        {
+          "path": "docs/PRD.md",
+          "type": "REFERENCE",
+          "description": "데이터 모델 참조",
+          "lineStart": 330,
+          "lineEnd": 539
+        }
+      ],
+      "implementationGuide": "1. types/ 디렉토리 생성\\n2. types/database.ts: Profile, Group, GroupMember, Event, Participant, Announcement, PushSubscription, NotificationLog, EventImage, UserEventSettings 타입\\n3. types/enums.ts: Role, AttendanceStatus, EventStatus, NotificationType enum\\n4. types/api.ts: ApiResponse<T>, PaginatedResponse<T> 타입\\n5. types/index.ts: 모든 타입 re-export",
+      "verificationCriteria": "1. types/ 디렉토리에 4개 파일 존재\\n2. TypeScript 컴파일 에러 없음\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 계속: (dashboard) 라우트 그룹과 나머지 컴포넌트 태스크 추가",
+      "summary": "TypeScript 타입 정의 완료: types/enums.ts (Role, AttendanceStatus, EventStatus, NotificationType), types/database.ts (10개 테이블 타입 + 6개 관계형 타입), types/api.ts (ApiResponse, PaginatedResponse, ActionResult 등), types/index.ts (re-export). TypeScript 컴파일 및 npm run build 성공.",
+      "completedAt": "2026-01-20T07:08:56.122Z"
+    },
+    {
+      "id": "2302261b-7866-4351-aa37-d7375416838b",
+      "name": "데스크톱 헤더 컴포넌트 구현",
+      "description": "대시보드용 데스크톱 헤더 컴포넌트를 구현합니다. 로고, 네비게이션 링크, 알림 아이콘, 프로필 드롭다운을 포함합니다.",
+      "notes": "PRD 736-750줄 헤더 명세 참조",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "7f4c9461-15e4-4d84-b687-71630cf78bbf"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:10:11.056Z",
+      "relatedFiles": [
+        {
+          "path": "components/layout/header.tsx",
+          "type": "CREATE",
+          "description": "데스크톱 헤더"
+        },
+        {
+          "path": "components/ui/dropdown-menu.tsx",
+          "type": "DEPENDENCY",
+          "description": "드롭다운 메뉴"
+        }
+      ],
+      "implementationGuide": "1. components/layout/ 디렉토리 생성\\n2. components/layout/header.tsx 작성:\\n   - 좌측: 로고 (Link to /dashboard)\\n   - 중앙: 네비게이션 (모임, 이벤트)\\n   - 우측: 알림 아이콘, 프로필 드롭다운\\n3. shadcn/ui DropdownMenu 활용\\n4. Lucide 아이콘: Home, Users, Calendar, Bell, Settings, LogOut",
+      "verificationCriteria": "1. 헤더 컴포넌트가 정상 렌더링\\n2. 네비게이션 링크 동작\\n3. 드롭다운 메뉴 동작",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "데스크톱 헤더 컴포넌트 구현 완료: components/layout/header.tsx 생성. 로고(Link to /dashboard), 모임 선택 드롭다운, 네비게이션 링크, 검색 버튼, 알림 아이콘(뱃지 포함), 프로필 드롭다운(설정/로그아웃) 구현. shadcn/ui DropdownMenu, Avatar 활용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:10:11.055Z"
+    },
+    {
+      "id": "9365cf44-663e-4981-8469-3b69936ea89c",
+      "name": "모바일 하단 네비게이션 컴포넌트 구현",
+      "description": "모바일용 하단 네비게이션 바를 구현합니다. 홈, 모임, 이벤트, 마이페이지 4개 탭으로 구성합니다.",
+      "notes": "PRD 751-767줄 BottomNavigation 명세 참조",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "7f4c9461-15e4-4d84-b687-71630cf78bbf"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:10:59.164Z",
+      "relatedFiles": [
+        {
+          "path": "components/layout/bottom-nav.tsx",
+          "type": "CREATE",
+          "description": "모바일 하단 네비게이션"
+        }
+      ],
+      "implementationGuide": "1. components/layout/bottom-nav.tsx 작성 (use client)\\n2. 4개 탭: 홈(/dashboard), 모임(/groups), 이벤트(/events), MY(/settings)\\n3. usePathname()으로 현재 경로 감지\\n4. 활성 탭: primary 색상, 비활성: muted-foreground\\n5. fixed bottom-0, md:hidden으로 모바일만 표시",
+      "verificationCriteria": "1. 모바일에서 하단 네비게이션 표시\\n2. 현재 페이지 탭 활성화\\n3. 데스크톱에서 숨김",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "모바일 하단 네비게이션 컴포넌트 구현 완료: components/layout/bottom-nav.tsx 생성. 4개 탭(홈, 내모임, 이벤트, 마이페이지) 구현, usePathname으로 활성 상태 감지, md:hidden으로 모바일만 표시, iPhone 노치 대응 안전 영역 추가. npm run build 성공.",
+      "completedAt": "2026-01-20T07:10:59.163Z"
+    },
+    {
+      "id": "bf28130d-5968-429f-9606-41c2a79d2a08",
+      "name": "대시보드 레이아웃 통합 및 인증 체크",
+      "description": "(dashboard) 라우트 그룹의 layout.tsx를 구현하여 헤더, 하단 네비게이션을 통합하고 인증 체크 로직을 추가합니다.",
+      "notes": "lib/supabase/server.ts 활용",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "2302261b-7866-4351-aa37-d7375416838b"
+        },
+        {
+          "taskId": "9365cf44-663e-4981-8469-3b69936ea89c"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:44:39.233Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/layout.tsx",
+          "type": "CREATE",
+          "description": "대시보드 레이아웃"
+        },
+        {
+          "path": "lib/supabase/server.ts",
+          "type": "DEPENDENCY",
+          "description": "서버 Supabase 클라이언트"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/layout.tsx 작성\\n2. 서버 컴포넌트로 Supabase 세션 확인\\n3. 미인증 시 /auth/login 리디렉션\\n4. Header 컴포넌트 포함\\n5. BottomNav 컴포넌트 포함\\n6. 메인 영역 반응형 패딩 적용",
+      "verificationCriteria": "1. 대시보드 페이지에 레이아웃 적용\\n2. 미로그인 시 리디렉션\\n3. 헤더와 하단 네비게이션 정상 표시",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "대시보드 레이아웃 통합 완료: (dashboard) 라우트 그룹의 layout.tsx에 Header와 BottomNav 컴포넌트 통합, proxy.ts를 통한 미들웨어 기반 인증 체크 구현 (미인증 시 /auth/login 리디렉션), Next.js 16 cacheComponents와 호환되는 구조로 구현, 빌드 성공 확인",
+      "completedAt": "2026-01-20T07:44:39.232Z"
+    },
+    {
+      "id": "b4ec5a9b-ab9d-473a-b41b-c01779015112",
+      "name": "공개 페이지 레이아웃 완성",
+      "description": "(public) 라우트 그룹의 레이아웃을 완성하고 랜딩 페이지 기본 골격을 구현합니다.",
+      "notes": "Phase 2에서 UI 완성 예정, 현재는 구조만",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "f717ed37-2751-4b27-8784-ae48feb8e088"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T08:31:59.149Z",
+      "relatedFiles": [
+        {
+          "path": "app/(public)/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "공개 페이지 레이아웃"
+        },
+        {
+          "path": "app/(public)/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "랜딩 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(public)/layout.tsx 완성 (간단한 헤더 + 로그인 버튼)\\n2. app/(public)/page.tsx 랜딩 페이지 골격:\\n   - 서비스 소개 섹션 placeholder\\n   - 기능 프리뷰 섹션 placeholder\\n   - CTA 버튼 (로그인/시작하기)\\n3. app/(public)/invite/[code]/page.tsx 초대 페이지 골격",
+      "verificationCriteria": "1. 루트 경로에서 랜딩 페이지 표시\\n2. 로그인 버튼 동작\\n3. /invite/[code] 접근 가능",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "공개 페이지 레이아웃 완성: (public) 라우트 그룹의 layout.tsx에 PublicHeader와 Footer 통합, 랜딩 페이지(히어로/기능소개/CTA 섹션) 구현, 초대 페이지(/invite/[code]) 골격 구현, 빌드 성공 확인 (25개 페이지 정적 생성)",
+      "completedAt": "2026-01-20T08:31:59.148Z"
+    }
+  ]
+}
