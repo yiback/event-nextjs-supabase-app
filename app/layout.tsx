@@ -25,15 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.className} antialiased`}>
+    <html lang="ko" suppressHydrationWarning>
+      <body className={`${geistSans.className} antialiased bg-gray-100`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {/* 모바일 사이즈 컨테이너 - 중앙 정렬 */}
+          <div className="mx-auto w-full max-w-[480px] min-h-screen bg-background shadow-sm">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
