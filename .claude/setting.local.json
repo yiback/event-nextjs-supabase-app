@@ -1,0 +1,10 @@
+{
+    "permissions": {
+      "allow": [
+        "Bash(gh auth status:*)",
+        "Bash(git push:*)",
+        "mcp__supabase",
+        "Bash(tree:*)"
+      ]
+    }
+  }
