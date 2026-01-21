@@ -40,7 +40,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-6 max-w-2xl">
+    <div className="space-y-6 p-4 md:p-6 max-w-2xl mx-auto">
       {/* 페이지 헤더 */}
       <div>
         <h1 className="text-2xl font-bold flex items-center gap-2">

@@ -46,7 +46,7 @@ export default function DashboardLayout({
       </Suspense>
 
       {/* 메인 컨텐츠 영역 */}
-      <main className="pb-20 md:pb-6">{children}</main>
+      <main className="pt-14 pb-20 md:pb-6">{children}</main>
 
       {/* 모바일 하단 네비게이션 */}
       <Suspense fallback={<BottomNavFallback />}>
