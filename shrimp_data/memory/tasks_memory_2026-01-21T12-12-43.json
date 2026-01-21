@@ -1,0 +1,556 @@
+{
+  "tasks": [
+    {
+      "id": "167747af-41b5-4030-b78c-075791e80f3b",
+      "name": "기존 스타터킷 정리 및 불필요 파일 삭제",
+      "description": "기존 Next.js Supabase 스타터킷의 불필요한 파일과 폴더를 삭제하여 새로운 구조를 위한 준비를 합니다.",
+      "notes": "삭제 전 git status로 현재 상태 확인 권장",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:03:08.342Z",
+      "relatedFiles": [
+        {
+          "path": "app/protected/",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        },
+        {
+          "path": "components/tutorial/",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        },
+        {
+          "path": "components/hero.tsx",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        }
+      ],
+      "implementationGuide": "1. app/protected/ 폴더 전체 삭제\\n2. components/tutorial/ 폴더 전체 삭제\\n3. components/hero.tsx 삭제\\n4. components/deploy-button.tsx 삭제\\n5. components/next-logo.tsx 삭제\\n6. components/supabase-logo.tsx 삭제\\n7. 기존 app/page.tsx 내용 비우기 (빈 placeholder로 대체)",
+      "verificationCriteria": "1. app/protected/ 폴더가 존재하지 않음\\n2. components/tutorial/ 폴더가 존재하지 않음\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "기존 스타터킷의 불필요한 파일 정리 완료: app/protected 폴더 삭제, components/tutorial 폴더 삭제, hero.tsx, deploy-button.tsx, next-logo.tsx, supabase-logo.tsx 삭제. app/page.tsx를 간단한 플레이스홀더로 교체. npm run build 성공 확인.",
+      "completedAt": "2026-01-20T07:03:08.341Z"
+    },
+    {
+      "id": "f717ed37-2751-4b27-8784-ae48feb8e088",
+      "name": "(public) 라우트 그룹 생성",
+      "description": "비로그인 사용자가 접근 가능한 공개 페이지를 위한 (public) 라우트 그룹을 생성합니다.",
+      "notes": "각 페이지는 export default function Page() { return <div>페이지명</div> } 형태의 placeholder",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:05:23.379Z",
+      "relatedFiles": [
+        {
+          "path": "app/(public)/",
+          "type": "CREATE",
+          "description": "공개 라우트 그룹"
+        },
+        {
+          "path": "app/(public)/layout.tsx",
+          "type": "CREATE",
+          "description": "공개 페이지 레이아웃"
+        },
+        {
+          "path": "app/(public)/invite/[code]/page.tsx",
+          "type": "CREATE",
+          "description": "초대 링크 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(public)/ 디렉토리 생성\\n2. app/(public)/layout.tsx 생성 (기본 레이아웃)\\n3. 기존 app/page.tsx를 app/(public)/page.tsx로 이동\\n4. app/(public)/invite/[code]/page.tsx 생성 (초대 링크 페이지 placeholder)",
+      "verificationCriteria": "1. / 경로 접근 시 랜딩 페이지 표시\\n2. /invite/test 경로 접근 가능\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "(public) 라우트 그룹 생성 완료: app/(public)/layout.tsx 생성, app/(public)/page.tsx 랜딩 페이지 생성, app/(public)/invite/[code]/page.tsx 초대 링크 페이지 생성. Next.js 16 Cache Components 호환을 위해 Suspense 경계 적용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:05:23.378Z"
+    },
+    {
+      "id": "397959b1-6e85-4114-a309-314c0b3610d8",
+      "name": "(auth) 라우트 그룹 재구성",
+      "description": "인증 관련 페이지를 (auth) 라우트 그룹으로 재구성합니다.",
+      "notes": "기존 로그인/회원가입 페이지 기능은 유지하고 라우트 그룹만 변경",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:47:44.703Z",
+      "updatedAt": "2026-01-20T07:06:12.681Z",
+      "relatedFiles": [
+        {
+          "path": "app/(auth)/",
+          "type": "CREATE",
+          "description": "인증 라우트 그룹"
+        },
+        {
+          "path": "app/auth/",
+          "type": "TO_MODIFY",
+          "description": "기존 auth 폴더 이동"
+        }
+      ],
+      "implementationGuide": "1. app/(auth)/ 디렉토리 생성\\n2. 기존 app/auth/ 폴더를 app/(auth)/auth/로 이동\\n3. app/(auth)/layout.tsx 생성 (인증 페이지용 심플 레이아웃)",
+      "verificationCriteria": "1. /auth/login 경로 접근 가능\\n2. /auth/sign-up 경로 접근 가능\\n3. 기존 인증 기능 정상 동작",
+      "analysisResult": "Phase 1 목표: Next.js 15 App Router 기반 모임 이벤트 관리 웹 애플리케이션의 기본 구조를 설정합니다. Task 1(라우트 그룹 및 페이지 스캐폴딩)을 4개의 세부 태스크로 분할하여 진행합니다.",
+      "summary": "(auth) 라우트 그룹 재구성 완료: 기존 app/auth 폴더를 app/(auth)/auth로 이동, app/(auth)/layout.tsx 생성 (인증 페이지용 중앙 정렬 레이아웃). /auth/login, /auth/sign-up 등 모든 인증 경로 정상 동작 확인.",
+      "completedAt": "2026-01-20T07:06:12.680Z"
+    },
+    {
+      "id": "7f4c9461-15e4-4d84-b687-71630cf78bbf",
+      "name": "(dashboard) 라우트 그룹 및 페이지 생성",
+      "description": "로그인 사용자 전용 대시보드 페이지들을 위한 (dashboard) 라우트 그룹과 모든 하위 페이지를 생성합니다.",
+      "notes": "layout.tsx는 별도 태스크에서 구현 (레이아웃 통합 태스크)",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "167747af-41b5-4030-b78c-075791e80f3b"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:02.439Z",
+      "updatedAt": "2026-01-20T07:07:32.734Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/",
+          "type": "CREATE",
+          "description": "대시보드 라우트 그룹"
+        },
+        {
+          "path": "app/(dashboard)/dashboard/page.tsx",
+          "type": "CREATE",
+          "description": "대시보드 홈"
+        },
+        {
+          "path": "app/(dashboard)/groups/",
+          "type": "CREATE",
+          "description": "모임 관련 페이지들"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/ 디렉토리 생성\\n2. 하위 페이지 생성 (모두 placeholder):\\n   - dashboard/page.tsx (대시보드 홈)\\n   - groups/page.tsx (모임 목록)\\n   - groups/new/page.tsx (모임 생성)\\n   - groups/[groupId]/page.tsx (모임 상세)\\n   - groups/[groupId]/members/page.tsx (멤버 관리)\\n   - groups/[groupId]/events/new/page.tsx (이벤트 생성)\\n   - groups/[groupId]/events/[eventId]/page.tsx (이벤트 상세)\\n   - events/page.tsx (내 이벤트)\\n   - notifications/page.tsx (알림)\\n   - settings/page.tsx (설정)",
+      "verificationCriteria": "1. 10개 페이지 파일 모두 생성됨\\n2. 각 경로 접근 시 placeholder 표시\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 계속: (dashboard) 라우트 그룹과 나머지 컴포넌트 태스크 추가",
+      "summary": "(dashboard) 라우트 그룹 및 10개 페이지 생성 완료: dashboard, groups, groups/new, groups/[groupId], groups/[groupId]/members, groups/[groupId]/events/new, groups/[groupId]/events/[eventId], events, notifications, settings. 동적 라우트는 Suspense 경계 적용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:07:32.733Z"
+    },
+    {
+      "id": "d3fb0c89-acf2-4f4d-966f-639070873aae",
+      "name": "TypeScript 타입 정의 파일 생성",
+      "description": "Supabase 데이터베이스 스키마 기반 TypeScript 타입과 API 응답 타입, 컴포넌트 Props 타입을 정의합니다.",
+      "notes": "PRD 데이터 모델 섹션(330-539줄) 참조",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-20T06:48:02.439Z",
+      "updatedAt": "2026-01-20T07:08:56.124Z",
+      "relatedFiles": [
+        {
+          "path": "types/",
+          "type": "CREATE",
+          "description": "타입 정의 디렉토리"
+        },
+        {
+          "path": "docs/PRD.md",
+          "type": "REFERENCE",
+          "description": "데이터 모델 참조",
+          "lineStart": 330,
+          "lineEnd": 539
+        }
+      ],
+      "implementationGuide": "1. types/ 디렉토리 생성\\n2. types/database.ts: Profile, Group, GroupMember, Event, Participant, Announcement, PushSubscription, NotificationLog, EventImage, UserEventSettings 타입\\n3. types/enums.ts: Role, AttendanceStatus, EventStatus, NotificationType enum\\n4. types/api.ts: ApiResponse<T>, PaginatedResponse<T> 타입\\n5. types/index.ts: 모든 타입 re-export",
+      "verificationCriteria": "1. types/ 디렉토리에 4개 파일 존재\\n2. TypeScript 컴파일 에러 없음\\n3. npm run build 성공",
+      "analysisResult": "Phase 1 계속: (dashboard) 라우트 그룹과 나머지 컴포넌트 태스크 추가",
+      "summary": "TypeScript 타입 정의 완료: types/enums.ts (Role, AttendanceStatus, EventStatus, NotificationType), types/database.ts (10개 테이블 타입 + 6개 관계형 타입), types/api.ts (ApiResponse, PaginatedResponse, ActionResult 등), types/index.ts (re-export). TypeScript 컴파일 및 npm run build 성공.",
+      "completedAt": "2026-01-20T07:08:56.122Z"
+    },
+    {
+      "id": "2302261b-7866-4351-aa37-d7375416838b",
+      "name": "데스크톱 헤더 컴포넌트 구현",
+      "description": "대시보드용 데스크톱 헤더 컴포넌트를 구현합니다. 로고, 네비게이션 링크, 알림 아이콘, 프로필 드롭다운을 포함합니다.",
+      "notes": "PRD 736-750줄 헤더 명세 참조",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "7f4c9461-15e4-4d84-b687-71630cf78bbf"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:10:11.056Z",
+      "relatedFiles": [
+        {
+          "path": "components/layout/header.tsx",
+          "type": "CREATE",
+          "description": "데스크톱 헤더"
+        },
+        {
+          "path": "components/ui/dropdown-menu.tsx",
+          "type": "DEPENDENCY",
+          "description": "드롭다운 메뉴"
+        }
+      ],
+      "implementationGuide": "1. components/layout/ 디렉토리 생성\\n2. components/layout/header.tsx 작성:\\n   - 좌측: 로고 (Link to /dashboard)\\n   - 중앙: 네비게이션 (모임, 이벤트)\\n   - 우측: 알림 아이콘, 프로필 드롭다운\\n3. shadcn/ui DropdownMenu 활용\\n4. Lucide 아이콘: Home, Users, Calendar, Bell, Settings, LogOut",
+      "verificationCriteria": "1. 헤더 컴포넌트가 정상 렌더링\\n2. 네비게이션 링크 동작\\n3. 드롭다운 메뉴 동작",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "데스크톱 헤더 컴포넌트 구현 완료: components/layout/header.tsx 생성. 로고(Link to /dashboard), 모임 선택 드롭다운, 네비게이션 링크, 검색 버튼, 알림 아이콘(뱃지 포함), 프로필 드롭다운(설정/로그아웃) 구현. shadcn/ui DropdownMenu, Avatar 활용. npm run build 성공.",
+      "completedAt": "2026-01-20T07:10:11.055Z"
+    },
+    {
+      "id": "9365cf44-663e-4981-8469-3b69936ea89c",
+      "name": "모바일 하단 네비게이션 컴포넌트 구현",
+      "description": "모바일용 하단 네비게이션 바를 구현합니다. 홈, 모임, 이벤트, 마이페이지 4개 탭으로 구성합니다.",
+      "notes": "PRD 751-767줄 BottomNavigation 명세 참조",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "7f4c9461-15e4-4d84-b687-71630cf78bbf"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:10:59.164Z",
+      "relatedFiles": [
+        {
+          "path": "components/layout/bottom-nav.tsx",
+          "type": "CREATE",
+          "description": "모바일 하단 네비게이션"
+        }
+      ],
+      "implementationGuide": "1. components/layout/bottom-nav.tsx 작성 (use client)\\n2. 4개 탭: 홈(/dashboard), 모임(/groups), 이벤트(/events), MY(/settings)\\n3. usePathname()으로 현재 경로 감지\\n4. 활성 탭: primary 색상, 비활성: muted-foreground\\n5. fixed bottom-0, md:hidden으로 모바일만 표시",
+      "verificationCriteria": "1. 모바일에서 하단 네비게이션 표시\\n2. 현재 페이지 탭 활성화\\n3. 데스크톱에서 숨김",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "모바일 하단 네비게이션 컴포넌트 구현 완료: components/layout/bottom-nav.tsx 생성. 4개 탭(홈, 내모임, 이벤트, 마이페이지) 구현, usePathname으로 활성 상태 감지, md:hidden으로 모바일만 표시, iPhone 노치 대응 안전 영역 추가. npm run build 성공.",
+      "completedAt": "2026-01-20T07:10:59.163Z"
+    },
+    {
+      "id": "bf28130d-5968-429f-9606-41c2a79d2a08",
+      "name": "대시보드 레이아웃 통합 및 인증 체크",
+      "description": "(dashboard) 라우트 그룹의 layout.tsx를 구현하여 헤더, 하단 네비게이션을 통합하고 인증 체크 로직을 추가합니다.",
+      "notes": "lib/supabase/server.ts 활용",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "2302261b-7866-4351-aa37-d7375416838b"
+        },
+        {
+          "taskId": "9365cf44-663e-4981-8469-3b69936ea89c"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T07:44:39.233Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/layout.tsx",
+          "type": "CREATE",
+          "description": "대시보드 레이아웃"
+        },
+        {
+          "path": "lib/supabase/server.ts",
+          "type": "DEPENDENCY",
+          "description": "서버 Supabase 클라이언트"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/layout.tsx 작성\\n2. 서버 컴포넌트로 Supabase 세션 확인\\n3. 미인증 시 /auth/login 리디렉션\\n4. Header 컴포넌트 포함\\n5. BottomNav 컴포넌트 포함\\n6. 메인 영역 반응형 패딩 적용",
+      "verificationCriteria": "1. 대시보드 페이지에 레이아웃 적용\\n2. 미로그인 시 리디렉션\\n3. 헤더와 하단 네비게이션 정상 표시",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "대시보드 레이아웃 통합 완료: (dashboard) 라우트 그룹의 layout.tsx에 Header와 BottomNav 컴포넌트 통합, proxy.ts를 통한 미들웨어 기반 인증 체크 구현 (미인증 시 /auth/login 리디렉션), Next.js 16 cacheComponents와 호환되는 구조로 구현, 빌드 성공 확인",
+      "completedAt": "2026-01-20T07:44:39.232Z"
+    },
+    {
+      "id": "b4ec5a9b-ab9d-473a-b41b-c01779015112",
+      "name": "공개 페이지 레이아웃 완성",
+      "description": "(public) 라우트 그룹의 레이아웃을 완성하고 랜딩 페이지 기본 골격을 구현합니다.",
+      "notes": "Phase 2에서 UI 완성 예정, 현재는 구조만",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "f717ed37-2751-4b27-8784-ae48feb8e088"
+        }
+      ],
+      "createdAt": "2026-01-20T06:48:27.809Z",
+      "updatedAt": "2026-01-20T08:31:59.149Z",
+      "relatedFiles": [
+        {
+          "path": "app/(public)/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "공개 페이지 레이아웃"
+        },
+        {
+          "path": "app/(public)/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "랜딩 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(public)/layout.tsx 완성 (간단한 헤더 + 로그인 버튼)\\n2. app/(public)/page.tsx 랜딩 페이지 골격:\\n   - 서비스 소개 섹션 placeholder\\n   - 기능 프리뷰 섹션 placeholder\\n   - CTA 버튼 (로그인/시작하기)\\n3. app/(public)/invite/[code]/page.tsx 초대 페이지 골격",
+      "verificationCriteria": "1. 루트 경로에서 랜딩 페이지 표시\\n2. 로그인 버튼 동작\\n3. /invite/[code] 접근 가능",
+      "analysisResult": "Phase 1 계속: 레이아웃 컴포넌트 및 통합 태스크 추가",
+      "summary": "공개 페이지 레이아웃 완성: (public) 라우트 그룹의 layout.tsx에 PublicHeader와 Footer 통합, 랜딩 페이지(히어로/기능소개/CTA 섹션) 구현, 초대 페이지(/invite/[code]) 골격 구현, 빌드 성공 확인 (25개 페이지 정적 생성)",
+      "completedAt": "2026-01-20T08:31:59.148Z"
+    },
+    {
+      "id": "1a3b5505-0fb5-463d-a3d5-1da024032e20",
+      "name": "shadcn/ui form 컴포넌트 추가",
+      "description": "React Hook Form + Zod 통합을 위한 shadcn/ui form 컴포넌트를 추가합니다. 이후 폼 구현에 필요한 기반을 마련합니다.",
+      "notes": "이 작업은 다른 작업과 독립적으로 실행 가능",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:08.744Z",
+      "relatedFiles": [
+        {
+          "path": "components/ui/form.tsx",
+          "type": "CREATE",
+          "description": "shadcn/ui form 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. npx shadcn@latest add form 명령 실행\\n2. components/ui/form.tsx 파일 생성 확인\\n3. @hookform/resolvers 패키지 설치 확인\\n4. npm run build로 빌드 성공 확인",
+      "verificationCriteria": "1. components/ui/form.tsx 파일 존재\\n2. npm run build 성공\\n3. @hookform/resolvers가 package.json에 존재",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "shadcn/ui form 컴포넌트 추가 완료. components/ui/form.tsx 생성됨, @hookform/resolvers v5.2.2 설치됨, npm run build 성공.",
+      "completedAt": "2026-01-21T02:48:08.742Z"
+    },
+    {
+      "id": "267918ea-3687-4cb4-9978-32742a636a1c",
+      "name": "디자인 토큰 업데이트 (globals.css)",
+      "description": "PRD 디자인 명세에 맞게 CSS 변수를 업데이트합니다. Primary 색상을 blue-500으로 변경하고, success/warning 시맨틱 컬러를 추가합니다.",
+      "notes": "다크 모드도 동일하게 업데이트 필요",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:21.460Z",
+      "relatedFiles": [
+        {
+          "path": "app/globals.css",
+          "type": "TO_MODIFY",
+          "description": "CSS 변수 정의 파일",
+          "lineStart": 1,
+          "lineEnd": 70
+        }
+      ],
+      "implementationGuide": "globals.css의 :root와 .dark 섹션 수정:\\n- --primary: 217.2 91.2% 59.8% (blue-500)\\n- --primary-foreground: 0 0% 100%\\n- --ring: 217.2 91.2% 59.8%\\n- --success: 160.1 84.1% 39.4% (emerald-500) 추가\\n- --success-foreground: 0 0% 100% 추가\\n- --warning: 37.7 92.1% 50.2% (amber-500) 추가\\n- --warning-foreground: 0 0% 100% 추가",
+      "verificationCriteria": "1. :root에 --primary가 blue-500 HSL 값으로 설정됨\\n2. --success, --warning 변수 추가됨\\n3. .dark 섹션도 동일하게 업데이트됨\\n4. npm run build 성공",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "globals.css 디자인 토큰 업데이트 완료. --primary를 blue-500(217.2 91.2% 59.8%)으로 변경, --success(emerald-500), --warning(amber-500) 시맨틱 컬러 추가, .dark 섹션도 동일하게 업데이트됨. npm run build 성공 확인.",
+      "completedAt": "2026-01-21T02:48:21.456Z"
+    },
+    {
+      "id": "bee1770e-edb4-41db-b3c8-c187d9704ee2",
+      "name": "Tailwind 시맨틱 컬러 확장",
+      "description": "tailwind.config.ts에 success, warning 시맨틱 컬러를 추가하여 Tailwind 클래스로 사용할 수 있게 합니다.",
+      "notes": "기존 colors 구조 유지하면서 추가",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "267918ea-3687-4cb4-9978-32742a636a1c"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:31.978Z",
+      "relatedFiles": [
+        {
+          "path": "tailwind.config.ts",
+          "type": "TO_MODIFY",
+          "description": "Tailwind 설정 파일",
+          "lineStart": 11,
+          "lineEnd": 55
+        }
+      ],
+      "implementationGuide": "tailwind.config.ts의 theme.extend.colors에 추가:\\nsuccess: {\\n  DEFAULT: 'hsl(var(--success))',\\n  foreground: 'hsl(var(--success-foreground))'\\n},\\nwarning: {\\n  DEFAULT: 'hsl(var(--warning))',\\n  foreground: 'hsl(var(--warning-foreground))'\\n}",
+      "verificationCriteria": "1. success, warning 컬러가 colors에 추가됨\\n2. npm run build 성공\\n3. bg-success, text-warning 등 클래스 사용 가능",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "tailwind.config.ts에 success, warning 시맨틱 컬러 추가 완료. ESM import 방식으로 tailwindcss-animate 설정도 개선. bg-success, text-warning 등 클래스 사용 가능. npm run build 성공.",
+      "completedAt": "2026-01-21T02:48:31.977Z"
+    },
+    {
+      "id": "f922fc2e-3de0-441a-9004-44e57c0a05e1",
+      "name": "Badge 컴포넌트 variant 확장",
+      "description": "기존 badge.tsx에 8개의 새로운 variant를 추가합니다: new, deadline, deadlineSoon, deadlineToday, deadlineClosed, attending, notAttending, maybe",
+      "notes": "기존 4개 variant (default, secondary, destructive, outline) 유지",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:42.130Z",
+      "relatedFiles": [
+        {
+          "path": "components/ui/badge.tsx",
+          "type": "TO_MODIFY",
+          "description": "Badge 컴포넌트",
+          "lineStart": 1,
+          "lineEnd": 37
+        }
+      ],
+      "implementationGuide": "components/ui/badge.tsx의 badgeVariants에 추가:\\n- new: 'border-transparent bg-blue-500 text-white'\\n- deadline: 'border-transparent bg-gray-500 text-white'\\n- deadlineSoon: 'border-transparent bg-amber-500 text-white'\\n- deadlineToday: 'border-transparent bg-red-500 text-white'\\n- deadlineClosed: 'border-transparent bg-gray-300 text-gray-600'\\n- attending: 'border-transparent bg-emerald-100 text-emerald-700'\\n- notAttending: 'border-transparent bg-red-100 text-red-700'\\n- maybe: 'border-transparent bg-amber-100 text-amber-700'",
+      "verificationCriteria": "1. 12개 variant 모두 정의됨 (기존 4개 + 신규 8개)\\n2. TypeScript 타입 에러 없음\\n3. npm run build 성공",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "badge.tsx에 8개 신규 variant 추가 완료 (new, deadline, deadlineSoon, deadlineToday, deadlineClosed, attending, notAttending, maybe). 총 12개 variant 정의됨. TypeScript 타입 에러 없음.",
+      "completedAt": "2026-01-21T02:48:42.129Z"
+    },
+    {
+      "id": "013943f4-ca73-4ee0-8f0f-77d571ecbe2c",
+      "name": "DeadlineBadge 컴포넌트 생성",
+      "description": "마감일을 기준으로 D-N 형식의 뱃지를 자동으로 표시하는 래퍼 컴포넌트를 생성합니다. date-fns를 사용하여 날짜 계산을 수행합니다.",
+      "notes": "use client 디렉티브 필요 (클라이언트 컴포넌트)",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "f922fc2e-3de0-441a-9004-44e57c0a05e1"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:53.482Z",
+      "relatedFiles": [
+        {
+          "path": "components/common/deadline-badge.tsx",
+          "type": "CREATE",
+          "description": "마감일 뱃지 컴포넌트"
+        }
+      ],
+      "implementationGuide": "components/common/deadline-badge.tsx 생성:\\n1. Props: { deadline: Date, className?: string }\\n2. date-fns의 differenceInDays, isToday, isPast import\\n3. 로직:\\n   - isPast && !isToday -> deadlineClosed, '마감됨'\\n   - isToday -> deadlineToday, '오늘 마감'\\n   - daysLeft === 1 -> deadlineSoon, 'D-1'\\n   - daysLeft >= 2 -> deadline, 'D-{N}'\\n4. Badge 컴포넌트 import하여 렌더링",
+      "verificationCriteria": "1. 파일 생성 확인\\n2. date-fns 함수 올바르게 사용\\n3. 4가지 상태(마감됨/오늘마감/D-1/D-N) 정확히 분기\\n4. TypeScript 타입 에러 없음",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "DeadlineBadge 컴포넌트 생성 완료. date-fns의 differenceInDays, isToday, isPast, startOfDay 사용. 마감됨/오늘마감/D-1/D-N 4가지 상태 정확히 분기 처리.",
+      "completedAt": "2026-01-21T02:48:53.480Z"
+    },
+    {
+      "id": "fa85952c-bb16-4452-bb65-74b896be38d5",
+      "name": "AttendanceBadge 컴포넌트 생성",
+      "description": "참석 상태(attending/not_attending/maybe)를 한글 라벨과 적절한 색상으로 표시하는 래퍼 컴포넌트를 생성합니다.",
+      "notes": "타입 안전성을 위해 AttendanceStatus 타입 활용",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "f922fc2e-3de0-441a-9004-44e57c0a05e1"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:53.857Z",
+      "relatedFiles": [
+        {
+          "path": "components/common/attendance-badge.tsx",
+          "type": "CREATE",
+          "description": "참석 상태 뱃지 컴포넌트"
+        },
+        {
+          "path": "types/enums.ts",
+          "type": "REFERENCE",
+          "description": "AttendanceStatus 타입 정의"
+        }
+      ],
+      "implementationGuide": "components/common/attendance-badge.tsx 생성:\\n1. Props: { status: AttendanceStatus, className?: string }\\n2. types/enums.ts에서 AttendanceStatus import\\n3. 상태 매핑 객체:\\n   - attending: { variant: 'attending', label: '참석' }\\n   - not_attending: { variant: 'notAttending', label: '불참' }\\n   - maybe: { variant: 'maybe', label: '미정' }\\n4. Badge 컴포넌트로 렌더링",
+      "verificationCriteria": "1. 파일 생성 확인\\n2. AttendanceStatus 타입 올바르게 import\\n3. 3가지 상태 모두 정확한 variant와 라벨로 매핑\\n4. TypeScript 타입 에러 없음",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "AttendanceBadge 컴포넌트 생성 완료. AttendanceStatus 타입 import, 3가지 상태(attending/not_attending/maybe) 정확히 한글 라벨(참석/불참/미정)로 매핑.",
+      "completedAt": "2026-01-21T02:48:53.855Z"
+    },
+    {
+      "id": "cede41fc-2e3e-4f30-8bb3-104653dcef65",
+      "name": "NewBadge 컴포넌트 생성",
+      "description": "생성일 기준 7일 이내인 경우에만 NEW 뱃지를 표시하는 래퍼 컴포넌트를 생성합니다.",
+      "notes": "조건부 렌더링으로 7일 초과 시 아무것도 표시하지 않음",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "f922fc2e-3de0-441a-9004-44e57c0a05e1"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:54.232Z",
+      "relatedFiles": [
+        {
+          "path": "components/common/new-badge.tsx",
+          "type": "CREATE",
+          "description": "NEW 뱃지 컴포넌트"
+        }
+      ],
+      "implementationGuide": "components/common/new-badge.tsx 생성:\\n1. Props: { createdAt: Date, className?: string }\\n2. date-fns의 differenceInDays import\\n3. 로직:\\n   - daysSinceCreation = differenceInDays(new Date(), createdAt)\\n   - daysSinceCreation > 7이면 null 반환\\n   - 그렇지 않으면 <Badge variant='new'>NEW</Badge> 반환",
+      "verificationCriteria": "1. 파일 생성 확인\\n2. 7일 이내 생성된 경우만 렌더링\\n3. 7일 초과 시 null 반환\\n4. TypeScript 타입 에러 없음",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "NewBadge 컴포넌트 생성 완료. date-fns differenceInDays 사용, 7일 이내 생성된 경우에만 NEW 뱃지 표시, 초과 시 null 반환.",
+      "completedAt": "2026-01-21T02:48:54.231Z"
+    },
+    {
+      "id": "9218ebfe-5eb6-439c-8b49-5ae8187efec9",
+      "name": "ViewToggle 컴포넌트 생성",
+      "description": "리스트/캘린더 뷰 전환을 위한 토글 컴포넌트를 생성합니다. 기존 Radix UI Tabs를 기반으로 커스텀 스타일을 적용합니다.",
+      "notes": "use client 디렉티브 필요, Radix UI Tabs의 접근성 기능 활용",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:48:54.590Z",
+      "relatedFiles": [
+        {
+          "path": "components/common/view-toggle.tsx",
+          "type": "CREATE",
+          "description": "뷰 토글 컴포넌트"
+        },
+        {
+          "path": "components/ui/tabs.tsx",
+          "type": "REFERENCE",
+          "description": "기존 Tabs 컴포넌트"
+        }
+      ],
+      "implementationGuide": "components/common/view-toggle.tsx 생성:\\n1. ViewMode 타입 정의: 'list' | 'calendar'\\n2. Props: { value: ViewMode, onValueChange: (v: ViewMode) => void, className?: string }\\n3. Tabs, TabsList, TabsTrigger import (components/ui/tabs)\\n4. List, Calendar 아이콘 import (lucide-react)\\n5. 스타일:\\n   - TabsList: grid w-full grid-cols-2 bg-gray-100\\n   - 활성: data-[state=active]:bg-blue-500 data-[state=active]:text-white\\n   - 비활성: data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600",
+      "verificationCriteria": "1. 파일 생성 확인\\n2. ViewMode 타입 export\\n3. 리스트/캘린더 탭 전환 동작\\n4. 활성/비활성 스타일 적용\\n5. TypeScript 타입 에러 없음",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "ViewToggle 컴포넌트 생성 완료. Radix UI Tabs 기반, ViewMode 타입 export, 리스트/캘린더 전환 기능, 활성/비활성 스타일(blue-500/gray-100) 적용.",
+      "completedAt": "2026-01-21T02:48:54.589Z"
+    },
+    {
+      "id": "a7f86bbe-9e97-4010-842e-e4cdf02f54ab",
+      "name": "공통 컴포넌트 인덱스 파일 생성",
+      "description": "components/common/ 폴더의 모든 컴포넌트를 re-export하는 인덱스 파일을 생성합니다.",
+      "notes": "ViewMode 타입도 함께 export",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "013943f4-ca73-4ee0-8f0f-77d571ecbe2c"
+        },
+        {
+          "taskId": "fa85952c-bb16-4452-bb65-74b896be38d5"
+        },
+        {
+          "taskId": "cede41fc-2e3e-4f30-8bb3-104653dcef65"
+        },
+        {
+          "taskId": "9218ebfe-5eb6-439c-8b49-5ae8187efec9"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:50:43.081Z",
+      "relatedFiles": [
+        {
+          "path": "components/common/index.ts",
+          "type": "CREATE",
+          "description": "공통 컴포넌트 인덱스"
+        }
+      ],
+      "implementationGuide": "components/common/index.ts 생성:\\nexport { DeadlineBadge } from './deadline-badge';\\nexport { AttendanceBadge } from './attendance-badge';\\nexport { NewBadge } from './new-badge';\\nexport { ViewToggle, type ViewMode } from './view-toggle';",
+      "verificationCriteria": "1. 파일 생성 확인\\n2. 모든 컴포넌트 정상 export\\n3. import { DeadlineBadge, ViewToggle } from '@/components/common' 사용 가능\\n4. npm run build 성공",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "components/common/index.ts 파일 생성 완료. DeadlineBadge, AttendanceBadge, NewBadge, ViewToggle 및 ViewMode 타입을 모두 re-export. @/components/common 경로로 import 가능.",
+      "completedAt": "2026-01-21T02:50:43.079Z"
+    },
+    {
+      "id": "723e8c8c-7048-472a-880d-992eb03a59ea",
+      "name": "Task 004 빌드 및 린트 검증",
+      "description": "모든 작업 완료 후 전체 빌드와 린트 검사를 수행하여 구현이 정상적으로 완료되었는지 확인합니다.",
+      "notes": "모든 작업의 최종 검증 단계",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "a7f86bbe-9e97-4010-842e-e4cdf02f54ab"
+        },
+        {
+          "taskId": "bee1770e-edb4-41db-b3c8-c187d9704ee2"
+        }
+      ],
+      "createdAt": "2026-01-21T02:36:33.816Z",
+      "updatedAt": "2026-01-21T02:51:25.878Z",
+      "relatedFiles": [],
+      "implementationGuide": "1. npm run lint 실행 - ESLint 에러 없음 확인\\n2. npm run build 실행 - 빌드 성공 확인\\n3. 개발 서버 실행 후 컴포넌트 렌더링 확인 (선택)",
+      "verificationCriteria": "1. npm run lint 에러 없음\\n2. npm run build 성공\\n3. TypeScript 컴파일 에러 없음",
+      "analysisResult": "Task 004: 공통 컴포넌트 라이브러리 구현 - Phase 2의 첫 번째 태스크로 shadcn/ui 기반 디자인 시스템과 공통 컴포넌트를 구축합니다. 기존 badge.tsx를 확장하고, ViewToggle 컴포넌트를 새로 생성하며, 디자인 토큰을 PRD 명세에 맞게 업데이트합니다.",
+      "summary": "Task 004 최종 검증 완료. npm run lint 에러 0건 (미사용 변수 정리), npm run build 성공, TypeScript 컴파일 에러 없음. 모든 공통 컴포넌트 라이브러리 구현 완료.",
+      "completedAt": "2026-01-21T02:51:25.876Z"
+    }
+  ]
+}

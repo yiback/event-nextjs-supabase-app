@@ -1,0 +1,196 @@
+{
+  "tasks": [
+    {
+      "id": "c5ba7291-cd0b-4773-9f8c-9918d53dc5a1",
+      "name": "Switch 컴포넌트 추가 및 Mock 헬퍼 함수 구현",
+      "description": "설정 페이지에 필요한 Switch 컴포넌트를 shadcn/ui에서 추가하고, 알림 페이지와 초대 페이지에 필요한 Mock 헬퍼 함수를 구현합니다.\\n\\n1. npx shadcn@latest add switch 명령으로 Switch 컴포넌트 추가\\n2. lib/mock/data.ts에 getNotificationsForUser(userId) 함수 추가\\n3. lib/mock/data.ts에 getGroupByInviteCode(code) 함수 추가\\n4. lib/mock/index.ts에 새 함수들 export 추가",
+      "notes": "Switch 컴포넌트는 설정 페이지의 알림 토글에 사용됩니다. Mock 헬퍼 함수는 기존 패턴(getGroupsForUser, getMembersForGroup 등)을 따릅니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T06:06:08.310Z",
+      "updatedAt": "2026-01-21T06:11:19.972Z",
+      "relatedFiles": [
+        {
+          "path": "lib/mock/data.ts",
+          "type": "TO_MODIFY",
+          "description": "헬퍼 함수 추가"
+        },
+        {
+          "path": "lib/mock/index.ts",
+          "type": "TO_MODIFY",
+          "description": "export 추가"
+        },
+        {
+          "path": "components/ui/switch.tsx",
+          "type": "CREATE",
+          "description": "shadcn Switch 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. Switch 컴포넌트 추가:\\n   npx shadcn@latest add switch\\n\\n2. getNotificationsForUser 함수 (lib/mock/data.ts):\\n   - mockNotifications에서 user_id로 필터링\\n   - sent_at 기준 최신순 정렬\\n   - 반환 타입: NotificationLog[]\\n\\n3. getGroupByInviteCode 함수 (lib/mock/data.ts):\\n   - mockGroups에서 invite_code로 찾기\\n   - 반환 타입: Group | undefined\\n\\n4. lib/mock/index.ts export 업데이트",
+      "verificationCriteria": "1. Switch 컴포넌트가 components/ui/switch.tsx에 생성됨\\n2. getNotificationsForUser 함수가 현재 사용자의 알림 9개를 반환\\n3. getGroupByInviteCode('SWIM2024')가 주말 수영 모임 반환\\n4. 모든 함수가 lib/mock/index.ts에서 export됨",
+      "analysisResult": "Task 010: 부가 페이지 UI 구현\\n\\n목표: 알림 페이지, 설정 페이지, 초대 링크 페이지 UI 완성 및 공지사항 컴포넌트 구현\\n\\n기술 스택: Next.js 15 App Router, React 19, TypeScript, TailwindCSS, shadcn/ui, Lucide React\\n\\n기존 코드 패턴:\\n- use client directive 사용\\n- shadcn/ui 컴포넌트 활용 (Card, Button, Badge, Avatar)\\n- date-fns + ko locale 날짜 포맷팅\\n- lib/mock에서 더미 데이터 import\\n- 반응형 디자인 (p-4 md:p-6, space-y-*)\\n- 빈 상태 UI (border-dashed, 아이콘 + 텍스트)",
+      "summary": "Task 1이 성공적으로 완료되었습니다.\n\n✅ 완료 항목:\n1. shadcn/ui Switch 컴포넌트 추가 (components/ui/switch.tsx)\n2. getNotificationsForUser(userId) 함수 구현 - mockNotifications에서 user_id 필터링 및 sent_at 최신순 정렬\n3. getGroupByInviteCode(code) 함수 구현 - mockGroups에서 invite_code로 조회\n4. lib/mock/index.ts에 두 함수 export 추가\n\n📊 구현 품질:\n- 기존 코드 패턴(getGroupsForUser, getMembersForGroup) 일관성 유지\n- 한국어 주석 작성\n- TypeScript 타입 안전성 확보 (NotificationLog[], Group | undefined)\n- 정렬 로직 구현 (최신순)\n\n🎯 검증 완료:\n- Switch 컴포넌트 파일 존재 확인\n- Mock 헬퍼 함수 코드 존재 확인\n- Export 업데이트 확인\n\n다음 태스크(Task 2, 3, 4)에서 이 함수들을 활용하여 알림 페이지, 설정 페이지, 초대 링크 페이지 UI를 구현할 수 있습니다.",
+      "completedAt": "2026-01-21T06:11:19.971Z"
+    },
+    {
+      "id": "79ab08a0-2d03-45d6-9bac-3526826cf12d",
+      "name": "알림 페이지 UI 구현",
+      "description": "알림 목록 페이지를 구현합니다. 알림 타입별 아이콘, 읽음/안읽음 상태 표시, 전체 읽음 처리 버튼을 포함합니다.\\n\\nPRD 명세 (lines 302-313):\\n- 알림 목록 (최신순 정렬)\\n- 알림 타입별 아이콘 (new_event/reminder/announcement)\\n- 읽음/안읽음 상태 표시\\n- 알림 클릭 시 해당 페이지로 이동\\n- 전체 읽음 처리 버튼",
+      "notes": "실제 읽음 처리 로직은 Phase 3에서 구현. 현재는 UI만 구현하며, 버튼 클릭 시 toast 메시지로 대체합니다.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "c5ba7291-cd0b-4773-9f8c-9918d53dc5a1"
+        }
+      ],
+      "createdAt": "2026-01-21T06:06:08.310Z",
+      "updatedAt": "2026-01-21T06:35:33.725Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/notifications/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "알림 페이지 UI 구현"
+        },
+        {
+          "path": "components/notifications/notification-item.tsx",
+          "type": "CREATE",
+          "description": "알림 아이템 컴포넌트"
+        },
+        {
+          "path": "lib/mock/data.ts",
+          "type": "REFERENCE",
+          "description": "getNotificationsForUser 함수 사용"
+        },
+        {
+          "path": "components/dashboard/recent-announcements.tsx",
+          "type": "REFERENCE",
+          "description": "리스트 패턴 참조"
+        }
+      ],
+      "implementationGuide": "1. NotificationItem 컴포넌트 생성 (components/notifications/notification-item.tsx):\\n   - Props: notification: NotificationLog, event?: Event\\n   - 타입별 아이콘: new_event=Calendar, reminder=Bell, announcement=Megaphone\\n   - 읽음 상태: read_at 없으면 bg-blue-50/50 배경\\n   - Link로 감싸서 이벤트 상세로 이동\\n\\n2. NotificationsPage 업데이트 (app/(dashboard)/notifications/page.tsx):\\n   - getNotificationsForUser(currentUserId) 호출\\n   - 페이지 헤더: 제목 + 전체 읽음 버튼\\n   - NotificationItem 목록 렌더링\\n   - 빈 상태 UI (알림 없을 때)",
+      "verificationCriteria": "1. 알림 목록이 최신순으로 표시됨\\n2. 각 알림에 타입별 아이콘이 표시됨\\n3. 읽지 않은 알림은 배경색으로 구분됨\\n4. 전체 읽음 버튼이 존재함\\n5. 알림이 없을 때 빈 상태 UI 표시",
+      "analysisResult": "Task 010: 부가 페이지 UI 구현\\n\\n목표: 알림 페이지, 설정 페이지, 초대 링크 페이지 UI 완성 및 공지사항 컴포넌트 구현\\n\\n기술 스택: Next.js 15 App Router, React 19, TypeScript, TailwindCSS, shadcn/ui, Lucide React\\n\\n기존 코드 패턴:\\n- use client directive 사용\\n- shadcn/ui 컴포넌트 활용 (Card, Button, Badge, Avatar)\\n- date-fns + ko locale 날짜 포맷팅\\n- lib/mock에서 더미 데이터 import\\n- 반응형 디자인 (p-4 md:p-6, space-y-*)\\n- 빈 상태 UI (border-dashed, 아이콘 + 텍스트)",
+      "summary": "Task 2: 알림 페이지 UI 구현이 성공적으로 완료되었습니다.\n\n✅ 구현 완료:\n1. NotificationItem 컴포넌트 생성 (components/notifications/notification-item.tsx)\n   - 알림 타입별 아이콘 (new_event=Calendar, reminder=Bell, announcement=Megaphone)\n   - 읽음/안읽음 상태 표시 (bg-blue-50/50 배경)\n   - Link로 이벤트 상세 페이지 이동\n   - 타입별 색상 구분 (blue/amber/purple)\n\n2. NotificationsPage 업데이트 (app/(dashboard)/notifications/page.tsx)\n   - getNotificationsForUser(currentUserId) 호출\n   - 페이지 헤더 + 전체 읽음 버튼\n   - 알림 목록 렌더링 (최신순)\n   - 빈 상태 UI 구현\n   - toast 메시지로 전체 읽음 처리 UI\n\n📊 검증 완료:\n- ESLint 검사 통과\n- TypeScript 타입 체크 통과\n- 빌드 성공 (/notifications 페이지 생성)\n- 기존 코드 패턴 준수 (Card, Button, date-fns 포맷팅)\n\n다음: Task 3 설정 페이지 UI 구현",
+      "completedAt": "2026-01-21T06:35:33.724Z"
+    },
+    {
+      "id": "d605b2a2-6892-4b2d-898e-d75fecc3688c",
+      "name": "설정 페이지 UI 구현",
+      "description": "설정 페이지를 구현합니다. 프로필 정보 표시, 알림 설정 토글, 로그아웃 버튼을 포함합니다.\\n\\nPRD 명세 (lines 316-327):\\n- 푸시 알림 권한 활성화/비활성화\\n- 알림 타입별 설정 (새 이벤트, 리마인더, 공지)\\n- 프로필 이름 및 이메일 표시\\n- 로그아웃 버튼",
+      "notes": "실제 알림 설정 저장 및 로그아웃 로직은 Phase 3에서 구현. 현재는 UI와 로컬 상태만 관리합니다.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "c5ba7291-cd0b-4773-9f8c-9918d53dc5a1"
+        }
+      ],
+      "createdAt": "2026-01-21T06:06:08.310Z",
+      "updatedAt": "2026-01-21T06:36:33.573Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/settings/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "설정 페이지 UI 구현"
+        },
+        {
+          "path": "components/ui/switch.tsx",
+          "type": "REFERENCE",
+          "description": "Switch 컴포넌트 사용"
+        },
+        {
+          "path": "components/ui/avatar.tsx",
+          "type": "REFERENCE",
+          "description": "Avatar 컴포넌트 사용"
+        },
+        {
+          "path": "lib/mock/data.ts",
+          "type": "REFERENCE",
+          "description": "mockProfiles 사용"
+        }
+      ],
+      "implementationGuide": "1. SettingsPage 구현 (app/(dashboard)/settings/page.tsx):\\n\\n   A. 프로필 섹션:\\n      - mockProfiles[0] (currentUser) 사용\\n      - Avatar + 이름 + 이메일 표시\\n      - Card 컴포넌트로 감싸기\\n\\n   B. 알림 설정 섹션:\\n      - 마스터 토글: 푸시 알림 전체 활성화\\n      - 개별 토글: 새 이벤트 알림, 리마인더 알림, 공지사항 알림\\n      - Switch 컴포넌트 사용\\n      - useState로 로컬 상태 관리\\n\\n   C. 계정 관리 섹션:\\n      - 로그아웃 버튼 (variant=destructive)\\n      - Separator로 섹션 구분",
+      "verificationCriteria": "1. 프로필 섹션에 사용자 정보가 표시됨\\n2. 알림 설정 토글이 작동함 (로컬 상태)\\n3. 마스터 토글 OFF 시 개별 토글 비활성화\\n4. 로그아웃 버튼이 존재함\\n5. 반응형 레이아웃 적용",
+      "analysisResult": "Task 010: 부가 페이지 UI 구현\\n\\n목표: 알림 페이지, 설정 페이지, 초대 링크 페이지 UI 완성 및 공지사항 컴포넌트 구현\\n\\n기술 스택: Next.js 15 App Router, React 19, TypeScript, TailwindCSS, shadcn/ui, Lucide React\\n\\n기존 코드 패턴:\\n- use client directive 사용\\n- shadcn/ui 컴포넌트 활용 (Card, Button, Badge, Avatar)\\n- date-fns + ko locale 날짜 포맷팅\\n- lib/mock에서 더미 데이터 import\\n- 반응형 디자인 (p-4 md:p-6, space-y-*)\\n- 빈 상태 UI (border-dashed, 아이콘 + 텍스트)",
+      "summary": "Task 3: 설정 페이지 UI 구현이 성공적으로 완료되었습니다.\n\n✅ 구현 완료:\n1. 프로필 섹션\n   - Avatar 컴포넌트로 프로필 이미지 표시\n   - 사용자 이름 및 이메일 표시\n   - mockProfiles에서 currentUser 조회\n\n2. 알림 설정 섹션\n   - 마스터 토글: 푸시 알림 전체 ON/OFF\n   - 개별 토글 3개: 새 이벤트, 리마인더, 공지사항\n   - useState로 로컬 상태 관리\n   - 마스터 OFF 시 개별 토글 disabled 처리\n\n3. 계정 관리 섹션\n   - 로그아웃 버튼 (destructive variant)\n   - toast 메시지로 UI 피드백\n\n📊 기술 구현:\n- Switch 컴포넌트 활용\n- Card, Label, Separator 컴포넌트 구성\n- 반응형 레이아웃 (max-w-2xl, sm:w-auto)\n- 한국어 주석 및 설명\n\n다음: Task 4 초대 링크 페이지 UI 구현",
+      "completedAt": "2026-01-21T06:36:33.572Z"
+    },
+    {
+      "id": "9d8600e5-5742-4077-a5f1-5084efbe8b52",
+      "name": "초대 링크 페이지 UI 구현",
+      "description": "초대 링크 페이지를 구현합니다. 초대 코드로 모임 정보를 미리보기하고 가입 버튼을 표시합니다.\\n\\nPRD 명세 (lines 288-299):\\n- 초대 코드 유효성 검증 (UI 표시용)\\n- 모임 정보 미리보기 (이름, 멤버 수)\\n- 모임 가입하기 버튼",
+      "notes": "실제 모임 가입 로직은 Phase 3에서 구현. 현재는 UI만 구현하며, 버튼 클릭 시 /groups로 리다이렉트 또는 toast 메시지를 표시합니다.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "c5ba7291-cd0b-4773-9f8c-9918d53dc5a1"
+        }
+      ],
+      "createdAt": "2026-01-21T06:06:08.310Z",
+      "updatedAt": "2026-01-21T06:37:41.490Z",
+      "relatedFiles": [
+        {
+          "path": "app/(public)/invite/[code]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "초대 링크 페이지 UI 구현"
+        },
+        {
+          "path": "lib/mock/data.ts",
+          "type": "REFERENCE",
+          "description": "getGroupByInviteCode, getMembersForGroup 함수 사용"
+        },
+        {
+          "path": "components/groups/group-card.tsx",
+          "type": "REFERENCE",
+          "description": "모임 정보 표시 패턴 참조"
+        }
+      ],
+      "implementationGuide": "1. InvitePage 업데이트 (app/(public)/invite/[code]/page.tsx):\\n\\n   A. 유효한 초대 코드:\\n      - getGroupByInviteCode(code)로 모임 조회\\n      - getMembersForGroup(groupId)로 멤버 수 조회\\n      - Card 컴포넌트로 모임 정보 표시\\n        - 모임 이미지 (없으면 Users 아이콘)\\n        - 모임 이름\\n        - 멤버 수\\n        - 모임 설명\\n      - 모임 가입하기 버튼\\n\\n   B. 유효하지 않은 초대 코드:\\n      - 에러 아이콘 + 메시지\\n      - 홈으로 이동 버튼\\n\\n2. 중앙 정렬 레이아웃 유지",
+      "verificationCriteria": "1. 유효한 초대 코드(SWIM2024)로 접근 시 모임 정보 표시\\n2. 모임 이름, 멤버 수, 설명이 표시됨\\n3. 모임 가입하기 버튼이 존재함\\n4. 유효하지 않은 코드로 접근 시 에러 메시지 표시\\n5. 홈으로 이동 버튼이 존재함",
+      "analysisResult": "Task 010: 부가 페이지 UI 구현\\n\\n목표: 알림 페이지, 설정 페이지, 초대 링크 페이지 UI 완성 및 공지사항 컴포넌트 구현\\n\\n기술 스택: Next.js 15 App Router, React 19, TypeScript, TailwindCSS, shadcn/ui, Lucide React\\n\\n기존 코드 패턴:\\n- use client directive 사용\\n- shadcn/ui 컴포넌트 활용 (Card, Button, Badge, Avatar)\\n- date-fns + ko locale 날짜 포맷팅\\n- lib/mock에서 더미 데이터 import\\n- 반응형 디자인 (p-4 md:p-6, space-y-*)\\n- 빈 상태 UI (border-dashed, 아이콘 + 텍스트)",
+      "summary": "Task 4: 초대 링크 페이지 UI 구현이 성공적으로 완료되었습니다.\n\n✅ 구현 완료:\n1. 유효한 초대 코드 UI\n   - getGroupByInviteCode()로 모임 조회\n   - 모임 이미지/이름/설명/멤버 수 표시\n   - 초대 코드 표시\n   - \"모임 가입하기\" 버튼\n   - toast 메시지 피드백\n\n2. 유효하지 않은 초대 코드 UI\n   - XCircle 아이콘 + 에러 메시지\n   - 초대 코드 확인 가이드\n   - \"홈으로 이동\" 버튼\n\n3. 로딩 상태 처리\n   - Suspense로 로딩 UI 구현\n   - 스피너 애니메이션\n\n📊 Playwright 테스트 완료:\n- /invite/SWIM2024 (유효) - 모임 정보 정상 표시\n- /invite/INVALID123 (무효) - 에러 메시지 정상 표시\n- 반응형 레이아웃 적용 (max-w-md, 중앙 정렬)\n\n다음: Task 5 공지사항 컴포넌트 구현",
+      "completedAt": "2026-01-21T06:37:41.487Z"
+    },
+    {
+      "id": "3da91267-ec15-4133-bd32-fa95f890dbdb",
+      "name": "공지사항 컴포넌트 구현",
+      "description": "공지사항 카드 컴포넌트와 공지사항 작성 폼 컴포넌트를 구현합니다.\\n\\nROADMAP 명세:\\n- 공지사항 카드 및 폼 컴포넌트",
+      "notes": "실제 저장 로직은 Phase 3에서 구현. 현재는 UI와 클라이언트 유효성 검증만 구현합니다. onSubmit 콜백으로 폼 데이터 전달.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T06:06:08.310Z",
+      "updatedAt": "2026-01-21T06:41:03.689Z",
+      "relatedFiles": [
+        {
+          "path": "components/announcements/announcement-card.tsx",
+          "type": "CREATE",
+          "description": "공지사항 카드 컴포넌트"
+        },
+        {
+          "path": "components/announcements/announcement-form.tsx",
+          "type": "CREATE",
+          "description": "공지사항 작성 폼 컴포넌트"
+        },
+        {
+          "path": "components/events/event-form.tsx",
+          "type": "REFERENCE",
+          "description": "폼 패턴 참조"
+        },
+        {
+          "path": "components/dashboard/recent-announcements.tsx",
+          "type": "REFERENCE",
+          "description": "공지사항 표시 패턴 참조"
+        },
+        {
+          "path": "components/common/new-badge.tsx",
+          "type": "REFERENCE",
+          "description": "NEW 뱃지 컴포넌트 사용"
+        }
+      ],
+      "implementationGuide": "1. AnnouncementCard 컴포넌트 (components/announcements/announcement-card.tsx):\\n   - Props: announcement: AnnouncementWithAuthor, showGroup?: boolean\\n   - 제목 (line-clamp-1)\\n   - 내용 미리보기 (line-clamp-2)\\n   - 작성자 Avatar + 이름\\n   - 작성 시간 (formatDistanceToNow)\\n   - 모임명 표시 (showGroup=true일 때)\\n   - NEW 뱃지 (24시간 이내 작성)\\n   - Link로 감싸서 상세 페이지 이동\\n\\n2. AnnouncementForm 컴포넌트 (components/announcements/announcement-form.tsx):\\n   - Props: groupId?: string, eventId?: string, onSubmit?: (data) => void, onCancel?: () => void\\n   - React Hook Form + Zod 유효성 검증\\n   - 제목 입력 (필수, 100자 제한)\\n   - 내용 입력 (필수, 1000자 제한)\\n   - 저장/취소 버튼\\n   - 기존 event-form.tsx 패턴 참조",
+      "verificationCriteria": "1. AnnouncementCard가 공지사항 정보를 올바르게 표시\\n2. 24시간 이내 작성된 공지에 NEW 뱃지 표시\\n3. AnnouncementForm의 유효성 검증이 작동함\\n4. 제목 100자, 내용 1000자 제한이 적용됨\\n5. 저장/취소 버튼이 작동함",
+      "analysisResult": "Task 010: 부가 페이지 UI 구현\\n\\n목표: 알림 페이지, 설정 페이지, 초대 링크 페이지 UI 완성 및 공지사항 컴포넌트 구현\\n\\n기술 스택: Next.js 15 App Router, React 19, TypeScript, TailwindCSS, shadcn/ui, Lucide React\\n\\n기존 코드 패턴:\\n- use client directive 사용\\n- shadcn/ui 컴포넌트 활용 (Card, Button, Badge, Avatar)\\n- date-fns + ko locale 날짜 포맷팅\\n- lib/mock에서 더미 데이터 import\\n- 반응형 디자인 (p-4 md:p-6, space-y-*)\\n- 빈 상태 UI (border-dashed, 아이콘 + 텍스트)",
+      "summary": "Task 5: 공지사항 컴포넌트 구현이 성공적으로 완료되었습니다.\n\n✅ 구현 완료:\n1. AnnouncementCard 컴포넌트 (components/announcements/announcement-card.tsx)\n   - 공지사항 제목, 내용 미리보기, 작성자 정보 표시\n   - 24시간 이내 작성 시 NEW 뱃지 표시\n   - date-fns로 \"~전\" 형식 시간 표시\n   - 선택적 모임명 표시 기능\n   - 공지사항 상세 페이지 링크 (/announcements/:id)\n\n2. AnnouncementForm 컴포넌트 (components/announcements/announcement-form.tsx)\n   - React Hook Form + Zod 유효성 검사\n   - 제목 필드 (2-100자 제한, 실시간 글자 수 표시)\n   - 내용 필드 (10-1000자 제한, 실시간 글자 수 표시)\n   - 저장/취소 버튼, isSubmitting 상태 지원\n   - groupId/eventId prop으로 컨텍스트 구분\n\n3. TypeScript 빌드 성공\n   - NewBadge createdAt prop 에러 수정\n   - 모든 타입 체크 통과\n\nPhase 2 UI 구현 기준을 모두 충족하였으며, 재사용 가능한 컴포넌트 구조로 설계되었습니다.",
+      "completedAt": "2026-01-21T06:41:03.688Z"
+    }
+  ]
+}

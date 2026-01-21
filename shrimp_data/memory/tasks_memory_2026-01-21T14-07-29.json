@@ -1,0 +1,319 @@
+{
+  "tasks": [
+    {
+      "id": "4cd1b19b-1ccc-4dd7-9985-8e4280a435ea",
+      "name": "Badge 컴포넌트 역할 variants 확장",
+      "description": "components/ui/badge.tsx에 모임 멤버 역할(owner, admin, member)을 표시하기 위한 새로운 variant를 추가합니다. 기존 badgeVariants에 owner(보라색), admin(파란색), member(회색) 스타일을 확장합니다.",
+      "notes": "하위 호환성 유지 필수. 기존 variant 수정 금지.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T04:37:37.574Z",
+      "updatedAt": "2026-01-21T04:41:27.489Z",
+      "relatedFiles": [
+        {
+          "path": "components/ui/badge.tsx",
+          "type": "TO_MODIFY",
+          "description": "Badge 컴포넌트 - variants 확장"
+        }
+      ],
+      "implementationGuide": "1. components/ui/badge.tsx 파일을 수정\\n2. badgeVariants의 variants.variant 객체에 다음 추가:\\n   - owner: 'border-transparent bg-purple-100 text-purple-700'\\n   - admin: 'border-transparent bg-blue-100 text-blue-700'\\n   - member: 'border-transparent bg-gray-100 text-gray-700'\\n3. 기존 variant들은 변경하지 않음",
+      "verificationCriteria": "1. Badge variant='owner'가 보라색 배경으로 렌더링\\n2. Badge variant='admin'이 파란색 배경으로 렌더링\\n3. Badge variant='member'가 회색 배경으로 렌더링\\n4. 기존 variant들(default, secondary 등)이 정상 동작",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "Badge 컴포넌트에 owner(보라색), admin(파란색), member(회색) 역할 variants를 성공적으로 추가했습니다. 기존 variants는 변경하지 않고 하위 호환성을 유지했습니다.",
+      "completedAt": "2026-01-21T04:41:27.488Z"
+    },
+    {
+      "id": "36d5ef1f-456c-4ba2-80eb-4c48ffa28207",
+      "name": "GroupViewToggle 컴포넌트 생성",
+      "description": "모임 목록 페이지에서 그리드/리스트 뷰를 전환하는 토글 컴포넌트를 생성합니다. 기존 ViewToggle(list/calendar) 패턴을 참조하되, grid/list 모드로 구현합니다.",
+      "notes": "components/common/view-toggle.tsx 패턴 참조",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T04:37:37.574Z",
+      "updatedAt": "2026-01-21T04:42:07.032Z",
+      "relatedFiles": [
+        {
+          "path": "components/groups/group-view-toggle.tsx",
+          "type": "CREATE",
+          "description": "그리드/리스트 뷰 토글 컴포넌트"
+        },
+        {
+          "path": "components/common/view-toggle.tsx",
+          "type": "REFERENCE",
+          "description": "기존 ViewToggle 패턴 참조"
+        }
+      ],
+      "implementationGuide": "1. components/groups/group-view-toggle.tsx 파일 생성\\n2. ViewMode 타입 정의: 'grid' | 'list'\\n3. Props 인터페이스:\\n   - value: ViewMode\\n   - onValueChange: (value: ViewMode) => void\\n   - className?: string\\n4. Tabs 컴포넌트 기반으로 구현 (components/ui/tabs.tsx 사용)\\n5. lucide-react 아이콘 사용: LayoutGrid, List\\n6. 스타일: 기존 ViewToggle과 유사하게 적용",
+      "verificationCriteria": "1. grid/list 뷰 모드 전환 동작\\n2. 아이콘과 라벨이 올바르게 표시\\n3. 활성 상태 스타일 적용",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "GroupViewToggle 컴포넌트를 생성했습니다. grid/list 뷰 모드 전환, LayoutGrid/List 아이콘, 활성 상태 스타일(파란색)을 적용했습니다. 기존 ViewToggle 패턴을 참조하여 일관된 UI를 구현했습니다.",
+      "completedAt": "2026-01-21T04:42:07.029Z"
+    },
+    {
+      "id": "bf379f31-4763-4a12-bcdb-48262a0e8599",
+      "name": "GroupCard 컴포넌트 생성",
+      "description": "모임 카드 컴포넌트를 생성합니다. 모임 썸네일, 이름, 설명, 멤버 수, 다음 이벤트 정보, 역할 뱃지를 표시합니다. EventCard 패턴을 참조하여 구현합니다.",
+      "notes": "EventCard 패턴 참조. variant에 따라 그리드/리스트 레이아웃 변경.",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "4cd1b19b-1ccc-4dd7-9985-8e4280a435ea"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:42:48.048Z",
+      "relatedFiles": [
+        {
+          "path": "components/groups/group-card.tsx",
+          "type": "CREATE",
+          "description": "모임 카드 컴포넌트"
+        },
+        {
+          "path": "components/common/event-card.tsx",
+          "type": "REFERENCE",
+          "description": "EventCard 패턴 참조"
+        },
+        {
+          "path": "types/database.ts",
+          "type": "REFERENCE",
+          "description": "Group, Event 타입"
+        }
+      ],
+      "implementationGuide": "1. components/groups/group-card.tsx 파일 생성\\n2. Props 인터페이스 정의:\\n   - group: Group (types/database.ts)\\n   - userRole: Role (owner | admin | member)\\n   - memberCount: number\\n   - nextEvent?: Event\\n   - variant?: 'grid' | 'list' (기본값: grid)\\n   - className?: string\\n3. Card 컴포넌트 사용 (components/ui/card.tsx)\\n4. 구현 요소:\\n   - 모임 이미지 (placeholder: bg-muted)\\n   - 모임 이름 (CardTitle)\\n   - 설명 (line-clamp-2)\\n   - 역할 Badge\\n   - 멤버 수 (Users 아이콘)\\n   - 다음 이벤트 날짜 (Calendar 아이콘, date-fns 포맷)\\n5. Link로 /groups/[id]로 이동",
+      "verificationCriteria": "1. 모임 정보가 올바르게 표시\\n2. 역할 뱃지가 적절한 색상으로 표시\\n3. 그리드/리스트 variant에 따른 레이아웃 변경\\n4. 클릭 시 모임 상세 페이지로 이동",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "GroupCard 컴포넌트를 생성했습니다. 모임 이미지, 이름, 설명, 역할 뱃지(owner/admin/member), 멤버 수, 다음 이벤트 날짜를 표시합니다. grid/list variant에 따라 레이아웃이 변경되며, 클릭 시 모임 상세 페이지로 이동합니다.",
+      "completedAt": "2026-01-21T04:42:48.044Z"
+    },
+    {
+      "id": "e5966370-443c-4458-87ab-abfde15c646f",
+      "name": "모임 목록 페이지 UI 구현",
+      "description": "app/(dashboard)/groups/page.tsx를 구현합니다. 뷰 토글, 모임 생성 버튼, 모임 카드 목록, 빈 상태 UI를 포함합니다.",
+      "notes": "대시보드 페이지 패턴 참조",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "36d5ef1f-456c-4ba2-80eb-4c48ffa28207"
+        },
+        {
+          "taskId": "bf379f31-4763-4a12-bcdb-48262a0e8599"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:43:36.503Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/groups/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "모임 목록 페이지"
+        },
+        {
+          "path": "lib/mock/data.ts",
+          "type": "REFERENCE",
+          "description": "더미 데이터 헬퍼 함수"
+        },
+        {
+          "path": "app/(dashboard)/dashboard/page.tsx",
+          "type": "REFERENCE",
+          "description": "대시보드 페이지 패턴"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/groups/page.tsx 수정\\n2. 클라이언트 컴포넌트로 변경 ('use client')\\n3. useState로 viewMode 관리\\n4. 더미 데이터 로드:\\n   - import { getGroupsForUser, currentUserId, mockGroupMembers, mockEvents } from '@/lib/mock/data'\\n   - const groups = getGroupsForUser(currentUserId)\\n5. 각 그룹별 멤버 수, 다음 이벤트 계산\\n6. 레이아웃:\\n   - 헤더: 제목 + 모임 생성 버튼 (Link to /groups/new)\\n   - GroupViewToggle\\n   - 조건부 렌더링: 빈 상태 or 그리드/리스트\\n7. 반응형 그리드: grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+      "verificationCriteria": "1. 모임 카드가 그리드/리스트 형태로 표시\\n2. 뷰 모드 전환 동작\\n3. 모임 생성 버튼 클릭 시 /groups/new로 이동\\n4. 빈 상태 UI 표시 (모임 없을 때)",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "모임 목록 페이지 UI를 구현했습니다. 그리드/리스트 뷰 토글, 모임 생성 버튼, 더미 데이터 기반 모임 카드 목록, 빈 상태 UI를 포함합니다. 각 모임별 멤버 수, 사용자 역할, 다음 이벤트 정보를 계산하여 표시합니다.",
+      "completedAt": "2026-01-21T04:43:36.502Z"
+    },
+    {
+      "id": "138c006b-a144-4947-a3e5-2386044420b8",
+      "name": "GroupForm 컴포넌트 생성",
+      "description": "모임 생성/수정을 위한 폼 컴포넌트를 생성합니다. React Hook Form + Zod를 사용하여 유효성 검사를 구현합니다.",
+      "notes": "Phase 3에서 실제 API 연동 예정. 현재는 UI만 구현.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:44:26.277Z",
+      "relatedFiles": [
+        {
+          "path": "components/groups/group-form.tsx",
+          "type": "CREATE",
+          "description": "모임 폼 컴포넌트"
+        },
+        {
+          "path": "components/ui/form.tsx",
+          "type": "REFERENCE",
+          "description": "Form 컴포넌트"
+        },
+        {
+          "path": "components/ui/input.tsx",
+          "type": "REFERENCE",
+          "description": "Input 컴포넌트"
+        },
+        {
+          "path": "components/ui/textarea.tsx",
+          "type": "REFERENCE",
+          "description": "Textarea 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. components/groups/group-form.tsx 파일 생성\\n2. Zod 스키마 정의:\\n   - name: z.string().min(2).max(50)\\n   - description: z.string().max(500).optional()\\n3. useForm with zodResolver\\n4. Form 컴포넌트 사용 (components/ui/form.tsx)\\n5. 구현 요소:\\n   - Input: 모임 이름 (필수)\\n   - Textarea: 모임 설명 (선택)\\n   - 이미지 업로드 영역 (UI만, 기능 없음)\\n   - 제출 버튼, 취소 버튼\\n6. onSubmit prop으로 폼 데이터 전달",
+      "verificationCriteria": "1. 폼 필드 유효성 검사 동작\\n2. 에러 메시지 표시\\n3. 이미지 업로드 영역 UI 표시\\n4. 제출/취소 버튼 동작",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "GroupForm 컴포넌트를 생성했습니다. Zod 스키마로 유효성 검사(이름 2-50자, 설명 최대 500자)를 구현하고, 이미지 업로드 영역(UI만), 제출/취소 버튼을 포함합니다. React Hook Form과 shadcn/ui Form 컴포넌트를 활용했습니다.",
+      "completedAt": "2026-01-21T04:44:26.275Z"
+    },
+    {
+      "id": "1bf415fe-9ae5-44a3-987b-62f66a040217",
+      "name": "모임 생성 페이지 UI 구현",
+      "description": "app/(dashboard)/groups/new/page.tsx를 구현합니다. GroupForm을 사용하여 새 모임 생성 UI를 완성합니다.",
+      "notes": "Phase 3에서 실제 모임 생성 API 연동 예정",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "138c006b-a144-4947-a3e5-2386044420b8"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:45:02.007Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/groups/new/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "모임 생성 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/groups/new/page.tsx 수정\\n2. GroupForm 컴포넌트 임포트 및 사용\\n3. 레이아웃:\\n   - 뒤로가기 버튼 (Link to /groups)\\n   - 페이지 제목: 새 모임 만들기\\n   - GroupForm 컴포넌트\\n4. onSubmit 핸들러: console.log로 데이터 출력 (Phase 3에서 API 연동)\\n5. 취소 시 /groups로 이동",
+      "verificationCriteria": "1. 폼이 올바르게 렌더링\\n2. 유효성 검사 동작\\n3. 뒤로가기/취소 버튼 동작",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "모임 생성 페이지 UI를 구현했습니다. 뒤로가기 버튼, 페이지 제목, GroupForm 컴포넌트를 포함합니다. 폼 제출 시 콘솔 로그 출력 후 모임 목록으로 이동하며, Phase 3에서 실제 API 연동 예정입니다.",
+      "completedAt": "2026-01-21T04:45:01.996Z"
+    },
+    {
+      "id": "bd5dd5a9-18dd-4986-b2a7-408fa37997d2",
+      "name": "GroupHeader 및 InviteCodeSection 컴포넌트 생성",
+      "description": "모임 상세 페이지에서 사용할 헤더 컴포넌트와 초대 코드 섹션 컴포넌트를 생성합니다.",
+      "notes": "초대 코드 복사 기능은 클라이언트 컴포넌트로 구현",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:45:46.952Z",
+      "relatedFiles": [
+        {
+          "path": "components/groups/group-header.tsx",
+          "type": "CREATE",
+          "description": "모임 헤더 컴포넌트"
+        },
+        {
+          "path": "components/groups/invite-code-section.tsx",
+          "type": "CREATE",
+          "description": "초대 코드 섹션 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. components/groups/group-header.tsx 생성:\\n   - Props: group: Group, memberCount: number\\n   - 모임 이미지 (placeholder)\\n   - 모임 이름, 설명\\n   - 멤버 수 표시\\n2. components/groups/invite-code-section.tsx 생성:\\n   - Props: inviteCode: string\\n   - 초대 코드 표시\\n   - 복사 버튼 (navigator.clipboard.writeText)\\n   - 복사 성공 시 토스트 또는 아이콘 변경",
+      "verificationCriteria": "1. 모임 헤더 정보 표시\\n2. 초대 코드 복사 버튼 동작\\n3. 복사 성공 피드백",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "GroupHeader와 InviteCodeSection 컴포넌트를 생성했습니다. GroupHeader는 모임 이미지, 이름, 설명, 멤버 수를 표시합니다. InviteCodeSection은 초대 코드를 표시하고 클립보드 복사 기능을 제공하며, 복사 성공 시 버튼이 체크 아이콘으로 변경됩니다.",
+      "completedAt": "2026-01-21T04:45:46.951Z"
+    },
+    {
+      "id": "a55e5fc9-366c-4805-b2b2-b3808f3308d8",
+      "name": "모임 상세 페이지 UI 구현",
+      "description": "app/(dashboard)/groups/[groupId]/page.tsx를 구현합니다. 모임 헤더, 탭 UI(이벤트/공지사항), 이벤트 목록, 설정 버튼을 포함합니다.",
+      "notes": "404 처리: 그룹이 없으면 notFound() 호출",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "bd5dd5a9-18dd-4986-b2a7-408fa37997d2"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:46:35.280Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/groups/[groupId]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "모임 상세 페이지"
+        },
+        {
+          "path": "components/common/event-card.tsx",
+          "type": "REFERENCE",
+          "description": "EventCard 컴포넌트"
+        },
+        {
+          "path": "components/ui/tabs.tsx",
+          "type": "REFERENCE",
+          "description": "Tabs 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/groups/[groupId]/page.tsx 수정\\n2. 더미 데이터 로드:\\n   - mockGroups에서 groupId로 그룹 찾기\\n   - getMembersForGroup(groupId)\\n   - getEventsForGroup(groupId)\\n   - getRecentAnnouncements() 필터링\\n3. 현재 사용자 역할 확인\\n4. 레이아웃:\\n   - GroupHeader\\n   - InviteCodeSection (owner/admin만)\\n   - Tabs: 이벤트 / 공지사항\\n     - 이벤트 탭: EventCard 목록\\n     - 공지사항 탭: 공지 카드 목록\\n   - 설정/관리 버튼 (owner/admin만)\\n5. 멤버 관리 페이지 링크",
+      "verificationCriteria": "1. 모임 정보가 올바르게 표시\\n2. 이벤트/공지사항 탭 전환 동작\\n3. 역할에 따른 UI 분기 (초대 코드, 설정 버튼)\\n4. 이벤트 카드 클릭 시 이벤트 상세로 이동",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "모임 상세 페이지 UI를 구현했습니다. GroupHeader, InviteCodeSection, 이벤트/공지사항 탭을 포함합니다. 역할에 따라 초대 코드, 멤버 관리, 모임 설정 버튼이 표시됩니다. 그룹이 없으면 notFound() 호출합니다.",
+      "completedAt": "2026-01-21T04:46:35.258Z"
+    },
+    {
+      "id": "01a4ef20-c07f-4559-a3f6-114ea65a36eb",
+      "name": "MemberListItem 컴포넌트 생성",
+      "description": "멤버 관리 페이지에서 사용할 멤버 목록 아이템 컴포넌트를 생성합니다. 아바타, 이름, 역할 뱃지, 역할 변경 드롭다운을 포함합니다.",
+      "notes": "실제 역할 변경은 Phase 3에서 구현",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "4cd1b19b-1ccc-4dd7-9985-8e4280a435ea"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:47:19.981Z",
+      "relatedFiles": [
+        {
+          "path": "components/groups/member-list-item.tsx",
+          "type": "CREATE",
+          "description": "멤버 목록 아이템 컴포넌트"
+        },
+        {
+          "path": "components/ui/avatar.tsx",
+          "type": "REFERENCE",
+          "description": "Avatar 컴포넌트"
+        },
+        {
+          "path": "components/ui/select.tsx",
+          "type": "REFERENCE",
+          "description": "Select 컴포넌트"
+        }
+      ],
+      "implementationGuide": "1. components/groups/member-list-item.tsx 생성\\n2. Props 인터페이스:\\n   - member: GroupMemberWithProfile\\n   - currentUserRole: Role\\n   - onRoleChange?: (memberId: string, newRole: Role) => void\\n3. 구현 요소:\\n   - Avatar + AvatarFallback (이름 이니셜)\\n   - 멤버 이름, 이메일\\n   - 역할 Badge\\n   - 역할 변경 Select (currentUserRole이 owner/admin이고 대상이 owner가 아닐 때만)\\n4. Select 컴포넌트로 역할 변경 UI 구현",
+      "verificationCriteria": "1. 멤버 정보가 올바르게 표시\\n2. 역할 뱃지 색상 적용\\n3. 권한에 따른 역할 변경 UI 표시/숨김\\n4. 역할 변경 드롭다운 동작",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "MemberListItem 컴포넌트를 생성했습니다. Avatar(이니셜 폴백), 이름, 이메일, 역할 Badge를 표시합니다. 권한에 따라 역할 변경 Select 드롭다운이 표시되며, owner는 변경 불가합니다.",
+      "completedAt": "2026-01-21T04:47:19.948Z"
+    },
+    {
+      "id": "c90077ed-cd7b-41de-a7d8-4ffe9066cc62",
+      "name": "멤버 관리 페이지 UI 구현",
+      "description": "app/(dashboard)/groups/[groupId]/members/page.tsx를 구현합니다. 멤버 목록, 초대 코드 섹션, 역할 변경 UI를 포함합니다.",
+      "notes": "owner/admin만 접근 가능하도록 Phase 3에서 권한 체크 추가 예정",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "01a4ef20-c07f-4559-a3f6-114ea65a36eb"
+        },
+        {
+          "taskId": "bd5dd5a9-18dd-4986-b2a7-408fa37997d2"
+        }
+      ],
+      "createdAt": "2026-01-21T04:37:37.575Z",
+      "updatedAt": "2026-01-21T04:48:06.728Z",
+      "relatedFiles": [
+        {
+          "path": "app/(dashboard)/groups/[groupId]/members/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "멤버 관리 페이지"
+        }
+      ],
+      "implementationGuide": "1. app/(dashboard)/groups/[groupId]/members/page.tsx 수정\\n2. 더미 데이터 로드:\\n   - mockGroups에서 그룹 찾기\\n   - getMembersForGroup(groupId)\\n3. 현재 사용자 역할 확인\\n4. 레이아웃:\\n   - 뒤로가기 버튼 (모임 상세로)\\n   - 페이지 제목: 멤버 관리\\n   - InviteCodeSection (초대 코드 표시/복사)\\n   - 멤버 목록 (MemberListItem 사용)\\n5. 역할 변경 핸들러: console.log로 출력 (Phase 3에서 API 연동)",
+      "verificationCriteria": "1. 멤버 목록이 올바르게 표시\\n2. 초대 코드 복사 동작\\n3. 역할 변경 드롭다운 동작\\n4. 뒤로가기 버튼 동작",
+      "analysisResult": "Task 008: 모임 관련 페이지 UI 구현. Next.js 15 App Router + TailwindCSS + shadcn/ui 기반으로 더미 데이터를 활용한 모임 관련 페이지 UI를 구현합니다. 기존 EventCard 패턴과 대시보드 레이아웃을 참조하여 일관된 코드 스타일을 유지합니다.",
+      "summary": "멤버 관리 페이지 UI를 구현했습니다. 뒤로가기 버튼, 초대 코드 섹션, 역할순 정렬된 멤버 목록을 포함합니다. 역할 변경 핸들러는 Phase 3에서 API 연동 예정이며, 현재는 콘솔 로그로 출력합니다.",
+      "completedAt": "2026-01-21T04:48:06.697Z"
+    }
+  ]
+}

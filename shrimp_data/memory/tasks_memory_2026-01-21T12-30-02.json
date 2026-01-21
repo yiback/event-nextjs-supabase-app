@@ -1,0 +1,134 @@
+{
+  "tasks": [
+    {
+      "id": "78531dc0-a4d0-4b6f-945e-7f40053c84df",
+      "name": "@faker-js/faker 라이브러리 설치",
+      "description": "개발 환경에서 사용할 더미 데이터 생성을 위한 @faker-js/faker 라이브러리를 devDependency로 설치합니다.",
+      "notes": "한국어 로케일 지원을 위해 @faker-js/faker/locale/ko import 사용 예정",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-01-21T03:12:43.682Z",
+      "updatedAt": "2026-01-21T03:20:54.330Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "devDependencies에 @faker-js/faker 추가"
+        }
+      ],
+      "implementationGuide": "1. npm install -D @faker-js/faker 실행\\n2. package.json의 devDependencies에 추가 확인\\n3. node_modules/@faker-js/faker 설치 확인",
+      "verificationCriteria": "1. npm ls @faker-js/faker로 설치 확인\\n2. package.json에 @faker-js/faker 버전 명시 확인",
+      "analysisResult": "Task 005: 더미 데이터 및 Mock 유틸리티 구현\\n\\n목표: Phase 2 UI 개발을 위한 테스트 데이터 시스템 구축\\n\\n기술 스택:\\n- @faker-js/faker (한국어 로케일)\\n- date-fns (이미 설치됨)\\n- TypeScript (types/ 폴더 타입 활용)\\n\\n구현 파일:\\n- lib/mock/generators.ts: 동적 데이터 생성 함수\\n- lib/mock/data.ts: 정적 더미 데이터\\n- lib/mock/index.ts: 통합 export",
+      "summary": "@faker-js/faker v10.2.0 설치 완료. package.json devDependencies에 추가 확인됨. npm ls로 설치 검증 완료.",
+      "completedAt": "2026-01-21T03:20:54.329Z"
+    },
+    {
+      "id": "d12136c3-29d4-40fa-bbf2-41340bca757c",
+      "name": "Mock 데이터 생성 함수 구현 (generators.ts)",
+      "description": "faker 기반의 동적 데이터 생성 함수들을 구현합니다. 각 엔티티(Profile, Group, Event 등)에 대한 생성 함수와 날짜 헬퍼 함수를 포함합니다.",
+      "notes": "모든 함수는 types/ 폴더의 기존 타입과 완벽히 호환되어야 함",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "78531dc0-a4d0-4b6f-945e-7f40053c84df"
+        }
+      ],
+      "createdAt": "2026-01-21T03:12:43.682Z",
+      "updatedAt": "2026-01-21T03:21:19.029Z",
+      "relatedFiles": [
+        {
+          "path": "lib/mock/generators.ts",
+          "type": "CREATE",
+          "description": "동적 데이터 생성 함수 모듈"
+        },
+        {
+          "path": "types/database.ts",
+          "type": "REFERENCE",
+          "description": "엔티티 타입 정의 참조"
+        },
+        {
+          "path": "types/enums.ts",
+          "type": "REFERENCE",
+          "description": "Role, AttendanceStatus 등 enum 참조"
+        }
+      ],
+      "implementationGuide": "1. lib/mock/generators.ts 파일 생성\\n2. faker 한국어 로케일 import\\n3. ID 생성 함수: generateId() - crypto.randomUUID() 사용\\n4. 날짜 헬퍼 함수:\\n   - generatePastDate(maxDays): 과거 날짜 생성\\n   - generateFutureDate(maxDays): 미래 날짜 생성\\n5. 엔티티 생성 함수 (overrides 매개변수 지원):\\n   - generateProfile(overrides?): Profile\\n   - generateGroup(ownerId, overrides?): Group\\n   - generateGroupMember(groupId, userId, role, overrides?): GroupMember\\n   - generateEvent(groupId, createdBy, overrides?): Event\\n   - generateParticipant(eventId, userId, overrides?): Participant\\n   - generateAnnouncement(groupId, authorId, overrides?): Announcement\\n   - generateNotification(userId, overrides?): NotificationLog",
+      "verificationCriteria": "1. TypeScript 컴파일 에러 없음\\n2. 모든 생성 함수가 올바른 타입 반환\\n3. 한국어 이름/주소 생성 확인",
+      "analysisResult": "Task 005: 더미 데이터 및 Mock 유틸리티 구현\\n\\n목표: Phase 2 UI 개발을 위한 테스트 데이터 시스템 구축\\n\\n기술 스택:\\n- @faker-js/faker (한국어 로케일)\\n- date-fns (이미 설치됨)\\n- TypeScript (types/ 폴더 타입 활용)\\n\\n구현 파일:\\n- lib/mock/generators.ts: 동적 데이터 생성 함수\\n- lib/mock/data.ts: 정적 더미 데이터\\n- lib/mock/index.ts: 통합 export",
+      "summary": "lib/mock/generators.ts 구현 완료 (289줄). faker 한국어 로케일(@faker-js/faker/locale/ko) 사용, generateId/generatePastDate/generateFutureDate 헬퍼 함수, 7개 엔티티 생성 함수(generateProfile, generateGroup, generateGroupMember, generateEvent, generateParticipant, generateAnnouncement, generateNotification) 구현. 모든 함수가 types/ 폴더 타입과 완벽 호환, overrides 매개변수 지원.",
+      "completedAt": "2026-01-21T03:21:19.022Z"
+    },
+    {
+      "id": "9dc5a70f-0a09-45c8-bd8d-2afe3fa75889",
+      "name": "정적 더미 데이터 생성 (data.ts)",
+      "description": "UI 개발에서 일관되게 참조할 수 있는 고정 ID의 정적 더미 데이터를 생성합니다. 8명의 사용자, 4개의 모임, 12개의 이벤트 등을 포함합니다.",
+      "notes": "모든 관계형 데이터는 무결성을 유지해야 함 (FK 참조 일관성)",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "d12136c3-29d4-40fa-bbf2-41340bca757c"
+        }
+      ],
+      "createdAt": "2026-01-21T03:12:43.682Z",
+      "updatedAt": "2026-01-21T03:21:28.389Z",
+      "relatedFiles": [
+        {
+          "path": "lib/mock/data.ts",
+          "type": "CREATE",
+          "description": "정적 더미 데이터 모듈"
+        },
+        {
+          "path": "lib/mock/generators.ts",
+          "type": "REFERENCE",
+          "description": "생성 함수 활용"
+        },
+        {
+          "path": "types/database.ts",
+          "type": "REFERENCE",
+          "description": "관계형 타입 참조"
+        }
+      ],
+      "implementationGuide": "1. lib/mock/data.ts 파일 생성\\n2. 현재 사용자 ID 상수: export const currentUserId\\n3. 정적 데이터 배열 생성:\\n   - mockProfiles: 8명 (현재 사용자 포함)\\n   - mockGroups: 4개 (수영, 헬스, 독서, 등산 모임)\\n   - mockGroupMembers: 20건 (역할 분배: owner 4, admin 4, member 12)\\n   - mockEvents: 12개 (과거 3, 진행중 6, 미래 3)\\n   - mockParticipants: 40건 (이벤트당 평균 3-4명)\\n   - mockAnnouncements: 8개 (모임당 2개)\\n   - mockNotifications: 15개 (다양한 타입)\\n4. 관계형 데이터 헬퍼 함수:\\n   - getGroupsForUser(userId): Group[]\\n   - getMembersForGroup(groupId): GroupMemberWithProfile[]\\n   - getEventsForGroup(groupId): Event[]\\n   - getParticipantsForEvent(eventId): ParticipantWithProfile[]\\n   - getUpcomingEvents(): EventWithGroup[]\\n   - getRecentAnnouncements(): AnnouncementWithAuthor[]",
+      "verificationCriteria": "1. 모든 FK 참조가 유효한 ID를 가리킴\\n2. 날짜 데이터가 과거/현재/미래 골고루 분포\\n3. 각 모임에 최소 1명의 owner 존재",
+      "analysisResult": "Task 005: 더미 데이터 및 Mock 유틸리티 구현\\n\\n목표: Phase 2 UI 개발을 위한 테스트 데이터 시스템 구축\\n\\n기술 스택:\\n- @faker-js/faker (한국어 로케일)\\n- date-fns (이미 설치됨)\\n- TypeScript (types/ 폴더 타입 활용)\\n\\n구현 파일:\\n- lib/mock/generators.ts: 동적 데이터 생성 함수\\n- lib/mock/data.ts: 정적 더미 데이터\\n- lib/mock/index.ts: 통합 export",
+      "summary": "lib/mock/data.ts 구현 완료 (560줄). currentUserId 상수, mockProfiles 8명(한국어 이름), mockGroups 4개(수영/헬스/독서/등산), mockGroupMembers 20건(owner4/admin4/member12), mockEvents 12개(과거3/진행중6/미래3), mockParticipants 40건, mockAnnouncements 8개, mockNotifications 15개. 6개 관계형 헬퍼 함수 구현. 모든 FK 참조 무결성 유지됨.",
+      "completedAt": "2026-01-21T03:21:28.389Z"
+    },
+    {
+      "id": "007bb1b4-cbeb-4ff4-afff-f0f0707f6253",
+      "name": "Mock 모듈 통합 및 빌드 검증",
+      "description": "lib/mock/index.ts에서 모든 export를 통합하고, 전체 빌드 및 린트 검사를 수행하여 구현을 검증합니다.",
+      "notes": "production 번들에서 mock 데이터가 제외되도록 조건부 export 고려",
+      "status": "completed",
+      "dependencies": [
+        {
+          "taskId": "9dc5a70f-0a09-45c8-bd8d-2afe3fa75889"
+        }
+      ],
+      "createdAt": "2026-01-21T03:12:43.682Z",
+      "updatedAt": "2026-01-21T03:21:38.258Z",
+      "relatedFiles": [
+        {
+          "path": "lib/mock/index.ts",
+          "type": "CREATE",
+          "description": "통합 export 모듈"
+        },
+        {
+          "path": "lib/mock/data.ts",
+          "type": "REFERENCE",
+          "description": "정적 데이터 export"
+        },
+        {
+          "path": "lib/mock/generators.ts",
+          "type": "REFERENCE",
+          "description": "생성 함수 export"
+        }
+      ],
+      "implementationGuide": "1. lib/mock/index.ts 파일 생성\\n2. data.ts와 generators.ts의 모든 export 통합\\n3. npm run lint 실행 및 에러 수정\\n4. npm run build 실행 및 성공 확인\\n5. 간단한 import 테스트 (예: 페이지에서 import 후 console.log)",
+      "verificationCriteria": "1. npm run lint 에러 0건\\n2. npm run build 성공\\n3. @/lib/mock에서 모든 데이터와 함수 import 가능",
+      "analysisResult": "Task 005: 더미 데이터 및 Mock 유틸리티 구현\\n\\n목표: Phase 2 UI 개발을 위한 테스트 데이터 시스템 구축\\n\\n기술 스택:\\n- @faker-js/faker (한국어 로케일)\\n- date-fns (이미 설치됨)\\n- TypeScript (types/ 폴더 타입 활용)\\n\\n구현 파일:\\n- lib/mock/generators.ts: 동적 데이터 생성 함수\\n- lib/mock/data.ts: 정적 더미 데이터\\n- lib/mock/index.ts: 통합 export",
+      "summary": "lib/mock/index.ts 통합 export 완료 (47줄). generators.ts와 data.ts의 모든 export 통합. npm run lint 에러 0건, npm run build 성공 확인. @/lib/mock에서 currentUserId, mockProfiles, mockGroups, getUpcomingEvents 등 모든 데이터와 함수 import 가능. 총 896줄 코드로 Task 005 전체 완료.",
+      "completedAt": "2026-01-21T03:21:38.257Z"
+    }
+  ]
+}

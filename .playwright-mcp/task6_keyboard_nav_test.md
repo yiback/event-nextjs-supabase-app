@@ -1,0 +1,242 @@
+### Page state
+- Page URL: http://localhost:3000/dashboard
+- Page Title: Next.js and Supabase Starter Kit
+- Page Snapshot:
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner "주 헤더" [ref=e4]:
+      - generic [ref=e5]:
+        - link "모임 이벤트" [ref=e7] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e8]
+          - generic [ref=e14]: 모임 이벤트
+        - generic [ref=e15]:
+          - button "모임 선택 메뉴 열기" [ref=e16] [cursor=pointer]:
+            - img
+            - generic [ref=e17]: 모임 선택
+            - img
+          - navigation "주 네비게이션" [ref=e18]:
+            - link "내 모임" [ref=e19] [cursor=pointer]:
+              - /url: /groups
+              - img [ref=e20]
+              - text: 내 모임
+        - generic [ref=e25]:
+          - button "검색 열기" [ref=e26] [cursor=pointer]:
+            - img
+            - generic [ref=e27]: 검색
+          - link "알림 보기" [ref=e28] [cursor=pointer]:
+            - /url: /notifications
+            - img
+            - generic [ref=e29]: 알림
+          - button "프로필 메뉴 열기" [ref=e30] [cursor=pointer]:
+            - generic [ref=e32]:
+              - img
+            - generic [ref=e33]: 프로필 메뉴
+    - main [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e264]:
+          - img [ref=e266]
+          - generic [ref=e269]:
+            - heading "알림을 켜고 중요한 소식을 받아보세요" [level=3] [ref=e270]
+            - paragraph [ref=e271]: 새로운 이벤트, 공지사항, 참석 마감 알림을 실시간으로 받을 수 있습니다.
+            - generic [ref=e272]:
+              - button "알림 켜기" [ref=e273] [cursor=pointer]
+              - button "나중에" [ref=e274] [cursor=pointer]
+          - button "배너 닫기" [ref=e275] [cursor=pointer]:
+            - img [ref=e276]
+        - generic [ref=e36]:
+          - generic [ref=e38]:
+            - generic [ref=e40]:
+              - heading "모임 이벤트를 쉽게 관리하세요" [level=2] [ref=e41]
+              - paragraph [ref=e42]: 참석 응답부터 공지까지 한 번에
+            - generic [ref=e44]:
+              - heading "실시간 알림으로 놓치지 마세요" [level=2] [ref=e45]
+              - paragraph [ref=e46]: 중요한 이벤트와 공지를 즉시 확인
+            - generic [ref=e48]:
+              - heading "간편한 참석 관리" [level=2] [ref=e49]
+              - paragraph [ref=e50]: 클릭 한 번으로 참석 의사 표현
+          - generic:
+            - button [ref=e51] [cursor=pointer]:
+              - img
+            - button [ref=e52] [cursor=pointer]:
+              - img
+          - generic [ref=e53]:
+            - button "슬라이드 1로 이동" [ref=e54] [cursor=pointer]
+            - button "슬라이드 2로 이동" [ref=e55] [cursor=pointer]
+            - button "슬라이드 3로 이동" [ref=e56] [cursor=pointer]
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - heading "다가오는 이벤트" [level=2] [ref=e59]:
+              - img [ref=e60]
+              - text: 다가오는 이벤트
+            - link "전체보기" [ref=e62] [cursor=pointer]:
+              - /url: /events
+          - generic [ref=e63]:
+            - link "주말 수영 모임 수영 PT 세션 1월 23일 (금) 21:00 서울 강남구 테헤란로 123 마감됨 참석 현황 확인하기" [ref=e279] [cursor=pointer]:
+              - /url: /groups/group-000-swimming/events/event-002
+              - generic [ref=e65]:
+                - generic [ref=e66]:
+                  - generic [ref=e67]: 주말 수영 모임
+                  - heading "수영 PT 세션" [level=3] [ref=e69]
+                - generic [ref=e70]:
+                  - generic [ref=e71]:
+                    - generic [ref=e72]:
+                      - img [ref=e73]
+                      - generic [ref=e75]: 1월 23일 (금) 21:00
+                    - generic [ref=e76]:
+                      - img [ref=e77]
+                      - generic [ref=e80]: 서울 강남구 테헤란로 123
+                  - generic [ref=e281]: 마감됨
+                  - generic [ref=e81]:
+                    - img [ref=e82]
+                    - generic [ref=e87]: 참석 현황 확인하기
+            - link "주말 수영 모임 수영 대회 준비 1월 26일 (월) 21:00 서울 송파구 올림픽로 321 D-6 참석 현황 확인하기" [ref=e282] [cursor=pointer]:
+              - /url: /groups/group-000-swimming/events/event-003
+              - generic [ref=e89]:
+                - generic [ref=e90]:
+                  - generic [ref=e91]: 주말 수영 모임
+                  - heading "수영 대회 준비" [level=3] [ref=e93]
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - generic [ref=e96]:
+                      - img [ref=e97]
+                      - generic [ref=e99]: 1월 26일 (월) 21:00
+                    - generic [ref=e100]:
+                      - img [ref=e101]
+                      - generic [ref=e104]: 서울 송파구 올림픽로 321
+                  - generic [ref=e284]: D-6
+                  - generic [ref=e105]:
+                    - img [ref=e106]
+                    - generic [ref=e111]: 참석 현황 확인하기
+            - link "헬스 PT 그룹 주말 헬스 모임 NEW 1월 23일 (금) 21:00 경기 성남시 분당구 판교역로 789 D-8 참석 현황 확인하기" [ref=e285] [cursor=pointer]:
+              - /url: /groups/group-000-fitness/events/event-005
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - generic [ref=e115]: 헬스 PT 그룹
+                  - generic [ref=e116]:
+                    - heading "주말 헬스 모임" [level=3] [ref=e117]
+                    - generic [ref=e286]: NEW
+                - generic [ref=e118]:
+                  - generic [ref=e119]:
+                    - generic [ref=e120]:
+                      - img [ref=e121]
+                      - generic [ref=e123]: 1월 23일 (금) 21:00
+                    - generic [ref=e124]:
+                      - img [ref=e125]
+                      - generic [ref=e128]: 경기 성남시 분당구 판교역로 789
+                  - generic [ref=e288]: D-8
+                  - generic [ref=e129]:
+                    - img [ref=e130]
+                    - generic [ref=e135]: 참석 현황 확인하기
+            - link "헬스 PT 그룹 체력 테스트 NEW 1월 28일 (수) 21:00 서울 강남구 테헤란로 123 D-12 참석 현황 확인하기" [ref=e289] [cursor=pointer]:
+              - /url: /groups/group-000-fitness/events/event-006
+              - generic [ref=e137]:
+                - generic [ref=e138]:
+                  - generic [ref=e139]: 헬스 PT 그룹
+                  - generic [ref=e140]:
+                    - heading "체력 테스트" [level=3] [ref=e141]
+                    - generic [ref=e290]: NEW
+                - generic [ref=e142]:
+                  - generic [ref=e143]:
+                    - generic [ref=e144]:
+                      - img [ref=e145]
+                      - generic [ref=e147]: 1월 28일 (수) 21:00
+                    - generic [ref=e148]:
+                      - img [ref=e149]
+                      - generic [ref=e152]: 서울 강남구 테헤란로 123
+                  - generic [ref=e292]: D-12
+                  - generic [ref=e153]:
+                    - img [ref=e154]
+                    - generic [ref=e159]: 참석 현황 확인하기
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - heading "최근 공지사항" [level=2] [ref=e162]:
+              - img [ref=e163]
+              - text: 최근 공지사항
+            - link "전체보기" [ref=e166] [cursor=pointer]:
+              - /url: /announcements
+          - generic [ref=e169]:
+            - link "PT 일정 조정 공지 헬스 PT 그룹 • 약 2시간 전" [ref=e170] [cursor=pointer]:
+              - /url: /announcements/announce-003
+              - generic [ref=e171]:
+                - img [ref=e173]
+                - generic [ref=e176]:
+                  - heading "PT 일정 조정 공지" [level=3] [ref=e177]
+                  - generic [ref=e178]:
+                    - generic [ref=e179]: 헬스 PT 그룹
+                    - generic [ref=e180]: •
+                    - generic [ref=e181]: 약 2시간 전
+            - link "등산 준비물 안내 등산 동호회 • 약 19시간 전" [ref=e182] [cursor=pointer]:
+              - /url: /announcements/announce-007
+              - generic [ref=e183]:
+                - img [ref=e185]
+                - generic [ref=e188]:
+                  - heading "등산 준비물 안내" [level=3] [ref=e189]
+                  - generic [ref=e190]:
+                    - generic [ref=e191]: 등산 동호회
+                    - generic [ref=e192]: •
+                    - generic [ref=e193]: 약 19시간 전
+            - link "신규 멤버 환영합니다 주말 수영 모임 • 5일 전" [ref=e194] [cursor=pointer]:
+              - /url: /announcements/announce-002
+              - generic [ref=e195]:
+                - img [ref=e197]
+                - generic [ref=e200]:
+                  - heading "신규 멤버 환영합니다" [level=3] [ref=e201]
+                  - generic [ref=e202]:
+                    - generic [ref=e203]: 주말 수영 모임
+                    - generic [ref=e204]: •
+                    - generic [ref=e205]: 5일 전
+            - link "수영장 이용 시간 변경 안내 주말 수영 모임 • 9일 전" [ref=e206] [cursor=pointer]:
+              - /url: /announcements/announce-001
+              - generic [ref=e207]:
+                - img [ref=e209]
+                - generic [ref=e212]:
+                  - heading "수영장 이용 시간 변경 안내" [level=3] [ref=e213]
+                  - generic [ref=e214]:
+                    - generic [ref=e215]: 주말 수영 모임
+                    - generic [ref=e216]: •
+                    - generic [ref=e217]: 9일 전
+            - link "독서 토론회 장소 변경 북클럽 독서 모임 • 10일 전" [ref=e218] [cursor=pointer]:
+              - /url: /announcements/announce-006
+              - generic [ref=e219]:
+                - img [ref=e221]
+                - generic [ref=e224]:
+                  - heading "독서 토론회 장소 변경" [level=3] [ref=e225]
+                  - generic [ref=e226]:
+                    - generic [ref=e227]: 북클럽 독서 모임
+                    - generic [ref=e228]: •
+                    - generic [ref=e229]: 10일 전
+    - navigation "주 네비게이션" [ref=e230]:
+      - generic [ref=e231]:
+        - link "홈 페이지로 이동" [ref=e232] [cursor=pointer]:
+          - /url: /dashboard
+          - img [ref=e233]
+          - generic [ref=e236]: 홈
+        - link "내모임 페이지로 이동" [ref=e237] [cursor=pointer]:
+          - /url: /groups
+          - img [ref=e238]
+          - generic [ref=e243]: 내모임
+        - link "이벤트 페이지로 이동" [ref=e244] [cursor=pointer]:
+          - /url: /events
+          - img [ref=e245]
+          - generic [ref=e247]: 이벤트
+        - link "마이페이지 페이지로 이동" [ref=e248] [cursor=pointer]:
+          - /url: /settings
+          - img [ref=e249]
+          - generic [ref=e252]: 마이페이지
+  - generic [ref=e257] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e258]:
+      - img [ref=e259]
+    - generic [ref=e293]:
+      - button "Open issues overlay" [ref=e294]:
+        - generic [ref=e295]:
+          - generic [ref=e296]: "1"
+          - generic [ref=e297]: "2"
+        - generic [ref=e298]:
+          - text: Issue
+          - generic [ref=e299]: s
+      - button "Collapse issues badge" [ref=e300]:
+        - img [ref=e301]
+  - alert [ref=e262]
+```
