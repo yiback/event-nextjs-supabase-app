@@ -33,11 +33,12 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col">
       {/* 히어로 섹션 */}
-      <section className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] px-4 py-12 text-center">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-          모임의 모든 이벤트를
+      <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+          <span className="whitespace-nowrap">모임의 모든 이벤트를</span>
           <br />
-          <span className="text-primary">한곳에서</span> 관리하세요
+          <span className="text-primary whitespace-nowrap">한곳에서</span>{" "}
+          <span className="whitespace-nowrap">관리하세요</span>
         </h1>
         <p className="text-muted-foreground mt-6 text-lg max-w-2xl">
           소규모 모임의 이벤트 참석 관리와 공지를 효율적으로 처리하세요.
@@ -60,21 +61,23 @@ export default function LandingPage() {
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12">
             주요 기능
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {features.map((feature) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={feature.title}
-                  className="flex flex-col items-center p-6 bg-background rounded-lg border text-center"
+                  className="flex items-start gap-4 p-6 bg-background rounded-lg border"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {feature.description}
-                  </p>
+                  <div>
+                    <h3 className="font-semibold mb-1">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
               );
             })}
