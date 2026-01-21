@@ -1,13 +1,32 @@
 // 대시보드 홈 페이지
 // 사용자의 예정된 이벤트, 최근 활동 요약 표시
+
+import { Suspense } from "react";
+import { PushNotificationBanner } from "@/components/dashboard/push-notification-banner";
+import { BannerCarousel } from "@/components/dashboard/banner-carousel";
+import { UpcomingEvents } from "@/components/dashboard/upcoming-events";
+import { RecentAnnouncements } from "@/components/dashboard/recent-announcements";
+
 export default function DashboardPage() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">대시보드</h1>
-      <p className="text-muted-foreground mt-2">
-        예정된 이벤트와 최근 활동을 확인하세요.
-      </p>
-      {/* TODO: 예정된 이벤트 목록, 최근 활동 카드 구현 */}
+    <div className="space-y-6 p-4 md:p-6">
+      {/* 푸시 알림 배너 */}
+      <Suspense fallback={null}>
+        <PushNotificationBanner />
+      </Suspense>
+
+      {/* 배너 캐러셀 */}
+      <BannerCarousel />
+
+      {/* 다가오는 이벤트 */}
+      <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
+        <UpcomingEvents />
+      </Suspense>
+
+      {/* 최근 공지사항 */}
+      <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
+        <RecentAnnouncements />
+      </Suspense>
     </div>
   );
 }
