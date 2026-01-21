@@ -1,9 +1,12 @@
 // 랜딩 페이지 (메인 페이지)
+"use client";
 
 import Link from "next/link";
 import { Calendar, Users, Bell, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
+import { FeaturePreview } from "@/components/landing/feature-preview";
 
 // 주요 기능 카드 정의
 const features = [
@@ -29,11 +32,31 @@ const features = [
   },
 ];
 
+// 애니메이션 variants
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col">
       {/* 히어로 섹션 */}
-      <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
+      <motion.section
+        className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center"
+        initial="initial"
+        animate="animate"
+        variants={fadeInUp}
+        transition={{ duration: 0.6 }}
+      >
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
           <span className="whitespace-nowrap">모임의 모든 이벤트를</span>
           <br />
@@ -53,21 +76,36 @@ export default function LandingPage() {
             <Link href="/auth/login">로그인</Link>
           </Button>
         </div>
-      </section>
+      </motion.section>
 
       {/* 기능 소개 섹션 */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12">
+          <motion.h2
+            className="text-2xl sm:text-3xl font-bold text-center mb-12"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            transition={{ duration: 0.5 }}
+          >
             주요 기능
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
             {features.map((feature) => {
               const Icon = feature.icon;
               return (
-                <div
+                <motion.div
                   key={feature.title}
                   className="flex items-start gap-4 p-6 bg-background rounded-lg border"
+                  variants={fadeInUp}
+                  transition={{ duration: 0.5 }}
                 >
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
@@ -78,15 +116,25 @@ export default function LandingPage() {
                       {feature.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
+      {/* 기능 미리보기 섹션 */}
+      <FeaturePreview />
+
       {/* CTA 섹션 */}
-      <section className="py-16 px-4">
+      <motion.section
+        className="py-16 px-4"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container text-center">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             지금 바로 시작하세요
@@ -100,7 +148,7 @@ export default function LandingPage() {
             <Link href="/auth/sign-up">무료로 시작하기</Link>
           </Button>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
