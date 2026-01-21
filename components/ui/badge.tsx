@@ -15,6 +15,17 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
         outline: "text-foreground",
+        // Status variants
+        new: "border-transparent bg-blue-500 text-white",
+        // Deadline variants
+        deadline: "border-transparent bg-gray-500 text-white",
+        deadlineSoon: "border-transparent bg-amber-500 text-white",
+        deadlineToday: "border-transparent bg-red-500 text-white",
+        deadlineClosed: "border-transparent bg-gray-300 text-gray-600",
+        // Attendance variants
+        attending: "border-transparent bg-emerald-100 text-emerald-700",
+        notAttending: "border-transparent bg-red-100 text-red-700",
+        maybe: "border-transparent bg-amber-100 text-amber-700",
       },
     },
     defaultVariants: {
