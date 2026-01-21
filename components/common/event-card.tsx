@@ -4,7 +4,7 @@
 // EventWithGroup 데이터를 받아 카드 형태로 표시
 
 import Link from "next/link";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, Check, X, HelpCircle } from "lucide-react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import type { EventWithGroup } from "@/types/database";
@@ -14,12 +14,20 @@ import { NewBadge } from "./new-badge";
 import { DeadlineBadge } from "./deadline-badge";
 import { cn } from "@/lib/utils";
 
+// 참석 현황 타입
+interface ParticipantCounts {
+  attending: number;
+  not_attending: number;
+  maybe: number;
+}
+
 interface EventCardProps {
   event: EventWithGroup;
+  participantCounts?: ParticipantCounts;
   className?: string;
 }
 
-export function EventCard({ event, className }: EventCardProps) {
+export function EventCard({ event, participantCounts, className }: EventCardProps) {
   const eventDate = new Date(event.event_date);
   const responseDeadline = event.response_deadline
     ? new Date(event.response_deadline)
@@ -71,9 +79,26 @@ export function EventCard({ event, className }: EventCardProps) {
           )}
 
           {/* 참석 현황 */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground pt-2">
-            <Users className="h-4 w-4" />
-            <span>참석 현황 확인하기</span>
+          <div className="flex items-center gap-2 text-sm pt-2">
+            <Users className="h-4 w-4 text-muted-foreground" />
+            {participantCounts ? (
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1 text-emerald-600">
+                  <Check className="h-3.5 w-3.5" />
+                  {participantCounts.attending}
+                </span>
+                <span className="flex items-center gap-1 text-red-600">
+                  <X className="h-3.5 w-3.5" />
+                  {participantCounts.not_attending}
+                </span>
+                <span className="flex items-center gap-1 text-amber-600">
+                  <HelpCircle className="h-3.5 w-3.5" />
+                  {participantCounts.maybe}
+                </span>
+              </div>
+            ) : (
+              <span className="text-muted-foreground">참석 현황 확인하기</span>
+            )}
           </div>
         </CardContent>
       </Card>

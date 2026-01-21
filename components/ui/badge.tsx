@@ -26,6 +26,10 @@ const badgeVariants = cva(
         attending: "border-transparent bg-emerald-100 text-emerald-700",
         notAttending: "border-transparent bg-red-100 text-red-700",
         maybe: "border-transparent bg-amber-100 text-amber-700",
+        // Role variants (모임 멤버 역할)
+        owner: "border-transparent bg-purple-100 text-purple-700",
+        admin: "border-transparent bg-blue-100 text-blue-700",
+        member: "border-transparent bg-gray-100 text-gray-700",
       },
     },
     defaultVariants: {

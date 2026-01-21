@@ -1,6 +1,9 @@
+"use client";
+
 // NEW 뱃지
 // 이벤트 생성일이 7일 이내인 경우 표시
 
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { differenceInDays } from "date-fns";
 
@@ -10,10 +13,16 @@ interface NewBadgeProps {
 }
 
 export function NewBadge({ createdAt, className }: NewBadgeProps) {
-  const daysSinceCreation = differenceInDays(new Date(), createdAt);
+  // 클라이언트에서만 날짜 계산을 수행하여 hydration 불일치 방지
+  const [isNew, setIsNew] = useState(false);
 
-  // 7일 이내 생성된 경우에만 표시
-  if (daysSinceCreation > 7) {
+  useEffect(() => {
+    const daysSinceCreation = differenceInDays(new Date(), createdAt);
+    setIsNew(daysSinceCreation <= 7);
+  }, [createdAt]);
+
+  // 클라이언트에서 계산되기 전이거나 7일이 지난 경우 표시하지 않음
+  if (!isNew) {
     return null;
   }
 
