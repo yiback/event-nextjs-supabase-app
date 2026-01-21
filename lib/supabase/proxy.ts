@@ -66,12 +66,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // 공개 경로 (인증 불필요)
-  const publicPaths = ["/", "/invite"];
-  const isPublicPath =
-    publicPaths.some((path) => pathname === path) ||
-    pathname.startsWith("/invite/");
-
   // 인증 경로
   const authPaths = ["/auth/login", "/auth/sign-up", "/auth/forgot-password"];
   const isAuthPath =
