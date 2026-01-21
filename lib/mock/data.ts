@@ -152,13 +152,15 @@ export const mockGroupMembers: GroupMember[] = [
  * - 진행중: 6개 (scheduled)
  * - 미래: 3개 (scheduled)
  */
-const now = new Date();
-const pastDate1 = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7일 전
-const pastDate2 = new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000); // 3일 전
-const pastDate3 = new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000); // 1일 전
-const futureDate1 = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000); // 2일 후
-const futureDate2 = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5일 후
-const futureDate3 = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7일 후
+// Hydration 오류 방지를 위해 고정된 기준 날짜 사용
+// 실제 서비스에서는 서버에서 데이터를 가져오므로 문제 없음
+const BASE_DATE = new Date("2026-01-21T12:00:00.000Z");
+const pastDate1 = new Date(BASE_DATE.getTime() - 7 * 24 * 60 * 60 * 1000); // 7일 전
+const pastDate2 = new Date(BASE_DATE.getTime() - 3 * 24 * 60 * 60 * 1000); // 3일 전
+const pastDate3 = new Date(BASE_DATE.getTime() - 1 * 24 * 60 * 60 * 1000); // 1일 전
+const futureDate1 = new Date(BASE_DATE.getTime() + 2 * 24 * 60 * 60 * 1000); // 2일 후
+const futureDate2 = new Date(BASE_DATE.getTime() + 5 * 24 * 60 * 60 * 1000); // 5일 후
+const futureDate3 = new Date(BASE_DATE.getTime() + 7 * 24 * 60 * 60 * 1000); // 7일 후
 
 export const mockEvents: Event[] = [
   // 수영 모임 이벤트 (3개)
@@ -557,4 +559,25 @@ export function getRecentAnnouncements(): AnnouncementWithAuthor[] {
       author,
     };
   });
+}
+
+/**
+ * 특정 사용자의 알림 목록 조회
+ */
+export function getNotificationsForUser(userId: string): NotificationLog[] {
+  // user_id로 필터링 후 sent_at 기준으로 정렬 (최신순)
+  const userNotifications = mockNotifications.filter(
+    (notification) => notification.user_id === userId
+  );
+
+  return userNotifications.sort((a, b) => {
+    return new Date(b.sent_at).getTime() - new Date(a.sent_at).getTime();
+  });
+}
+
+/**
+ * 초대 코드로 모임 조회
+ */
+export function getGroupByInviteCode(code: string): Group | undefined {
+  return mockGroups.find((group) => group.invite_code === code);
 }
