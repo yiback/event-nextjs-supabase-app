@@ -49,27 +49,30 @@ export function EventCard({ event, participantCounts, className }: EventCardProp
 
           {/* 제목 + NEW 뱃지 */}
           <div className="flex items-start gap-2">
-            <h3 className="text-lg font-semibold line-clamp-2 flex-1">
+            <h3 className="text-base sm:text-lg md:text-xl font-semibold line-clamp-2 flex-1">
               {event.title}
             </h3>
             <NewBadge createdAt={new Date(event.created_at)} />
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-2">
-          {/* 이벤트 날짜 */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Calendar className="h-4 w-4" />
-            <span>{format(eventDate, "M월 d일 (E) HH:mm", { locale: ko })}</span>
-          </div>
-
-          {/* 장소 */}
-          {event.location && (
+        <CardContent className="space-y-3">
+          {/* 이벤트 날짜 + 장소: 모바일 세로, 데스크톱 가로 */}
+          <div className="flex flex-col gap-2 md:flex-row md:gap-4">
+            {/* 이벤트 날짜 */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4" />
-              <span className="line-clamp-1">{event.location}</span>
+              <Calendar className="h-4 w-4 shrink-0" />
+              <span>{format(eventDate, "M월 d일 (E) HH:mm", { locale: ko })}</span>
             </div>
-          )}
+
+            {/* 장소 */}
+            {event.location && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 shrink-0" />
+                <span className="line-clamp-1">{event.location}</span>
+              </div>
+            )}
+          </div>
 
           {/* 응답 마감일 */}
           {responseDeadline && (
@@ -79,10 +82,10 @@ export function EventCard({ event, participantCounts, className }: EventCardProp
           )}
 
           {/* 참석 현황 */}
-          <div className="flex items-center gap-2 text-sm pt-2">
-            <Users className="h-4 w-4 text-muted-foreground" />
+          <div className="flex items-center gap-2 text-sm">
+            <Users className="h-4 w-4 text-muted-foreground shrink-0" />
             {participantCounts ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                 <span className="flex items-center gap-1 text-emerald-600">
                   <Check className="h-3.5 w-3.5" />
                   {participantCounts.attending}

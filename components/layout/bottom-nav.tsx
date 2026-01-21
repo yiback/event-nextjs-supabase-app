@@ -45,7 +45,10 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] border-t bg-background">
+    <nav
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] border-t bg-background"
+      aria-label="주 네비게이션"
+    >
       <div className="flex items-center justify-around h-16 px-2">
         {navTabs.map((tab) => {
           const Icon = tab.icon;
@@ -61,6 +64,8 @@ export function BottomNav() {
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
+              aria-label={`${tab.label} 페이지로 이동`}
+              aria-current={active ? "page" : undefined}
             >
               <Icon
                 className={cn(

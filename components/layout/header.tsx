@@ -42,7 +42,10 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      aria-label="주 헤더"
+    >
       <div className="container flex h-14 items-center">
         {/* 좌측: 로고 */}
         <div className="mr-4 flex">
@@ -60,7 +63,7 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
           {/* 모임 선택 드롭다운 */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-1">
+              <Button variant="ghost" className="gap-1" aria-label="모임 선택 메뉴 열기">
                 <Users className="h-4 w-4" />
                 <span className="hidden sm:inline">모임 선택</span>
                 <ChevronDown className="h-3 w-3 opacity-50" />
@@ -92,7 +95,7 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
           </DropdownMenu>
 
           {/* 네비게이션 링크 */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1" aria-label="주 네비게이션">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
@@ -118,14 +121,14 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
         {/* 우측: 검색, 알림, 프로필 */}
         <div className="flex items-center gap-1">
           {/* 검색 버튼 */}
-          <Button variant="ghost" size="icon" className="h-9 w-9">
+          <Button variant="ghost" size="icon" className="h-9 w-9" aria-label="검색 열기">
             <Search className="h-4 w-4" />
             <span className="sr-only">검색</span>
           </Button>
 
           {/* 알림 버튼 */}
           <Button variant="ghost" size="icon" className="h-9 w-9 relative" asChild>
-            <Link href="/notifications">
+            <Link href="/notifications" aria-label="알림 보기">
               <Bell className="h-4 w-4" />
               {unreadNotifications > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-destructive-foreground">
@@ -139,7 +142,12 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
           {/* 프로필 드롭다운 */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 rounded-full"
+                aria-label="프로필 메뉴 열기"
+              >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="" alt="프로필" />
                   <AvatarFallback>
