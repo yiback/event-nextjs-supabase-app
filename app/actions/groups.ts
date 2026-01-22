@@ -28,9 +28,7 @@ type ActionResult<T> =
  * 5. group_members 테이블에 owner로 추가
  * 6. 캐시 무효화 및 리다이렉트
  */
-export async function createGroup(
-  formData: FormData
-): Promise<ActionResult<Tables<"groups">>> {
+export async function createGroup(formData: FormData) {
   try {
     // 1. Supabase 클라이언트 생성 (서버 측)
     const supabase = await createClient();
@@ -96,9 +94,6 @@ export async function createGroup(
 
     // 8. 캐시 무효화 (모임 목록 재로드)
     revalidatePath("/groups");
-
-    // 9. 모임 목록 페이지로 리다이렉트
-    redirect("/groups");
   } catch (error) {
     console.error("createGroup 오류:", error);
     return {
@@ -106,6 +101,9 @@ export async function createGroup(
       error: "모임 생성 중 오류가 발생했습니다",
     };
   }
+
+  // 9. 모임 목록 페이지로 리다이렉트 (try-catch 밖에서 호출)
+  redirect("/groups");
 }
 
 /**
@@ -287,7 +285,7 @@ export async function joinGroupByCode(
 export async function updateGroup(
   groupId: string,
   formData: FormData
-): Promise<ActionResult<Tables<"groups">>> {
+) {
   try {
     // 1. Supabase 클라이언트 생성
     const supabase = await createClient();
@@ -358,9 +356,6 @@ export async function updateGroup(
     // 7. 캐시 무효화
     revalidatePath("/groups");
     revalidatePath(`/groups/${groupId}`);
-
-    // 8. 모임 상세 페이지로 리다이렉트
-    redirect(`/groups/${groupId}`);
   } catch (error) {
     console.error("updateGroup 오류:", error);
     return {
@@ -368,6 +363,9 @@ export async function updateGroup(
       error: "모임 수정 중 오류가 발생했습니다",
     };
   }
+
+  // 8. 모임 상세 페이지로 리다이렉트 (try-catch 밖에서 호출)
+  redirect(`/groups/${groupId}`);
 }
 
 /**
@@ -383,7 +381,7 @@ export async function updateGroup(
  */
 export async function deleteGroup(
   groupId: string
-): Promise<ActionResult<void>> {
+) {
   try {
     // 1. Supabase 클라이언트 생성
     const supabase = await createClient();
@@ -432,9 +430,6 @@ export async function deleteGroup(
 
     // 5. 캐시 무효화
     revalidatePath("/groups");
-
-    // 6. 모임 목록 페이지로 리다이렉트
-    redirect("/groups");
   } catch (error) {
     console.error("deleteGroup 오류:", error);
     return {
@@ -442,4 +437,7 @@ export async function deleteGroup(
       error: "모임 삭제 중 오류가 발생했습니다",
     };
   }
+
+  // 6. 모임 목록 페이지로 리다이렉트 (try-catch 밖에서 호출)
+  redirect("/groups");
 }
