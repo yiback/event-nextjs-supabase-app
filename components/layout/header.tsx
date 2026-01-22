@@ -1,14 +1,10 @@
-"use client";
-
-// 대시보드용 데스크톱 헤더 컴포넌트
+// 대시보드용 데스크톱 헤더 컴포넌트 (Server Component)
 // 로고, 모임 선택, 검색, 알림, 프로필 드롭다운 포함
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   Bell,
   ChevronDown,
-  LogOut,
   PartyPopper,
   Search,
   Settings,
@@ -27,19 +23,44 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-// 네비게이션 링크 정의
-const navLinks = [
-  { href: "/groups", label: "내 모임", icon: Users },
-];
+import { LogoutButton } from "@/components/logout-button";
+import { createClient } from "@/lib/supabase/server";
+import { HeaderNavLinks } from "./header-nav-links";
 
 interface HeaderProps {
-  // 추후 프로필 데이터, 알림 개수 등 props 추가 예정
+  // 추후 알림 개수 등 props 추가 예정
   unreadNotifications?: number;
 }
 
-export function Header({ unreadNotifications = 0 }: HeaderProps) {
-  const pathname = usePathname();
+export async function Header({ unreadNotifications = 0 }: HeaderProps) {
+  const supabase = await createClient();
+
+  // 현재 사용자 정보 가져오기
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // profiles 테이블에서 사용자 프로필 정보 가져오기
+  let profile = null;
+  if (user) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('full_name, avatar_url')
+      .eq('id', user.id)
+      .single();
+    profile = data;
+  }
+
+  // 사용자 이름 결정 (full_name이 없으면 이메일 사용)
+  const displayName = profile?.full_name || user?.email?.split('@')[0] || '사용자';
+  const userEmail = user?.email || 'user@example.com';
+  const avatarUrl = profile?.avatar_url || '';
+
+  // 아바타 폴백 이니셜 생성
+  const initials = displayName
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 
   return (
     <header
@@ -74,15 +95,15 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
               <DropdownMenuSeparator />
               {/* TODO: 실제 모임 목록 데이터로 교체 */}
               <DropdownMenuItem asChild>
-                <Link href="/groups/example-1">
+                <Link href="/groups/group-000-swimming">
                   <Users className="mr-2 h-4 w-4" />
-                  주간 수영 모임
+                  주말 수영 모임
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/groups/example-2">
+                <Link href="/groups/group-000-reading">
                   <Users className="mr-2 h-4 w-4" />
-                  독서 클럽
+                  북클럽 독서 모임
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -94,28 +115,8 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* 네비게이션 링크 */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="주 네비게이션">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                    isActive
-                      ? "bg-accent text-accent-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                  )}
-                >
-                  <Icon className="h-4 w-4" />
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* 네비게이션 링크 (클라이언트 컴포넌트) */}
+          <HeaderNavLinks />
         </div>
 
         {/* 우측: 검색, 알림, 프로필 */}
@@ -149,9 +150,9 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
                 aria-label="프로필 메뉴 열기"
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="" alt="프로필" />
+                  <AvatarImage src={avatarUrl} alt={displayName} />
                   <AvatarFallback>
-                    <User className="h-4 w-4" />
+                    {initials || <User className="h-4 w-4" />}
                   </AvatarFallback>
                 </Avatar>
                 <span className="sr-only">프로필 메뉴</span>
@@ -160,9 +161,9 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium">사용자 이름</p>
+                  <p className="text-sm font-medium">{displayName}</p>
                   <p className="text-xs text-muted-foreground">
-                    user@example.com
+                    {userEmail}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -174,9 +175,8 @@ export function Header({ unreadNotifications = 0 }: HeaderProps) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive focus:text-destructive">
-                <LogOut className="mr-2 h-4 w-4" />
-                로그아웃
+              <DropdownMenuItem asChild>
+                <LogoutButton variant="dropdown" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

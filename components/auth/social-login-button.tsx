@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { KakaoIcon, GoogleIcon } from '@/components/icons/social-icons';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
 
 /**
  * 소셜 로그인 제공자 타입
@@ -63,14 +64,44 @@ export const SocialLoginButton = React.forwardRef<
 >(({ provider, onClick, className, disabled, ...props }, ref) => {
   const config = providerConfig[provider];
   const Icon = config.icon;
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * 버튼 클릭 핸들러
-   * 현재는 콘솔 로그만 출력 (추후 OAuth 인증 로직 구현)
+   * Google OAuth 인증 또는 카카오 로그인 처리
    */
-  const handleClick = () => {
-    console.log(`${provider} 로그인 버튼 클릭됨`);
-    onClick?.();
+  const handleClick = async () => {
+    if (provider === 'google') {
+      // Google OAuth 인증 처리
+      try {
+        setIsLoading(true);
+        const supabase = createClient();
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+            queryParams: {
+              access_type: 'offline',
+              prompt: 'consent',
+            },
+            // Google OAuth에서 프로필 정보 요청
+            scopes: 'email profile',
+          },
+        });
+
+        if (error) {
+          console.error('Google OAuth 에러:', error);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Google 로그인 중 예외 발생:', error);
+        setIsLoading(false);
+      }
+    } else {
+      // 카카오 로그인 (추후 구현)
+      console.log(`${provider} 로그인 버튼 클릭됨`);
+      onClick?.();
+    }
   };
 
   return (
@@ -84,7 +115,7 @@ export const SocialLoginButton = React.forwardRef<
         className
       )}
       onClick={handleClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       {...props}
     >
       <Icon className="h-5 w-5 mr-2" />

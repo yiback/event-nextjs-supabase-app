@@ -16,6 +16,41 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
+      // OAuth 인증 후 프로필 생성 안전장치
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url')
+          .eq('id', user.id)
+          .single();
+
+        // Google OAuth의 user_metadata에서 프로필 정보 추출
+        // Google은 name, picture 필드를 제공함
+        const fullName = user.user_metadata.name || user.user_metadata.full_name || null;
+        const avatarUrl = user.user_metadata.picture || user.user_metadata.avatar_url || null;
+
+        if (!profile) {
+          // 프로필이 없으면 새로 생성
+          await supabase.from('profiles').insert({
+            id: user.id,
+            email: user.email!,
+            full_name: fullName,
+            avatar_url: avatarUrl,
+          });
+        } else if (!profile.full_name || !profile.avatar_url) {
+          // 프로필은 있지만 full_name이나 avatar_url이 NULL이면 업데이트
+          await supabase
+            .from('profiles')
+            .update({
+              full_name: fullName || profile.full_name,
+              avatar_url: avatarUrl || profile.avatar_url,
+            })
+            .eq('id', user.id);
+        }
+      }
+
       // 인증 성공 - 지정된 경로로 리다이렉트
       return NextResponse.redirect(`${origin}${next}`);
     }

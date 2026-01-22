@@ -76,7 +76,7 @@
 
 ---
 
-### Phase 2: UI/UX 완성 (더미 데이터 활용)
+### Phase 2: UI/UX 완성 (더미 데이터 활용) ✅
 
 > 공통 컴포넌트 라이브러리 구현, 모든 페이지 UI 완성 (하드코딩된 더미 데이터 사용)
 
@@ -144,18 +144,22 @@
 
 > 데이터베이스 연동, 인증 시스템, 핵심 비즈니스 로직, 더미 데이터를 실제 API로 교체
 
-- **Task 012: Supabase 프로젝트 설정 및 데이터베이스 구축** - 우선순위
-  - Supabase 프로젝트 연결 및 환경변수 설정
-  - 데이터베이스 마이그레이션 파일 작성 (8개 테이블)
-  - RLS (Row Level Security) 정책 설정
-  - Supabase Storage 버킷 설정 (group-images, event-images, avatars)
+- **Task 012: Supabase 프로젝트 설정 및 데이터베이스 구축** ✅ - 완료
+  - ✅ Supabase 프로젝트 연결 및 환경변수 설정
+  - ✅ 데이터베이스 마이그레이션 파일 작성 (10개 테이블, 11개 마이그레이션)
+  - ✅ RLS (Row Level Security) 정책 설정 및 성능 최적화
+  - ✅ Supabase Storage 버킷 설정 (group-images, event-images, avatars)
+  - ✅ TypeScript 타입 생성 (types/supabase.ts)
 
-- **Task 013: 소셜 로그인 시스템 구현**
-  - Supabase Auth 카카오/구글 OAuth 설정
-  - OAuth 콜백 라우트 구현 (`/api/auth/callback`)
-  - 자동 프로필 생성 로직
-  - 로그인/로그아웃 기능 연동
-  - 인증 미들웨어 구현
+- **Task 013: 구글 소셜 로그인 시스템 구현** ✅ - 완료
+  - ✅ Supabase Auth 구글 OAuth 설정
+  - ✅ OAuth 콜백 라우트 구현 (`/auth/callback`)
+  - ✅ 자동 프로필 생성 로직 (Database Trigger)
+  - ✅ 로그인/로그아웃 기능 연동
+  - ✅ 인증 미들웨어 구현
+  - ✅ Header에 실제 사용자 정보 표시
+  - ✅ OAuth 콜백 프로필 생성 안전장치
+  - (카카오 로그인은 Phase 4에서 추가 예정)
 
 - **Task 014: 모임 관리 기능 구현 (F001)**
   - 모임 CRUD Server Actions 구현
@@ -252,6 +256,12 @@
   - 에러 모니터링 설정 (Sentry 등)
   - 성능 모니터링 설정
 
+- **Task 028: 카카오 소셜 로그인 추가**
+  - Supabase Auth 카카오 OAuth 설정
+  - 카카오 개발자 앱 등록 및 설정
+  - 로그인 페이지 UI에 카카오 버튼 활성화
+  - 카카오 로그인 플로우 테스트
+
 ---
 
 ## 페이지 및 라우트 구조
@@ -299,7 +309,8 @@ app/
 | F004 | 멤버 역할 관리 | Task 015 | Phase 3 |
 | F005 | 공지사항 작성 | Task 018 | Phase 3 |
 | F006 | 웹 푸시 알림 | Task 021 | Phase 4 |
-| F010 | 소셜 로그인 | Task 013 | Phase 3 |
+| F010 | 소셜 로그인 (구글) | Task 013 | Phase 3 |
+| F010-2 | 소셜 로그인 (카카오) | Task 028 | Phase 4 |
 | F011 | 초대 코드 시스템 | Task 019 | Phase 3 |
 | F012 | 대시보드 | Task 007, 014 | Phase 2, 3 |
 | F013 | 알림 구독 관리 | Task 022 | Phase 4 |
@@ -309,9 +320,9 @@ app/
 ## 진행 상황
 
 - [x] Phase 1: 애플리케이션 골격 구축 (3/3) ✅
-- [ ] Phase 2: UI/UX 완성 (7/8)
-- [ ] Phase 3: 데이터베이스 설정 및 핵심 기능 구현 (0/9)
-- [ ] Phase 4: 고급 기능 및 최적화 (0/7)
+- [x] Phase 2: UI/UX 완성 (8/8) ✅
+- [ ] Phase 3: 데이터베이스 설정 및 핵심 기능 구현 (2/9)
+- [ ] Phase 4: 고급 기능 및 최적화 (0/8)
 
-**📅 최종 업데이트**: 2026-01-21
-**총 진행률**: 10/27 Tasks 완료
+**📅 최종 업데이트**: 2026-01-22
+**총 진행률**: 13/28 Tasks 완료 (46%)
