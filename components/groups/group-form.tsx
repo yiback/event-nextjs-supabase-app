@@ -1,11 +1,11 @@
 "use client";
 
 // 모임 생성/수정 폼 컴포넌트
-// React Hook Form + Zod 유효성 검사
+// React Hook Form + Zod 유효성 검사 + Server Action 연동
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useTransition } from "react";
 import { ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,35 +19,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  groupFormSchema,
+  type GroupFormValues,
+} from "@/lib/schemas/groups";
 
-// 폼 유효성 검사 스키마
-const groupFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, "모임 이름은 2자 이상이어야 합니다")
-    .max(50, "모임 이름은 50자 이하여야 합니다"),
-  description: z
-    .string()
-    .max(500, "설명은 500자 이하여야 합니다")
-    .optional()
-    .or(z.literal("")),
-});
-
-export type GroupFormValues = z.infer<typeof groupFormSchema>;
+// Server Action 결과 타입
+type ActionResult<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
 
 interface GroupFormProps {
   defaultValues?: Partial<GroupFormValues>;
-  onSubmit: (values: GroupFormValues) => void;
+  action: (formData: FormData) => Promise<ActionResult<any>>;
   onCancel?: () => void;
-  isSubmitting?: boolean;
 }
 
 export function GroupForm({
   defaultValues,
-  onSubmit,
+  action,
   onCancel,
-  isSubmitting = false,
 }: GroupFormProps) {
+  const [isPending, startTransition] = useTransition();
   const form = useForm<GroupFormValues>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
@@ -55,6 +48,30 @@ export function GroupForm({
       description: defaultValues?.description ?? "",
     },
   });
+
+  // 폼 제출 핸들러
+  async function onSubmit(values: GroupFormValues) {
+    startTransition(async () => {
+      // FormData 생성
+      const formData = new FormData();
+      formData.append("name", values.name);
+      if (values.description) {
+        formData.append("description", values.description);
+      }
+
+      // Server Action 호출
+      const result = await action(formData);
+
+      // 실패 시 에러 메시지 표시
+      if (!result.success) {
+        form.setError("root", {
+          type: "manual",
+          message: result.error,
+        });
+      }
+      // 성공 시 redirect가 자동으로 호출됨
+    });
+  }
 
   return (
     <Form {...form}>
@@ -121,6 +138,13 @@ export function GroupForm({
           )}
         />
 
+        {/* Root 에러 메시지 */}
+        {form.formState.errors.root && (
+          <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+            {form.formState.errors.root.message}
+          </div>
+        )}
+
         {/* 버튼 영역 */}
         <div className="flex gap-3 pt-4">
           {onCancel && (
@@ -128,13 +152,14 @@ export function GroupForm({
               type="button"
               variant="outline"
               onClick={onCancel}
+              disabled={isPending}
               className="flex-1"
             >
               취소
             </Button>
           )}
-          <Button type="submit" disabled={isSubmitting} className="flex-1">
-            {isSubmitting ? "처리 중..." : "모임 만들기"}
+          <Button type="submit" disabled={isPending} className="flex-1">
+            {isPending ? "처리 중..." : "모임 만들기"}
           </Button>
         </div>
       </form>

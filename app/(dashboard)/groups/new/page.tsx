@@ -1,24 +1,17 @@
 "use client";
 
 // 모임 생성 페이지
-// 새 모임을 생성하는 폼
+// 새 모임을 생성하는 폼 + Server Action 연동
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GroupForm, type GroupFormValues } from "@/components/groups/group-form";
+import { GroupForm } from "@/components/groups/group-form";
+import { createGroup } from "@/app/actions/groups";
 
 export default function NewGroupPage() {
   const router = useRouter();
-
-  // 폼 제출 핸들러 (Phase 3에서 API 연동 예정)
-  const handleSubmit = (values: GroupFormValues) => {
-    console.log("모임 생성 데이터:", values);
-    // TODO: Phase 3에서 실제 API 호출로 교체
-    // 임시로 모임 목록 페이지로 이동
-    router.push("/groups");
-  };
 
   // 취소 핸들러
   const handleCancel = () => {
@@ -43,8 +36,8 @@ export default function NewGroupPage() {
         </p>
       </div>
 
-      {/* 모임 생성 폼 */}
-      <GroupForm onSubmit={handleSubmit} onCancel={handleCancel} />
+      {/* 모임 생성 폼 (Server Action 연동) */}
+      <GroupForm action={createGroup} onCancel={handleCancel} />
     </div>
   );
 }
