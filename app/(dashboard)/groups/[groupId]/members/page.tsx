@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getMembersForGroup } from "@/app/actions/members";
-import { checkMemberRole } from "@/lib/utils/permissions";
+import { checkMemberRole } from "@/lib/utils/permissions-server";
 import type { Role } from "@/types/enums";
 import { Button } from "@/components/ui/button";
 import { InviteCodeSection } from "@/components/groups/invite-code-section";

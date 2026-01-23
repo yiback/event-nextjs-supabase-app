@@ -25,13 +25,10 @@ import {
 } from "@/lib/schemas/groups";
 
 // Server Action 결과 타입
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string };
-
+// redirect() 호출 시 void 반환, 에러 시 { success: false; error: string } 반환
 interface GroupFormProps {
   defaultValues?: Partial<GroupFormValues>;
-  action: (formData: FormData) => Promise<ActionResult<any>>;
+  action: (formData: FormData) => Promise<{ success: false; error: string } | void>;
   onCancel?: () => void;
 }
 
@@ -60,10 +57,11 @@ export function GroupForm({
       }
 
       // Server Action 호출
+      // 성공 시 redirect로 인해 void 반환, 에러 시 { success: false; error: string } 반환
       const result = await action(formData);
 
-      // 실패 시 에러 메시지 표시
-      if (!result.success) {
+      // 에러 반환 시 에러 메시지 표시
+      if (result && !result.success) {
         form.setError("root", {
           type: "manual",
           message: result.error,

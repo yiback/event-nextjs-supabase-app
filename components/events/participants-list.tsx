@@ -101,19 +101,21 @@ function ParticipantItem({ participant }: ParticipantItemProps) {
 
   // 이름에서 이니셜 추출
   const initials = profile.full_name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+    ? profile.full_name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase()
+    : "?";
 
   return (
     <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
       <Avatar className="h-8 w-8">
-        <AvatarImage src={profile.avatar_url || undefined} alt={profile.full_name} />
+        <AvatarImage src={profile.avatar_url || undefined} alt={profile.full_name || undefined} />
         <AvatarFallback className="text-xs">{initials}</AvatarFallback>
       </Avatar>
-      <span className="text-sm font-medium truncate">{profile.full_name}</span>
+      <span className="text-sm font-medium truncate">{profile.full_name || "익명"}</span>
     </div>
   );
 }

@@ -14,7 +14,7 @@ import type {
 export interface Profile {
   id: string; // UUID (Supabase Auth 연동)
   email: string;
-  full_name: string;
+  full_name: string | null; // nullable (사용자가 설정하지 않을 수 있음)
   avatar_url: string | null;
   created_at: string; // ISO 타임스탬프
 }

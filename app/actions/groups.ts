@@ -9,11 +9,7 @@ import { generateInviteCode } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Tables } from "@/types/supabase";
-
-// Server Action 결과 타입
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string };
+import type { ActionResult } from "@/types/api";
 
 /**
  * 모임 생성 Server Action
@@ -39,7 +35,7 @@ export async function createGroup(formData: FormData) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return { success: false, error: "로그인이 필요합니다" };
+      return { success: false as const, error: "로그인이 필요합니다" };
     }
 
     // 3. FormData 파싱
@@ -53,7 +49,7 @@ export async function createGroup(formData: FormData) {
     if (!validated.success) {
       const firstError = validated.error.issues[0];
       return {
-        success: false,
+        success: false as const,
         error: firstError?.message || "유효성 검증에 실패했습니다",
       };
     }
@@ -97,7 +93,7 @@ export async function createGroup(formData: FormData) {
   } catch (error) {
     console.error("createGroup 오류:", error);
     return {
-      success: false,
+      success: false as const,
       error: "모임 생성 중 오류가 발생했습니다",
     };
   }
@@ -296,7 +292,7 @@ export async function updateGroup(
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return { success: false, error: "로그인이 필요합니다" };
+      return { success: false as const, error: "로그인이 필요합니다" };
     }
 
     // 3. 사용자의 권한 확인 (owner 또는 admin)
@@ -309,14 +305,14 @@ export async function updateGroup(
 
     if (memberError || !member) {
       return {
-        success: false,
+        success: false as const,
         error: "해당 모임의 멤버가 아닙니다",
       };
     }
 
     if (!["owner", "admin"].includes(member.role)) {
       return {
-        success: false,
+        success: false as const,
         error: "수정 권한이 없습니다 (모임장 또는 관리자만 가능)",
       };
     }
@@ -332,7 +328,7 @@ export async function updateGroup(
     if (!validated.success) {
       const firstError = validated.error.issues[0];
       return {
-        success: false,
+        success: false as const,
         error: firstError?.message || "유효성 검증에 실패했습니다",
       };
     }
@@ -359,7 +355,7 @@ export async function updateGroup(
   } catch (error) {
     console.error("updateGroup 오류:", error);
     return {
-      success: false,
+      success: false as const,
       error: "모임 수정 중 오류가 발생했습니다",
     };
   }
@@ -392,7 +388,7 @@ export async function deleteGroup(
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return { success: false, error: "로그인이 필요합니다" };
+      return { success: false as const, error: "로그인이 필요합니다" };
     }
 
     // 3. 사용자의 권한 확인 (owner만 가능)
@@ -405,14 +401,14 @@ export async function deleteGroup(
 
     if (memberError || !member) {
       return {
-        success: false,
+        success: false as const,
         error: "해당 모임의 멤버가 아닙니다",
       };
     }
 
     if (member.role !== "owner") {
       return {
-        success: false,
+        success: false as const,
         error: "삭제는 모임장만 가능합니다",
       };
     }
@@ -433,7 +429,7 @@ export async function deleteGroup(
   } catch (error) {
     console.error("deleteGroup 오류:", error);
     return {
-      success: false,
+      success: false as const,
       error: "모임 삭제 중 오류가 발생했습니다",
     };
   }

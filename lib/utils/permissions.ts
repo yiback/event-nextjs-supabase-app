@@ -1,39 +1,11 @@
-// 권한 관련 유틸리티 함수
+// 권한 관련 유틸리티 함수 (순수 함수 - 클라이언트/서버 모두 사용 가능)
 // 멤버 역할 관리 및 권한 체크
 
-import { createClient } from "@/lib/supabase/server";
 import type { Role } from "@/types/enums";
 
-/**
- * 사용자의 모임 내 역할 조회
- * @param groupId - 모임 ID
- * @param userId - 사용자 ID
- * @returns Role | null - 사용자의 역할 (멤버가 아니면 null)
- */
-export async function checkMemberRole(
-  groupId: string,
-  userId: string
-): Promise<Role | null> {
-  try {
-    const supabase = await createClient();
-
-    const { data: member, error } = await supabase
-      .from("group_members")
-      .select("role")
-      .eq("group_id", groupId)
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    if (error || !member) {
-      return null;
-    }
-
-    return member.role as Role;
-  } catch (error) {
-    console.error("checkMemberRole 오류:", error);
-    return null;
-  }
-}
+// 서버 전용 함수 (checkMemberRole)는 lib/utils/permissions-server.ts에 있습니다.
+// 서버 컴포넌트에서 checkMemberRole을 사용하려면:
+// import { checkMemberRole } from "@/lib/utils/permissions-server";
 
 /**
  * 멤버 관리 권한 확인 (owner/admin만 true)
@@ -103,4 +75,48 @@ export function canRemoveMember(currentRole: Role, targetRole: Role): boolean {
   }
 
   return true;
+}
+
+// ============================================
+// 이벤트 관련 권한 함수
+// ============================================
+
+/**
+ * 이벤트 생성 권한 확인 (owner/admin만 true)
+ * @param role - 확인할 역할
+ * @returns boolean - 이벤트 생성 권한 여부
+ */
+export function canCreateEvent(role: Role): boolean {
+  return role === "owner" || role === "admin";
+}
+
+/**
+ * 이벤트 관리 권한 확인 (수정/삭제)
+ * @param userRole - 현재 사용자의 역할
+ * @param eventCreatedBy - 이벤트 생성자 ID
+ * @param currentUserId - 현재 사용자 ID
+ * @returns boolean - 이벤트 관리 권한 여부
+ *
+ * 규칙:
+ * - owner는 모든 이벤트 관리 가능
+ * - admin은 자신이 생성한 이벤트만 관리 가능
+ * - member는 관리 권한 없음
+ */
+export function canManageEvent(
+  userRole: Role,
+  eventCreatedBy: string,
+  currentUserId: string
+): boolean {
+  // owner는 모든 이벤트 관리 가능
+  if (userRole === "owner") {
+    return true;
+  }
+
+  // admin은 자신이 생성한 이벤트만 관리 가능
+  if (userRole === "admin" && eventCreatedBy === currentUserId) {
+    return true;
+  }
+
+  // member는 관리 권한 없음
+  return false;
 }

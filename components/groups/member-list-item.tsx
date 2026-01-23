@@ -26,7 +26,8 @@ const roleLabels: Record<Role, string> = {
 };
 
 // 이름에서 이니셜 추출
-function getInitials(name: string): string {
+function getInitials(name: string | null): string {
+  if (!name) return "?";
   return name
     .split(" ")
     .map((n) => n[0])
@@ -90,7 +91,7 @@ export function MemberListItem({
         <Avatar className="h-10 w-10">
           <AvatarImage
             src={member.profile.avatar_url ?? undefined}
-            alt={member.profile.full_name}
+            alt={member.profile.full_name || undefined}
           />
           <AvatarFallback className="bg-primary/10 text-primary">
             {getInitials(member.profile.full_name)}
@@ -99,7 +100,7 @@ export function MemberListItem({
 
         <div>
           <p className="font-medium">
-            {member.profile.full_name}
+            {member.profile.full_name || "익명"}
             {isCurrentUser && (
               <span className="text-sm text-muted-foreground ml-2">(나)</span>
             )}

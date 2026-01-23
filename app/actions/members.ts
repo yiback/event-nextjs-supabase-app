@@ -4,20 +4,13 @@
 // 멤버 목록 조회, 역할 변경, 멤버 제거
 
 import { createClient } from "@/lib/supabase/server";
-import {
-  checkMemberRole,
-  canChangeRoleTo,
-  canRemoveMember,
-} from "@/lib/utils/permissions";
+import { checkMemberRole } from "@/lib/utils/permissions-server";
+import { canChangeRoleTo, canRemoveMember } from "@/lib/utils/permissions";
 import { revalidatePath } from "next/cache";
 import type { GroupMemberWithProfile } from "@/types/database";
 import type { Role } from "@/types/enums";
 import type { Tables } from "@/types/supabase";
-
-// Server Action 결과 타입
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string };
+import type { ActionResult } from "@/types/api";
 
 /**
  * 모임 멤버 목록 조회 (프로필 정보 포함)

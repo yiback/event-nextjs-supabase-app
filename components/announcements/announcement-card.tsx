@@ -50,14 +50,14 @@ export function AnnouncementCard({
                 <Avatar className="h-6 w-6">
                   <AvatarImage
                     src={announcement.author.avatar_url || undefined}
-                    alt={announcement.author.full_name}
+                    alt={announcement.author.full_name || undefined}
                   />
                   <AvatarFallback className="text-xs">
                     {announcement.author.full_name?.charAt(0) || "A"}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium truncate">
-                  {announcement.author.full_name}
+                  {announcement.author.full_name || "익명"}
                 </span>
               </div>
             </div>

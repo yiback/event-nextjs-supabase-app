@@ -1,16 +1,14 @@
-"use client";
-
-// 다가오는 이벤트 섹션
+// 다가오는 이벤트 섹션 (서버 컴포넌트)
 // 최대 4개의 예정된 이벤트를 그리드로 표시
 
 import Link from "next/link";
 import { Calendar } from "lucide-react";
-import { getUpcomingEvents } from "@/lib/mock";
+import { getUpcomingEvents } from "@/app/actions/events";
 import { EventCard } from "@/components/common/event-card";
 import { Button } from "@/components/ui/button";
 
-export function UpcomingEvents() {
-  const upcomingEvents = getUpcomingEvents().slice(0, 4);
+export async function UpcomingEvents() {
+  const upcomingEvents = await getUpcomingEvents(4);
 
   return (
     <section className="space-y-4">
@@ -37,9 +35,9 @@ export function UpcomingEvents() {
         <div className="text-center py-12 border-2 border-dashed rounded-lg">
           <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
           <p className="text-muted-foreground">예정된 이벤트가 없습니다</p>
-          <Button variant="link" asChild className="mt-2">
-            <Link href="/events/new">새 이벤트 만들기</Link>
-          </Button>
+          <p className="text-sm text-muted-foreground mt-1">
+            모임에 가입하고 이벤트를 확인해보세요
+          </p>
         </div>
       )}
     </section>
