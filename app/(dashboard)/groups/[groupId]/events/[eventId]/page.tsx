@@ -14,7 +14,6 @@ import {
   Coins,
   Share2,
   Pencil,
-  Trash2,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { checkMemberRole } from "@/lib/utils/permissions-server";
@@ -29,7 +28,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ImageCarousel } from "@/components/events/image-carousel";
 import { AttendanceSection } from "@/components/events/attendance-section";
-import { ParticipantsList } from "@/components/events/participants-list";
+import { ParticipantsSection } from "@/components/events/participants-section";
 import { DeadlineBadge } from "@/components/common/deadline-badge";
 import { DeleteEventButton } from "@/components/events/delete-event-button";
 
@@ -218,18 +217,11 @@ export default async function EventDetailPage({
         {/* 참석 응답 섹션 */}
         <AttendanceSection eventId={eventId} initialStatus={currentStatus} />
 
-        {/* 참석자 명단 섹션 */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              참석자 명단 ({participants.length}명)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ParticipantsList participants={participants} />
-          </CardContent>
-        </Card>
+        {/* 참석자 명단 섹션 (실시간 업데이트) */}
+        <ParticipantsSection
+          eventId={eventId}
+          initialParticipants={participants}
+        />
       </main>
     </div>
   );
