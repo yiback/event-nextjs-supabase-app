@@ -1,54 +1,59 @@
-"use client";
-
 // 멤버 관리 페이지
-// 모임 멤버 목록 및 관리 (관리자 전용)
+// 모임 멤버 목록 및 관리
 
-import { notFound } from "next/navigation";
-import { useParams } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Users } from "lucide-react";
-import {
-  mockGroups,
-  getMembersForGroup,
-  currentUserId,
-} from "@/lib/mock/data";
+import { createClient } from "@/lib/supabase/server";
+import { getMembersForGroup } from "@/app/actions/members";
+import { checkMemberRole } from "@/lib/utils/permissions";
 import type { Role } from "@/types/enums";
 import { Button } from "@/components/ui/button";
 import { InviteCodeSection } from "@/components/groups/invite-code-section";
-import { MemberListItem } from "@/components/groups/member-list-item";
+import { MemberList } from "@/components/groups/member-list";
 
-export default function MembersPage() {
-  const params = useParams();
-  const groupId = params.groupId as string;
+/**
+ * 멤버 관리 페이지 (Server Component)
+ * @param params - groupId를 포함한 동적 라우트 파라미터
+ */
+export default async function MembersPage({
+  params,
+}: {
+  params: Promise<{ groupId: string }>;
+}) {
+  const { groupId } = await params;
 
-  // 그룹 데이터 로드
-  const group = mockGroups.find((g) => g.id === groupId);
+  // 1. 사용자 인증 확인
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  // 그룹이 없으면 404
-  if (!group) {
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  // 2. 그룹 정보 조회
+  const { data: group, error: groupError } = await supabase
+    .from("groups")
+    .select("*")
+    .eq("id", groupId)
+    .single();
+
+  if (groupError || !group) {
     notFound();
   }
 
-  // 멤버 목록 및 현재 사용자 역할
-  const members = getMembersForGroup(groupId);
-  const currentUserMember = members.find((m) => m.user_id === currentUserId);
-  const currentUserRole: Role = currentUserMember?.role ?? "member";
+  // 3. 현재 사용자의 역할 확인
+  const currentUserRole = await checkMemberRole(groupId, user.id);
 
-  // 역할 변경 핸들러 (Phase 3에서 API 연동 예정)
-  const handleRoleChange = (memberId: string, newRole: Role) => {
-    console.log("역할 변경:", { memberId, newRole });
-    // TODO: Phase 3에서 실제 API 호출로 교체
-  };
+  if (!currentUserRole) {
+    // 멤버가 아니면 모임 상세 페이지로 리다이렉트
+    redirect(`/groups/${groupId}`);
+  }
 
-  // 멤버를 역할 순서대로 정렬 (owner -> admin -> member)
-  const roleOrder: Record<Role, number> = {
-    owner: 0,
-    admin: 1,
-    member: 2,
-  };
-  const sortedMembers = [...members].sort(
-    (a, b) => roleOrder[a.role] - roleOrder[b.role]
-  );
+  // 4. 멤버 목록 조회
+  const members = await getMembersForGroup(groupId);
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -84,16 +89,12 @@ export default function MembersPage() {
             <p>아직 멤버가 없습니다</p>
           </div>
         ) : (
-          <div className="space-y-2">
-            {sortedMembers.map((member) => (
-              <MemberListItem
-                key={member.id}
-                member={member}
-                currentUserRole={currentUserRole}
-                onRoleChange={handleRoleChange}
-              />
-            ))}
-          </div>
+          <MemberList
+            groupId={groupId}
+            members={members}
+            currentUserRole={currentUserRole}
+            currentUserId={user.id}
+          />
         )}
       </div>
     </div>
