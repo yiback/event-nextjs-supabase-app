@@ -1,5 +1,5 @@
 // Supabase CLI에서 자동 생성된 데이터베이스 타입
-// 생성일: 2026-01-22
+// 생성일: 2026-01-23
 
 export type Json =
   | string
@@ -424,6 +424,44 @@ export type Database = {
             foreignKeyName: "user_event_settings_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_notification_settings: {
+        Row: {
+          announcement_enabled: boolean
+          created_at: string
+          id: string
+          new_event_enabled: boolean
+          reminder_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          announcement_enabled?: boolean
+          created_at?: string
+          id?: string
+          new_event_enabled?: boolean
+          reminder_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          announcement_enabled?: boolean
+          created_at?: string
+          id?: string
+          new_event_enabled?: boolean
+          reminder_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notification_settings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },

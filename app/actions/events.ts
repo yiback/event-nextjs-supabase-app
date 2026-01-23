@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import type { Tables } from "@/types/supabase";
 import type { ActionResult } from "@/types/api";
 import type { EventWithGroup } from "@/types/database";
+import { sendEventCreatedNotification } from "./notifications";
 
 /**
  * 이벤트 생성 Server Action
@@ -98,7 +99,12 @@ export async function createEvent(groupId: string, formData: FormData) {
       throw eventError;
     }
 
-    // 6. 캐시 무효화
+    // 6. 푸시 알림 발송 (비동기, 실패해도 메인 작업에 영향 없음)
+    sendEventCreatedNotification(event.id, groupId, user.id).catch((err) => {
+      console.error("이벤트 생성 알림 발송 실패:", err);
+    });
+
+    // 7. 캐시 무효화
     revalidatePath(`/groups/${groupId}`);
     revalidatePath("/events");
     revalidatePath("/dashboard");

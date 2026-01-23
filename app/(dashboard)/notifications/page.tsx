@@ -1,23 +1,20 @@
-"use client";
-
 // 알림 페이지
-// 푸시 알림 내역 및 설정
+// 푸시 알림 내역 조회 및 읽음 처리
 
 import { Bell } from "lucide-react";
-import { currentUserId, getNotificationsForUser } from "@/lib/mock";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { NotificationItem } from "@/components/notifications/notification-item";
-import { toast } from "sonner";
+import {
+  getNotificationsForUser,
+  getUnreadNotificationCount,
+} from "@/app/actions/notifications";
+import { NotificationList } from "@/components/notifications/notification-list";
 
-export default function NotificationsPage() {
-  // 현재 사용자의 알림 목록 조회
-  const notifications = getNotificationsForUser(currentUserId);
-
-  // 전체 읽음 처리 (UI만, 실제 로직은 Phase 3)
-  const handleMarkAllAsRead = () => {
-    toast.success("모든 알림을 읽음 처리했습니다");
-  };
+export default async function NotificationsPage() {
+  // 서버에서 알림 데이터 조회
+  const [notifications, unreadCount] = await Promise.all([
+    getNotificationsForUser(50),
+    getUnreadNotificationCount(),
+  ]);
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -27,36 +24,23 @@ export default function NotificationsPage() {
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <Bell className="h-6 w-6" />
             알림
+            {unreadCount > 0 && (
+              <span className="bg-primary text-primary-foreground text-sm px-2 py-0.5 rounded-full">
+                {unreadCount}
+              </span>
+            )}
           </h1>
           <p className="text-muted-foreground mt-1">
             새로운 소식과 알림을 확인하세요
           </p>
         </div>
-
-        {/* 전체 읽음 처리 버튼 */}
-        {notifications.length > 0 && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleMarkAllAsRead}
-          >
-            전체 읽음
-          </Button>
-        )}
       </div>
 
       {/* 알림 목록 */}
       {notifications.length > 0 ? (
         <Card>
           <CardContent className="p-0">
-            <div className="divide-y">
-              {notifications.map((notification) => (
-                <NotificationItem
-                  key={notification.id}
-                  notification={notification}
-                />
-              ))}
-            </div>
+            <NotificationList notifications={notifications} />
           </CardContent>
         </Card>
       ) : (
