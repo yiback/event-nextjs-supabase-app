@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { SocialLoginButton } from "@/components/auth/social-login-button";
 import { PartyPopper } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function LoginForm({
@@ -28,6 +28,10 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // redirect 파라미터가 있으면 해당 경로로, 없으면 대시보드로
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +45,8 @@ export function LoginForm({
         password,
       });
       if (error) throw error;
-      // 로그인 후 대시보드로 리다이렉트
-      router.push("/dashboard");
+      // 로그인 후 지정된 경로로 리다이렉트
+      router.push(redirectTo);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -66,8 +70,8 @@ export function LoginForm({
           <div className="flex flex-col gap-6">
             {/* 소셜 로그인 버튼 */}
             <div className="grid gap-3">
-              <SocialLoginButton provider="kakao" />
-              <SocialLoginButton provider="google" />
+              <SocialLoginButton provider="kakao" redirectTo={redirectTo} />
+              <SocialLoginButton provider="google" redirectTo={redirectTo} />
             </div>
 
             {/* 구분선 */}

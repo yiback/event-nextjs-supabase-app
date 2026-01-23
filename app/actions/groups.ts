@@ -266,6 +266,95 @@ export async function joinGroupByCode(
 }
 
 /**
+ * 초대 코드로 모임 정보 조회 (공개 API - 비로그인도 가능)
+ * @param inviteCode - 초대 코드 (8자리)
+ * @returns ActionResult<{ group: Tables<'groups'>, memberCount: number }> - 모임 정보 또는 에러
+ *
+ * 처리 흐름:
+ * 1. 초대 코드 정규화 (대문자 변환)
+ * 2. groups 테이블에서 조회
+ * 3. 멤버 수 조회
+ * 4. 모임 정보 반환 (민감한 정보 제외)
+ */
+export async function getGroupByInviteCode(
+  inviteCode: string
+): Promise<
+  ActionResult<{ group: Tables<"groups">; memberCount: number }>
+> {
+  try {
+    const supabase = await createClient();
+
+    // 1. 초대 코드 정규화 (대문자 변환, 공백 제거)
+    const normalizedCode = inviteCode.trim().toUpperCase();
+
+    // 2. groups 테이블에서 조회
+    const { data: group, error: groupError } = await supabase
+      .from("groups")
+      .select("*")
+      .eq("invite_code", normalizedCode)
+      .single();
+
+    if (groupError || !group) {
+      return {
+        success: false,
+        error: "유효하지 않은 초대 코드입니다",
+      };
+    }
+
+    // 3. 멤버 수 조회
+    const { count } = await supabase
+      .from("group_members")
+      .select("*", { count: "exact", head: true })
+      .eq("group_id", group.id);
+
+    return {
+      success: true,
+      data: {
+        group,
+        memberCount: count || 0,
+      },
+    };
+  } catch (error) {
+    console.error("getGroupByInviteCode 오류:", error);
+    return {
+      success: false,
+      error: "모임 정보 조회 중 오류가 발생했습니다",
+    };
+  }
+}
+
+/**
+ * 사용자가 특정 모임의 멤버인지 확인
+ * @param groupId - 모임 ID
+ * @returns boolean - 멤버 여부
+ */
+export async function checkIfUserIsMember(groupId: string): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return false;
+    }
+
+    const { data } = await supabase
+      .from("group_members")
+      .select("id")
+      .eq("group_id", groupId)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    return !!data;
+  } catch (error) {
+    console.error("checkIfUserIsMember 오류:", error);
+    return false;
+  }
+}
+
+/**
  * 모임 정보 수정 Server Action
  * @param groupId - 수정할 모임 ID
  * @param formData - FormData 객체 (name, description)

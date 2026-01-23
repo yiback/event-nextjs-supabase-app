@@ -18,6 +18,8 @@ export interface SocialLoginButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   /** 소셜 로그인 제공자 */
   provider: SocialProvider;
+  /** 로그인 후 리디렉션할 경로 (기본값: /dashboard) */
+  redirectTo?: string;
   /** 버튼 클릭 핸들러 (선택적) */
   onClick?: () => void;
 }
@@ -61,7 +63,7 @@ const providerConfig: Record<
 export const SocialLoginButton = React.forwardRef<
   HTMLButtonElement,
   SocialLoginButtonProps
->(({ provider, onClick, className, disabled, ...props }, ref) => {
+>(({ provider, redirectTo = '/dashboard', onClick, className, disabled, ...props }, ref) => {
   const config = providerConfig[provider];
   const Icon = config.icon;
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +81,7 @@ export const SocialLoginButton = React.forwardRef<
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+            redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
             queryParams: {
               access_type: 'offline',
               prompt: 'consent',
