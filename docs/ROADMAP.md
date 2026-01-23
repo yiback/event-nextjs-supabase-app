@@ -227,18 +227,22 @@
 
 > 웹 푸시 알림, 실시간 기능, 성능 최적화, 배포
 
-- **Task 021: 웹 푸시 알림 시스템 구현 (F006)** - 우선순위
-  - Service Worker 설정 (`public/sw.js`)
-  - VAPID 키 생성 및 환경변수 설정
-  - 푸시 구독 등록 API (`/api/push/subscribe`)
-  - 푸시 발송 API (`/api/push/send`)
-  - Supabase Edge Function 알림 발송 로직
+- **Task 021: 웹 푸시 알림 시스템 구현 (F006)** ✅ - 완료
+  - ✅ Service Worker 설정 (`public/sw.js`)
+  - ✅ VAPID 키 생성 및 환경변수 설정
+  - ✅ 푸시 구독 등록 API (`/api/push/subscribe`)
+  - ✅ 푸시 발송 API (`/api/push/send`)
+  - ✅ Server Actions 알림 발송 로직 (notifications.ts)
+  - ✅ 푸시 구독 관리 Hook (use-push-subscription.ts)
+  - ✅ Settings 페이지 푸시 토글 연동
 
-- **Task 022: 알림 구독 관리 기능 구현 (F013)**
-  - 푸시 알림 권한 요청 프롬프트
-  - 알림 타입별 설정 (새 이벤트, 리마인더, 공지)
-  - 알림 목록 페이지 기능 연동
-  - 읽음/안읽음 상태 관리
+- **Task 022: 알림 구독 관리 기능 구현 (F013)** ✅ - 완료
+  - ✅ 푸시 알림 권한 요청 프롬프트 (PushNotificationBanner)
+  - ✅ 알림 타입별 설정 DB 연동 (user_notification_settings 테이블)
+  - ✅ Settings 페이지 토글 Optimistic UI + DB 저장
+  - ✅ 알림 발송 시 사용자 설정 체크 (filterEligibleRecipients)
+  - ✅ 알림 목록 페이지 기능 연동 (notification_logs)
+  - ✅ 읽음/안읽음 상태 관리 (markNotificationAsRead)
 
 - **Task 023: 실시간 기능 및 UX 개선**
   - Supabase Realtime 구독 설정
@@ -329,7 +333,7 @@ app/
 - [x] Phase 1: 애플리케이션 골격 구축 (3/3) ✅
 - [x] Phase 2: UI/UX 완성 (8/8) ✅
 - [x] Phase 3: 데이터베이스 설정 및 핵심 기능 구현 (9/9) ✅
-- [ ] Phase 4: 고급 기능 및 최적화 (0/8)
+- [ ] Phase 4: 고급 기능 및 최적화 (2/6)
 
 **📅 최종 업데이트**: 2026-01-23
-**총 진행률**: 19/28 Tasks 완료 (68%)
+**📊 총 진행률**: 21/26 Tasks 완료 (81%)
