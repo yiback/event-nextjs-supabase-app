@@ -169,18 +169,27 @@ export const mockEvents: Event[] = [
     title: "주말 수영장 모임",
     event_date: pastDate1.toISOString(),
     status: "completed",
+    location: "서울 강남구 테헤란로 123",
+    description:
+      "주말을 활기차게 시작하는 수영 모임입니다. 자유형과 접영 기술을 연습하고 함께 건강한 시간을 보냅니다.",
   }),
   generateEvent(mockGroups[0].id, currentUserId, {
     id: "event-002",
     title: "수영 PT 세션",
     event_date: futureDate1.toISOString(),
     status: "scheduled",
+    location: "서울 마포구 월드컵로 456",
+    description:
+      "전문 강사와 함께하는 수영 개인 레슨입니다. 자세 교정과 효율적인 영법을 배울 수 있는 좋은 기회입니다.",
   }),
   generateEvent(mockGroups[0].id, mockProfiles[1].id, {
     id: "event-003",
     title: "수영 대회 준비",
     event_date: futureDate2.toISOString(),
     status: "scheduled",
+    location: "서울 송파구 올림픽로 321",
+    description:
+      "다가오는 지역 수영 대회를 위한 마지막 준비 모임입니다. 스타트 연습과 턴 기술을 중점적으로 다룹니다.",
   }),
 
   // 헬스 모임 이벤트 (3개)
@@ -189,18 +198,27 @@ export const mockEvents: Event[] = [
     title: "헬스장 PT 세션",
     event_date: pastDate2.toISOString(),
     status: "completed",
+    location: "경기 성남시 분당구 판교역로 789",
+    description:
+      "개인별 맞춤 운동 프로그램으로 진행된 PT 세션이었습니다. 체력 측정과 목표 설정을 완료했습니다.",
   }),
   generateEvent(mockGroups[1].id, currentUserId, {
     id: "event-005",
     title: "주말 헬스 모임",
     event_date: futureDate1.toISOString(),
     status: "scheduled",
+    location: "서울 강남구 테헤란로 123",
+    description:
+      "함께 운동하며 동기부여를 얻는 주말 헬스 모임입니다. 3대 운동(스쿼트, 벤치프레스, 데드리프트)을 중심으로 진행합니다.",
   }),
   generateEvent(mockGroups[1].id, mockProfiles[2].id, {
     id: "event-006",
     title: "체력 테스트",
     event_date: futureDate3.toISOString(),
     status: "scheduled",
+    location: "서울 영등포구 여의대로 654",
+    description:
+      "월별 체력 측정으로 운동 효과를 확인하는 시간입니다. 근력, 지구력, 유연성을 종합적으로 평가합니다.",
   }),
 
   // 독서 모임 이벤트 (3개)
@@ -209,18 +227,27 @@ export const mockEvents: Event[] = [
     title: "독서 토론회 - 1984",
     event_date: pastDate3.toISOString(),
     status: "completed",
+    location: "서울 마포구 월드컵로 456",
+    description:
+      "조지 오웰의 디스토피아 소설 1984를 읽고 전체주의와 감시 사회에 대해 깊이 있게 토론했습니다.",
   }),
   generateEvent(mockGroups[2].id, mockProfiles[3].id, {
     id: "event-008",
     title: "독서 토론회 - 데미안",
     event_date: futureDate1.toISOString(),
     status: "scheduled",
+    location: "서울 송파구 올림픽로 321",
+    description:
+      "헤르만 헤세의 데미안을 함께 읽고 자아 발견과 성장에 대한 이야기를 나눕니다. 편안한 분위기에서 진행됩니다.",
   }),
   generateEvent(mockGroups[2].id, currentUserId, {
     id: "event-009",
     title: "독서 토론회 - 카라마조프 가의 형제들",
     event_date: futureDate2.toISOString(),
     status: "scheduled",
+    location: "서울 강남구 테헤란로 123",
+    description:
+      "도스토옙스키의 대작을 읽고 인간의 본성과 도덕성에 대해 함께 고민하는 시간을 가집니다.",
   }),
 
   // 등산 모임 이벤트 (3개)
@@ -229,18 +256,27 @@ export const mockEvents: Event[] = [
     title: "북한산 등산",
     event_date: futureDate1.toISOString(),
     status: "scheduled",
+    location: "서울 마포구 월드컵로 456",
+    description:
+      "서울의 대표 등산 코스인 북한산 백운대를 오릅니다. 초보자도 부담 없이 참여할 수 있는 코스입니다.",
   }),
   generateEvent(mockGroups[3].id, mockProfiles[4].id, {
     id: "event-011",
     title: "관악산 등산",
     event_date: futureDate2.toISOString(),
     status: "scheduled",
+    location: "경기 성남시 분당구 판교역로 789",
+    description:
+      "서울 남부의 명산 관악산 연주대 코스를 등반합니다. 정상에서 서울 전경을 감상할 수 있습니다.",
   }),
   generateEvent(mockGroups[3].id, currentUserId, {
     id: "event-012",
     title: "설악산 당일치기",
     event_date: futureDate3.toISOString(),
     status: "scheduled",
+    location: "서울 영등포구 여의대로 654",
+    description:
+      "강원도 설악산 울산바위 코스를 다녀오는 당일치기 등산입니다. 이른 아침 출발로 충분한 등산 시간을 확보합니다.",
   }),
 ];
 

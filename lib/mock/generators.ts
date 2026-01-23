@@ -127,6 +127,36 @@ export function generateGroupMember(
 /**
  * 이벤트 생성
  */
+/**
+ * 이벤트 Mock 데이터 생성
+ *
+ * @warning Hydration 에러 방지를 위해 랜덤 값(location, description)은
+ * 반드시 overrides로 명시해야 합니다. faker의 랜덤 값은 서버/클라이언트에서
+ * 다르게 생성되어 hydration mismatch가 발생할 수 있습니다.
+ *
+ * @param groupId - 그룹 ID
+ * @param createdBy - 생성자 프로필 ID
+ * @param overrides - 덮어쓸 필드 (location, description 필수 권장)
+ * @returns 생성된 이벤트 객체
+ *
+ * @example
+ * ```typescript
+ * // ✅ 올바른 사용 (location, description 명시)
+ * generateEvent(groupId, userId, {
+ *   id: "event-001",
+ *   title: "수영 모임",
+ *   location: "서울 강남구 테헤란로 123",
+ *   description: "주말 수영 모임입니다.",
+ * });
+ *
+ * // ❌ 잘못된 사용 (Hydration 에러 발생)
+ * generateEvent(groupId, userId, {
+ *   id: "event-001",
+ *   title: "수영 모임",
+ *   // location, description 누락 → faker 랜덤 값 사용
+ * });
+ * ```
+ */
 export function generateEvent(
   groupId: string,
   createdBy: string,
