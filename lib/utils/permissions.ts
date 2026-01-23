@@ -120,3 +120,47 @@ export function canManageEvent(
   // member는 관리 권한 없음
   return false;
 }
+
+// ============================================
+// 공지사항 관련 권한 함수
+// ============================================
+
+/**
+ * 공지사항 작성 권한 확인 (owner/admin만 true)
+ * @param role - 확인할 역할
+ * @returns boolean - 공지사항 작성 권한 여부
+ */
+export function canCreateAnnouncement(role: Role): boolean {
+  return role === "owner" || role === "admin";
+}
+
+/**
+ * 공지사항 관리 권한 확인 (수정/삭제)
+ * @param userRole - 현재 사용자의 역할
+ * @param authorId - 공지사항 작성자 ID
+ * @param currentUserId - 현재 사용자 ID
+ * @returns boolean - 공지사항 관리 권한 여부
+ *
+ * 규칙:
+ * - owner는 모든 공지사항 관리 가능
+ * - admin은 자신이 작성한 공지사항만 관리 가능
+ * - member는 관리 권한 없음
+ */
+export function canManageAnnouncement(
+  userRole: Role,
+  authorId: string,
+  currentUserId: string
+): boolean {
+  // owner는 모든 공지사항 관리 가능
+  if (userRole === "owner") {
+    return true;
+  }
+
+  // admin은 자신이 작성한 공지사항만 관리 가능
+  if (userRole === "admin" && authorId === currentUserId) {
+    return true;
+  }
+
+  // member는 관리 권한 없음
+  return false;
+}

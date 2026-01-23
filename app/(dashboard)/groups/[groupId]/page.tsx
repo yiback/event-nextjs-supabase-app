@@ -3,16 +3,19 @@
 
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { Settings, Users, Calendar, Megaphone } from "lucide-react";
+import { Settings, Users, Calendar, Megaphone, Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { checkMemberRole } from "@/lib/utils/permissions-server";
+import { canCreateAnnouncement } from "@/lib/utils/permissions";
 import { getMembersForGroup } from "@/app/actions/members";
 import { getEventsForGroup } from "@/app/actions/events";
+import { getAnnouncementsForGroup } from "@/app/actions/announcements";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GroupHeader } from "@/components/groups/group-header";
 import { InviteCodeSection } from "@/components/groups/invite-code-section";
 import { EventCard } from "@/components/common/event-card";
+import { AnnouncementCard } from "@/components/announcements/announcement-card";
 
 interface GroupDetailPageProps {
   params: Promise<{
@@ -53,11 +56,13 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
   }
 
   const isAdmin = userRole === "owner" || userRole === "admin";
+  const canWriteAnnouncement = canCreateAnnouncement(userRole);
 
   // 4. 데이터 병렬 조회
-  const [members, events] = await Promise.all([
+  const [members, events, announcements] = await Promise.all([
     getMembersForGroup(groupId),
     getEventsForGroup(groupId),
+    getAnnouncementsForGroup(groupId, 10), // 최근 10개
   ]);
 
   // 이벤트에 그룹 정보 추가 (EventWithGroup 형태)
@@ -102,7 +107,7 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
           </TabsTrigger>
           <TabsTrigger value="announcements" className="flex items-center gap-2">
             <Megaphone className="h-4 w-4" />
-            공지사항
+            공지사항 ({announcements.length})
           </TabsTrigger>
         </TabsList>
 
@@ -129,13 +134,52 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
           )}
         </TabsContent>
 
-        {/* 공지사항 탭 (추후 구현 예정) */}
+        {/* 공지사항 탭 */}
         <TabsContent value="announcements" className="mt-4">
-          <div className="text-center py-12 text-muted-foreground">
-            <Megaphone className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>아직 공지사항이 없습니다</p>
-            <p className="text-sm mt-2">공지사항 기능은 곧 추가될 예정입니다</p>
-          </div>
+          {/* 공지 작성 버튼 (admin 이상) */}
+          {canWriteAnnouncement && (
+            <div className="flex justify-end mb-4">
+              <Button asChild>
+                <Link href={`/groups/${groupId}/announcements/new`}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  공지 작성
+                </Link>
+              </Button>
+            </div>
+          )}
+
+          {announcements.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">
+              <Megaphone className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <p>아직 공지사항이 없습니다</p>
+              {canWriteAnnouncement && (
+                <Button className="mt-4" asChild>
+                  <Link href={`/groups/${groupId}/announcements/new`}>
+                    첫 공지 작성하기
+                  </Link>
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-4">
+                {announcements.map((announcement) => (
+                  <AnnouncementCard
+                    key={announcement.id}
+                    announcement={announcement}
+                  />
+                ))}
+              </div>
+              {/* 전체보기 링크 */}
+              <div className="text-center pt-2">
+                <Button variant="link" asChild>
+                  <Link href={`/groups/${groupId}/announcements`}>
+                    전체 공지사항 보기
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
