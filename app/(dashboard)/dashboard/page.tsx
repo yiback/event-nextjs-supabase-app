@@ -6,6 +6,7 @@ import { PushNotificationBanner } from "@/components/dashboard/push-notification
 import { BannerCarousel } from "@/components/dashboard/banner-carousel";
 import { UpcomingEvents } from "@/components/dashboard/upcoming-events";
 import { RecentAnnouncements } from "@/components/dashboard/recent-announcements";
+import { EventCardSkeletonList } from "@/components/skeletons";
 
 export default function DashboardPage() {
   return (
@@ -19,12 +20,12 @@ export default function DashboardPage() {
       <BannerCarousel />
 
       {/* 다가오는 이벤트 */}
-      <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
+      <Suspense fallback={<EventCardSkeletonList count={4} />}>
         <UpcomingEvents />
       </Suspense>
 
       {/* 최근 공지사항 */}
-      <Suspense fallback={<div className="h-64 animate-pulse bg-muted rounded-lg" />}>
+      <Suspense fallback={<EventCardSkeletonList count={3} />}>
         <RecentAnnouncements />
       </Suspense>
     </div>

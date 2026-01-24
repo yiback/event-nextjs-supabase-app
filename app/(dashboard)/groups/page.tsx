@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getGroupsForUser } from "@/app/actions/groups";
 import { Button } from "@/components/ui/button";
 import { GroupsList } from "@/components/groups/groups-list";
+import { EmptyState } from "@/components/common";
 
 export default async function GroupsPage() {
   // 서버에서 사용자 인증 확인
@@ -45,23 +46,16 @@ export default async function GroupsPage() {
       {/* 모임 목록 또는 빈 상태 */}
       {groups.length === 0 ? (
         // 빈 상태 UI
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="rounded-full bg-muted p-4 mb-4">
-            <Users className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <h3 className="text-lg font-semibold mb-2">
-            아직 가입한 모임이 없어요
-          </h3>
-          <p className="text-muted-foreground mb-4">
-            새로운 모임을 만들거나 초대 코드로 참여해보세요
-          </p>
-          <Button asChild>
-            <Link href="/groups/new">
-              <Plus className="h-4 w-4 mr-2" />
-              첫 모임 만들기
-            </Link>
-          </Button>
-        </div>
+        <EmptyState
+          icon={Users}
+          title="아직 가입한 모임이 없어요"
+          description="새로운 모임을 만들거나 초대 코드로 참여해보세요"
+          action={{
+            label: "첫 모임 만들기",
+            href: "/groups/new",
+          }}
+          className="py-16"
+        />
       ) : (
         // 모임 목록 (Client Component로 분리)
         <GroupsList groups={groups} userId={user.id} />

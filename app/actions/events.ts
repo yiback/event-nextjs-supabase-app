@@ -585,3 +585,138 @@ export async function updateEventStatus(
     };
   }
 }
+
+/**
+ * 페이지네이션 결과 타입
+ */
+interface PaginatedResult<T> {
+  data: T[];
+  nextCursor?: string;
+}
+
+/**
+ * 현재 사용자가 참여 중인 이벤트 목록 조회 (페이지네이션)
+ * 무한 스크롤을 위한 커서 기반 페이지네이션
+ *
+ * @param cursor - 이전 페이지의 마지막 이벤트 ID (선택)
+ * @param limit - 한 번에 가져올 개수 (기본값: 10)
+ * @returns PaginatedResult<EventWithGroup> - 이벤트 목록 및 다음 커서
+ */
+export async function getEventsForUserPaginated(
+  cursor?: string,
+  limit: number = 10
+): Promise<PaginatedResult<EventWithGroup>> {
+  try {
+    const supabase = await createClient();
+
+    // 사용자 인증 확인
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.log("getEventsForUserPaginated: 로그인되지 않은 사용자");
+      return { data: [] };
+    }
+
+    // 사용자가 속한 모임의 이벤트 조회 (groups와 JOIN)
+    const { data, error } = await supabase
+      .from("group_members")
+      .select(
+        `
+        groups (
+          id,
+          name,
+          description,
+          image_url,
+          invite_code,
+          invite_code_expires_at,
+          owner_id,
+          created_at,
+          events (
+            id,
+            group_id,
+            title,
+            description,
+            event_date,
+            location,
+            response_deadline,
+            status,
+            max_participants,
+            cost,
+            created_by,
+            created_at
+          )
+        )
+      `
+      )
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("getEventsForUserPaginated 오류:", error);
+      return { data: [] };
+    }
+
+    // 데이터 변환: 그룹별 이벤트를 EventWithGroup 형태로 플랫하게 변환
+    const eventsWithGroup: EventWithGroup[] = [];
+
+    for (const item of data || []) {
+      const group = item.groups;
+      if (!group || typeof group !== "object" || Array.isArray(group)) continue;
+
+      const groupData = group as Tables<"groups"> & {
+        events: Tables<"events">[];
+      };
+
+      if (groupData.events && Array.isArray(groupData.events)) {
+        for (const event of groupData.events) {
+          eventsWithGroup.push({
+            ...event,
+            group: {
+              id: groupData.id,
+              name: groupData.name,
+              description: groupData.description,
+              image_url: groupData.image_url,
+              invite_code: groupData.invite_code,
+              invite_code_expires_at: groupData.invite_code_expires_at,
+              owner_id: groupData.owner_id,
+              created_at: groupData.created_at,
+            },
+          });
+        }
+      }
+    }
+
+    // 날짜순 정렬 (가까운 순)
+    eventsWithGroup.sort(
+      (a, b) =>
+        new Date(a.event_date).getTime() - new Date(b.event_date).getTime()
+    );
+
+    // 커서 기반 필터링
+    let filteredEvents = eventsWithGroup;
+    if (cursor) {
+      const cursorIndex = eventsWithGroup.findIndex((e) => e.id === cursor);
+      if (cursorIndex !== -1) {
+        filteredEvents = eventsWithGroup.slice(cursorIndex + 1);
+      }
+    }
+
+    // limit 적용
+    const paginatedEvents = filteredEvents.slice(0, limit);
+
+    // 다음 커서 설정 (마지막 이벤트의 ID)
+    const nextCursor =
+      paginatedEvents.length === limit
+        ? paginatedEvents[paginatedEvents.length - 1].id
+        : undefined;
+
+    return {
+      data: paginatedEvents,
+      nextCursor,
+    };
+  } catch (error) {
+    console.error("getEventsForUserPaginated 오류:", error);
+    return { data: [] };
+  }
+}

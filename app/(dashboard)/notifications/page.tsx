@@ -1,20 +1,24 @@
 // 알림 페이지
-// 푸시 알림 내역 조회 및 읽음 처리
+// 푸시 알림 내역 조회 및 읽음 처리 + 무한 스크롤
 
 import { Bell } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  getNotificationsForUser,
+  getNotificationsForUserPaginated,
   getUnreadNotificationCount,
 } from "@/app/actions/notifications";
 import { NotificationList } from "@/components/notifications/notification-list";
+import { EmptyState } from "@/components/common";
 
 export default async function NotificationsPage() {
-  // 서버에서 알림 데이터 조회
-  const [notifications, unreadCount] = await Promise.all([
-    getNotificationsForUser(50),
+  // 서버에서 알림 데이터 조회 (첫 페이지 20개)
+  const [{ data: notifications, nextCursor }, unreadCount] = await Promise.all([
+    getNotificationsForUserPaginated(undefined, 20),
     getUnreadNotificationCount(),
   ]);
+
+  // 다음 페이지가 있는지 여부
+  const hasMore = !!nextCursor;
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -40,18 +44,21 @@ export default async function NotificationsPage() {
       {notifications.length > 0 ? (
         <Card>
           <CardContent className="p-0">
-            <NotificationList notifications={notifications} />
+            <NotificationList
+              notifications={notifications}
+              initialCursor={nextCursor}
+              initialHasMore={hasMore}
+            />
           </CardContent>
         </Card>
       ) : (
         // 빈 상태 UI
-        <div className="text-center py-12 border-2 border-dashed rounded-lg">
-          <Bell className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
-          <p className="text-muted-foreground">알림이 없습니다</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            새로운 이벤트나 공지사항이 있으면 알려드릴게요
-          </p>
-        </div>
+        <EmptyState
+          icon={Bell}
+          title="알림이 없습니다"
+          description="새로운 이벤트나 공지사항이 있으면 알려드릴게요"
+          className="border-2 border-dashed rounded-lg"
+        />
       )}
     </div>
   );

@@ -384,6 +384,90 @@ export async function getNotificationsForUser(
 }
 
 /**
+ * 페이지네이션 결과 타입
+ */
+interface PaginatedResult<T> {
+  data: T[];
+  nextCursor?: string;
+}
+
+/**
+ * 사용자의 알림 목록 조회 (페이지네이션)
+ * 무한 스크롤을 위한 커서 기반 페이지네이션
+ *
+ * @param cursor - 이전 페이지의 마지막 알림 ID (선택)
+ * @param limit - 한 번에 가져올 개수 (기본값: 20)
+ * @returns PaginatedResult<Tables<'notification_logs'>> - 알림 목록 및 다음 커서
+ */
+export async function getNotificationsForUserPaginated(
+  cursor?: string,
+  limit: number = 20
+): Promise<PaginatedResult<Tables<"notification_logs">>> {
+  try {
+    const supabase = await createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return { data: [] };
+    }
+
+    // 쿼리 시작: 커서가 있으면 해당 알림보다 이전 것만 가져오기
+    let query = supabase
+      .from("notification_logs")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("sent_at", { ascending: false });
+
+    // 커서 기반 필터링 (sent_at 기준)
+    if (cursor) {
+      // 커서 알림의 sent_at 조회
+      const { data: cursorNotification } = await supabase
+        .from("notification_logs")
+        .select("sent_at")
+        .eq("id", cursor)
+        .single();
+
+      if (cursorNotification) {
+        query = query.lt("sent_at", cursorNotification.sent_at);
+      }
+    }
+
+    // limit + 1개를 가져와서 다음 페이지 존재 여부 확인
+    query = query.limit(limit + 1);
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error("[Notification] 페이지네이션 알림 조회 실패:", error);
+      return { data: [] };
+    }
+
+    const notifications = data || [];
+
+    // 다음 커서 설정
+    const hasMore = notifications.length > limit;
+    const paginatedNotifications = hasMore
+      ? notifications.slice(0, limit)
+      : notifications;
+
+    const nextCursor = hasMore
+      ? paginatedNotifications[paginatedNotifications.length - 1].id
+      : undefined;
+
+    return {
+      data: paginatedNotifications,
+      nextCursor,
+    };
+  } catch (error) {
+    console.error("[Notification] 페이지네이션 알림 조회 오류:", error);
+    return { data: [] };
+  }
+}
+
+/**
  * 알림 읽음 처리
  * @param notificationId - 알림 ID
  */
