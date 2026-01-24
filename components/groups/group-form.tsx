@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { ImagePlus } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,51 +50,60 @@ export function GroupForm({
   // 폼 제출 핸들러
   async function onSubmit(values: GroupFormValues) {
     startTransition(async () => {
-      // FormData 생성
-      const formData = new FormData();
-      formData.append("name", values.name);
-      if (values.description) {
-        formData.append("description", values.description);
-      }
+      try {
+        // FormData 생성
+        const formData = new FormData();
+        formData.append("name", values.name);
+        if (values.description) {
+          formData.append("description", values.description);
+        }
 
-      // Server Action 호출
-      // 성공 시 redirect로 인해 void 반환, 에러 시 { success: false; error: string } 반환
-      const result = await action(formData);
+        // Server Action 호출
+        // 성공 시 redirect로 인해 void 반환, 에러 시 { success: false; error: string } 반환
+        const result = await action(formData);
 
-      // 에러 반환 시 에러 메시지 표시
-      if (result && !result.success) {
-        form.setError("root", {
-          type: "manual",
-          message: result.error,
+        // 에러 반환 시 에러 메시지 표시
+        if (result && !result.success) {
+          toast.error("모임 생성 실패", {
+            description: result.error,
+          });
+          form.setError("root", {
+            type: "manual",
+            message: result.error,
+          });
+        }
+        // 성공 시 redirect가 자동으로 호출됨
+      } catch (error) {
+        // NEXT_REDIRECT 에러는 정상적인 redirect이므로 무시
+        if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+          return;
+        }
+
+        console.error("모임 생성 오류:", error);
+        toast.error("오류가 발생했습니다", {
+          description: "다시 시도해주세요",
         });
       }
-      // 성공 시 redirect가 자동으로 호출됨
     });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* 모임 이미지 업로드 영역 (UI만) */}
+        {/* 모임 이미지 업로드 안내 */}
         <div className="space-y-2">
           <label className="text-sm font-medium">모임 이미지</label>
-          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:border-muted-foreground/50 transition-colors cursor-pointer">
+          <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center bg-muted/30">
             <div className="flex flex-col items-center gap-2">
               <div className="rounded-full bg-muted p-3">
                 <ImagePlus className="h-6 w-6 text-muted-foreground" />
               </div>
-              <div className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  클릭하여 이미지 업로드
-                </span>
-                <br />
-                PNG, JPG, GIF (최대 5MB)
-              </div>
+              <p className="text-sm text-muted-foreground">
+                모임 이미지는 모임 생성 후<br />
+                모임 상세 페이지에서 추가할 수 있습니다
+              </p>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">
-            * 이미지 업로드 기능은 추후 지원 예정입니다
-          </p>
         </div>
 
         {/* 모임 이름 */}

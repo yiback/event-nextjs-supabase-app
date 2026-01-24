@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ImageCarousel } from "@/components/events/image-carousel";
+import { EventImageUploader } from "@/components/events/event-image-uploader";
 import { AttendanceSection } from "@/components/events/attendance-section";
 import { ParticipantsSection } from "@/components/events/participants-section";
 import { DeadlineBadge } from "@/components/common/deadline-badge";
@@ -222,6 +223,16 @@ export default async function EventDetailPage({
           eventId={eventId}
           initialParticipants={participants}
         />
+
+        {/* 이미지 관리 섹션 (관리 권한 있는 경우만) */}
+        {canManage && (
+          <EventImageUploader
+            eventId={eventId}
+            groupId={groupId}
+            existingImages={eventImages}
+            canManage={canManage}
+          />
+        )}
       </main>
     </div>
   );

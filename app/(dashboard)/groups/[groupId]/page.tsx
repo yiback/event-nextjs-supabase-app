@@ -13,6 +13,7 @@ import { getAnnouncementsForGroup } from "@/app/actions/announcements";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GroupHeader } from "@/components/groups/group-header";
+import { GroupImageUploader } from "@/components/groups/group-image-uploader";
 import { InviteCodeSection } from "@/components/groups/invite-code-section";
 import { EventCard } from "@/components/common/event-card";
 import { AnnouncementCard } from "@/components/announcements/announcement-card";
@@ -75,6 +76,13 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
     <div className="space-y-6 p-4 md:p-6">
       {/* 모임 헤더 */}
       <GroupHeader group={group} memberCount={members.length} />
+
+      {/* 그룹 이미지 (관리자는 업로드 가능) */}
+      <GroupImageUploader
+        groupId={groupId}
+        currentImageUrl={group.image_url}
+        canManage={isAdmin}
+      />
 
       {/* 관리자 영역 (owner/admin만) */}
       {isAdmin && (

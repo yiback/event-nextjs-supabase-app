@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Settings, User, Bell, LogOut, Loader2, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileImageUploader } from "@/components/settings/profile-image-uploader";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -233,27 +233,24 @@ export default function SettingsPage() {
             <User className="h-5 w-5" />
             프로필
           </CardTitle>
-          <CardDescription>계정 정보를 확인하세요</CardDescription>
+          <CardDescription>프로필 사진과 계정 정보를 관리하세요</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage
-                src={profile?.avatar_url || undefined}
-                alt={profile?.full_name || user?.email || undefined}
-              />
-              <AvatarFallback className="text-lg">
-                {profile?.full_name?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || "U"}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold text-lg">
-                {profile?.full_name || "사용자"}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {user?.email || "이메일 없음"}
-              </p>
-            </div>
+        <CardContent className="space-y-6">
+          {/* 프로필 이미지 업로더 */}
+          <ProfileImageUploader
+            currentAvatarUrl={profile?.avatar_url}
+            userName={profile?.full_name}
+            userEmail={user?.email}
+          />
+
+          {/* 사용자 정보 */}
+          <div className="text-center pt-4 border-t">
+            <p className="font-semibold text-lg">
+              {profile?.full_name || "사용자"}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {user?.email || "이메일 없음"}
+            </p>
           </div>
         </CardContent>
       </Card>
