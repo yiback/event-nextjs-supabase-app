@@ -28,6 +28,8 @@ interface GroupCardProps {
   nextEvent?: Event;
   variant?: "grid" | "list";
   className?: string;
+  /** 첫 번째 아이템에 priority 설정 (LCP 최적화) */
+  priority?: boolean;
 }
 
 export function GroupCard({
@@ -37,6 +39,7 @@ export function GroupCard({
   nextEvent,
   variant = "grid",
   className,
+  priority = false,
 }: GroupCardProps) {
   const isListView = variant === "list";
 
@@ -62,6 +65,11 @@ export function GroupCard({
               alt={group.name}
               fill
               className="object-cover"
+              sizes={isListView
+                ? "96px"
+                : "(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+              }
+              priority={priority}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">

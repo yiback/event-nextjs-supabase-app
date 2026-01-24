@@ -2,107 +2,72 @@
 
 // 공통 이미지 업로드 컴포넌트
 // 드래그 앤 드롭 업로드, 미리보기, 순서 변경 지원
+// @dnd-kit 동적 임포트로 번들 크기 최적화
 
 import { useCallback, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Upload, X, GripVertical, Loader2, AlertCircle, ImagePlus } from "lucide-react";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  rectSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { Upload, X, Loader2, AlertCircle, ImagePlus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// 정렬 가능한 이미지 아이템 컴포넌트
-interface SortableImageItemProps {
-  id: string;
-  src: string;
-  index: number;
-  onRemove: (index: number) => void;
-  disabled?: boolean;
+// @dnd-kit을 사용하는 SortableImageGrid 동적 임포트
+const SortableImageGrid = dynamic(
+  () =>
+    import("./sortable-image-grid").then((mod) => mod.SortableImageGrid),
+  {
+    ssr: false,
+    loading: () => <ImageGridSkeleton />,
+  }
+);
+
+// 이미지 그리드 로딩 스켈레톤
+function ImageGridSkeleton() {
+  return (
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+      {[1, 2, 3].map((i) => (
+        <Skeleton key={i} className="aspect-square rounded-lg" />
+      ))}
+    </div>
+  );
 }
 
-function SortableImageItem({
-  id,
-  src,
-  index,
+// 간단한 이미지 그리드 (단일 이미지 또는 정렬 비활성화 시)
+function SimpleImageGrid({
+  images,
   onRemove,
-  disabled,
-}: SortableImageItemProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id, disabled });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
+}: {
+  images: string[];
+  onRemove: (index: number) => void;
+}) {
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={cn(
-        "relative aspect-square rounded-lg overflow-hidden bg-muted group",
-        isDragging && "opacity-50 ring-2 ring-primary"
-      )}
-    >
-      {/* 이미지 */}
-      <Image
-        src={src}
-        alt={`이미지 ${index + 1}`}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 33vw, 20vw"
-      />
-
-      {/* 오버레이 (호버 시 표시) */}
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
-        {/* 드래그 핸들 */}
-        {!disabled && (
-          <button
-            type="button"
-            className="absolute top-2 left-2 p-1.5 rounded-md bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
-            {...attributes}
-            {...listeners}
-          >
-            <GripVertical className="h-4 w-4" />
-          </button>
-        )}
-
-        {/* 삭제 버튼 */}
-        <button
-          type="button"
-          onClick={() => onRemove(index)}
-          className="absolute top-2 right-2 p-1.5 rounded-md bg-black/50 hover:bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-all"
-          disabled={disabled}
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+      {images.map((src, index) => (
+        <div
+          key={`image-${index}`}
+          className="relative aspect-square rounded-lg overflow-hidden bg-muted group"
         >
-          <X className="h-4 w-4" />
-        </button>
-
-        {/* 순서 번호 */}
-        <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
-          {index + 1}
+          <Image
+            src={src}
+            alt={`이미지 ${index + 1}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 33vw, 20vw"
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors">
+            <button
+              type="button"
+              onClick={() => onRemove(index)}
+              className="absolute top-2 right-2 p-1.5 rounded-md bg-black/50 hover:bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-all"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+              {index + 1}
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
@@ -169,17 +134,11 @@ export function ImageUpload({
   const totalCount = allImages.length;
   const canAddMore = mode === "single" ? totalCount === 0 : totalCount < maxFiles;
 
-  // 드래그 앤 드롭 센서 설정
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  // 단일 모드 여부
+  const isSingleMode = mode === "single";
+
+  // 정렬 기능 사용 가능 여부 (다중 모드 + 2개 이상 + reorder 핸들러 존재)
+  const canReorder = !isSingleMode && totalCount > 1 && !!onReorder;
 
   // 파일 선택 다이얼로그 열기
   const handleClick = useCallback(() => {
@@ -240,23 +199,6 @@ export function ImageUpload({
     [disabled, isProcessing, canAddMore, onChange]
   );
 
-  // 드래그 앤 드롭 순서 변경 핸들러
-  const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event;
-
-      if (over && active.id !== over.id && onReorder) {
-        const oldIndex = allImages.findIndex((_, i) => `image-${i}` === active.id);
-        const newIndex = allImages.findIndex((_, i) => `image-${i}` === over.id);
-
-        if (oldIndex !== -1 && newIndex !== -1) {
-          onReorder(oldIndex, newIndex);
-        }
-      }
-    },
-    [allImages, onReorder]
-  );
-
   // 이미지 삭제 핸들러
   const handleRemove = useCallback(
     (index: number) => {
@@ -270,31 +212,24 @@ export function ImageUpload({
 
   return (
     <div className={cn("space-y-4", className)}>
-      {/* 이미지 그리드 (정렬 가능) */}
+      {/* 이미지 그리드 */}
       {allImages.length > 0 && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={allImages.map((_, i) => `image-${i}`)}
-            strategy={rectSortingStrategy}
-          >
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-              {allImages.map((src, index) => (
-                <SortableImageItem
-                  key={`image-${index}`}
-                  id={`image-${index}`}
-                  src={src}
-                  index={index}
-                  onRemove={handleRemove}
-                  disabled={disabled || mode === "single"}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
+        canReorder ? (
+          // 정렬 가능한 그리드 (동적 임포트)
+          <SortableImageGrid
+            images={allImages}
+            onRemove={handleRemove}
+            onReorder={onReorder}
+            disabled={disabled}
+            isSingleMode={isSingleMode}
+          />
+        ) : (
+          // 간단한 그리드 (정적)
+          <SimpleImageGrid
+            images={allImages}
+            onRemove={handleRemove}
+          />
+        )
       )}
 
       {/* 업로드 영역 (추가 가능할 때만 표시) */}

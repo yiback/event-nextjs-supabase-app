@@ -45,8 +45,9 @@ export function MyEventsClient({
     setNow(new Date());
   }, []);
 
-  // 무한 스크롤 훅
+  // 무한 스크롤 훅 (SWR 기반)
   const { data: events, isLoading, hasMore, loadMoreRef, refresh } = useInfiniteScroll({
+    cacheKey: "my-events", // SWR 캐시 키
     fetchFn: async (cursor) => {
       // 다음 페이지 이벤트 가져오기
       const result = await getEventsForUserPaginated(cursor, 10);

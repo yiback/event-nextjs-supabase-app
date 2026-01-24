@@ -26,7 +26,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ImageCarousel } from "@/components/events/image-carousel";
+import { DynamicImageCarousel } from "@/components/events/dynamic-image-carousel";
 import { EventImageUploader } from "@/components/events/event-image-uploader";
 import { AttendanceSection } from "@/components/events/attendance-section";
 import { ParticipantsSection } from "@/components/events/participants-section";
@@ -121,8 +121,8 @@ export default async function EventDetailPage({
       </header>
 
       <main className="container px-4 py-6 space-y-6 max-w-2xl mx-auto">
-        {/* 이미지 캐러셀 */}
-        <ImageCarousel images={imageUrls} alt={event.title} />
+        {/* 이미지 캐러셀 (동적 로드) */}
+        <DynamicImageCarousel images={imageUrls} alt={event.title} />
 
         {/* 이벤트 정보 카드 */}
         <Card>

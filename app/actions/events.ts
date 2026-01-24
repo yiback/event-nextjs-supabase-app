@@ -490,23 +490,78 @@ export async function getEventsForUser(): Promise<EventWithGroup[]> {
 }
 
 /**
- * 다가오는 이벤트 목록 조회 (대시보드용)
+ * 다가오는 이벤트 목록 조회 (대시보드용) - DB 레벨 최적화
+ * WHERE + ORDER BY + LIMIT을 DB에서 처리하여 성능 최적화
+ *
  * @param limit - 최대 개수 (기본값: 4)
  * @returns EventWithGroup[] - 예정된 이벤트 목록
  */
 export async function getUpcomingEvents(limit: number = 4): Promise<EventWithGroup[]> {
   try {
-    const events = await getEventsForUser();
-    const now = new Date();
+    const supabase = await createClient();
 
-    // 예정된 이벤트만 필터링 (현재 시간 이후)
-    const upcomingEvents = events.filter((event) => {
-      const eventDate = new Date(event.event_date);
-      return eventDate >= now && event.status === "scheduled";
+    // 사용자 인증 확인
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.log("getUpcomingEvents: 로그인되지 않은 사용자");
+      return [];
+    }
+
+    const now = new Date().toISOString();
+
+    // DB 레벨에서 필터링, 정렬, limit 적용
+    // 1. 사용자가 속한 모임의 ID 목록 조회
+    const { data: memberships, error: memberError } = await supabase
+      .from("group_members")
+      .select("group_id")
+      .eq("user_id", user.id);
+
+    if (memberError || !memberships || memberships.length === 0) {
+      return [];
+    }
+
+    const groupIds = memberships.map((m) => m.group_id);
+
+    // 2. 해당 모임의 예정된 이벤트 조회 (DB에서 필터링 + 정렬 + limit)
+    const { data: events, error: eventError } = await supabase
+      .from("events")
+      .select(`
+        *,
+        groups:group_id (
+          id,
+          name,
+          description,
+          image_url,
+          invite_code,
+          invite_code_expires_at,
+          owner_id,
+          created_at
+        )
+      `)
+      .in("group_id", groupIds)
+      .eq("status", "scheduled")
+      .gte("event_date", now)
+      .order("event_date", { ascending: true })
+      .limit(limit);
+
+    if (eventError) {
+      console.error("getUpcomingEvents DB 조회 오류:", eventError);
+      return [];
+    }
+
+    // 3. EventWithGroup 형태로 변환
+    const eventsWithGroup: EventWithGroup[] = (events || []).map((event) => {
+      const { groups: group, ...eventData } = event;
+      return {
+        ...eventData,
+        group: group as Tables<"groups">,
+      };
     });
 
-    // 날짜순 정렬 후 limit 적용
-    return upcomingEvents.slice(0, limit);
+    return eventsWithGroup;
   } catch (error) {
     console.error("getUpcomingEvents 오류:", error);
     return [];

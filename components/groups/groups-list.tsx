@@ -61,7 +61,7 @@ export function GroupsList({ groups, userId }: GroupsListProps) {
             : "flex flex-col gap-3"
         )}
       >
-        {groupsWithMeta.map(({ group, memberCount, userRole, nextEvent }) => (
+        {groupsWithMeta.map(({ group, memberCount, userRole, nextEvent }, index) => (
           <GroupCard
             key={group.id}
             group={group}
@@ -69,6 +69,7 @@ export function GroupsList({ groups, userId }: GroupsListProps) {
             memberCount={memberCount}
             nextEvent={nextEvent}
             variant={viewMode}
+            priority={index === 0} // 첫 번째 이미지 우선 로드 (LCP 최적화)
           />
         ))}
       </div>

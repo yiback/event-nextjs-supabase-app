@@ -29,8 +29,9 @@ export function NotificationList({
 }: NotificationListProps) {
   const [isPending, startTransition] = useTransition();
 
-  // 무한 스크롤 훅
+  // 무한 스크롤 훅 (SWR 기반)
   const { data: notifications, isLoading, hasMore, loadMoreRef } = useInfiniteScroll({
+    cacheKey: "notifications", // SWR 캐시 키
     fetchFn: async (cursor) => {
       const result = await getNotificationsForUserPaginated(cursor, 20);
       return {
