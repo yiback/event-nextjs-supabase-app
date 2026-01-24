@@ -261,19 +261,24 @@
   - ✅ 드래그 앤 드롭 순서 변경 (dnd-kit)
   - ✅ Playwright MCP 테스트 완료
 
-- **Task 025: 성능 최적화**
-  - Next.js 이미지 최적화 적용
-  - 데이터 캐싱 전략 (React Query 또는 SWR)
-  - 코드 스플리팅 및 동적 임포트
-  - 번들 사이즈 분석 및 최적화
+- **Task 025: 성능 최적화** ✅ - 완료
+  - ✅ 번들 분석 도구 설정 (@next/bundle-analyzer)
+  - ✅ 동적 임포트 구현 (framer-motion, @dnd-kit, embla-carousel)
+  - ✅ SWR 기반 데이터 캐싱 전략 도입
+  - ✅ 무한 스크롤 훅 SWR 마이그레이션 (useSWRInfinite)
+  - ✅ DB 레벨 쿼리 최적화 (getUpcomingEvents)
+  - ✅ next/image priority 및 sizes 속성 최적화
+  - ✅ Playwright MCP 기능 테스트 완료
 
 
-- **Task 027: 배포 및 모니터링**
-  - Vercel 배포 설정
-  - 환경변수 구성 (Production)
-  - CI/CD 파이프라인 구축
-  - 에러 모니터링 설정 (Sentry 등)
-  - 성능 모니터링 설정
+- **Task 027: 배포 및 모니터링** ✅ - 완료
+  - ✅ 에러 페이지 구현 (error.tsx, not-found.tsx, global-error.tsx)
+  - ✅ Vercel 배포 설정 (vercel.json, 리전: icn1, 보안 헤더)
+  - ✅ next.config.ts 보안 강화 (poweredByHeader, compress)
+  - ✅ 메타데이터 완성 (Open Graph, Twitter Cards)
+  - ✅ CI/CD 파이프라인 구축 (GitHub Actions)
+  - ✅ 에러 모니터링 설정 (Sentry)
+  - ✅ 성능 모니터링 설정 (Vercel Analytics, Speed Insights)
 
 ---
 
@@ -335,7 +340,7 @@ app/
 - [x] Phase 1: 애플리케이션 골격 구축 (3/3) ✅
 - [x] Phase 2: UI/UX 완성 (8/8) ✅
 - [x] Phase 3: 데이터베이스 설정 및 핵심 기능 구현 (9/9) ✅
-- [ ] Phase 4: 고급 기능 및 최적화 (4/6) - Task 025 대기 중
+- [x] Phase 4: 고급 기능 및 최적화 (6/6) ✅
 
 **📅 최종 업데이트**: 2026-01-24
-**📊 총 진행률**: 24/26 Tasks 완료 (92%)
+**📊 총 진행률**: 26/26 Tasks 완료 (100%) 🎉
