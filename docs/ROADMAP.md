@@ -244,20 +244,22 @@
   - ✅ 알림 목록 페이지 기능 연동 (notification_logs)
   - ✅ 읽음/안읽음 상태 관리 (markNotificationAsRead)
 
-- **Task 023: 실시간 기능 및 UX 개선**
-  - Supabase Realtime 구독 설정
-  - 참석 현황 실시간 업데이트
-  - 로딩 상태 및 스켈레톤 UI
-  - 에러 처리 및 토스트 메시지
-  - 빈 상태 UI 구현
-  - Pull-to-Refresh (모바일)
-  - 무한 스크롤 (이벤트 목록, 알림 목록)
+- **Task 023: 실시간 기능 및 UX 개선** ✅ - 완료
+  - ✅ Supabase Realtime 구독 설정 (Task 017에서 구현)
+  - ✅ 참석 현황 실시간 업데이트 (Task 017에서 구현)
+  - ✅ 로딩 상태 및 스켈레톤 UI (Skeleton 컴포넌트, 페이지별 스켈레톤)
+  - ✅ 에러 처리 및 토스트 메시지 (Toaster 전역 설정, 일관된 토스트 패턴)
+  - ✅ 빈 상태 UI 구현 (EmptyState 공통 컴포넌트)
+  - ✅ Pull-to-Refresh (모바일) - use-pull-to-refresh 훅 + PullToRefresh 컴포넌트
+  - ✅ 무한 스크롤 (이벤트 목록, 알림 목록) - use-infinite-scroll 훅 + 커서 기반 페이지네이션
 
-- **Task 024: 이미지 업로드 및 미디어 처리**
-  - Supabase Storage 이미지 업로드 구현
-  - 클라이언트 이미지 리사이징 (1200px max width)
-  - 이벤트 이미지 슬라이더 연동
-  - 프로필/모임 이미지 업로드
+- **Task 024: 이미지 업로드 및 미디어 처리** ✅ - 완료
+  - ✅ Supabase Storage 이미지 업로드 구현
+  - ✅ 클라이언트 이미지 리사이징 (1200px max width)
+  - ✅ 이벤트 이미지 슬라이더 연동
+  - ✅ 프로필/모임 이미지 업로드
+  - ✅ 드래그 앤 드롭 순서 변경 (dnd-kit)
+  - ✅ Playwright MCP 테스트 완료
 
 - **Task 025: 성능 최적화**
   - Next.js 이미지 최적화 적용
@@ -333,7 +335,7 @@ app/
 - [x] Phase 1: 애플리케이션 골격 구축 (3/3) ✅
 - [x] Phase 2: UI/UX 완성 (8/8) ✅
 - [x] Phase 3: 데이터베이스 설정 및 핵심 기능 구현 (9/9) ✅
-- [ ] Phase 4: 고급 기능 및 최적화 (2/6)
+- [ ] Phase 4: 고급 기능 및 최적화 (4/6) - Task 025 대기 중
 
-**📅 최종 업데이트**: 2026-01-23
-**📊 총 진행률**: 21/26 Tasks 완료 (81%)
+**📅 최종 업데이트**: 2026-01-24
+**📊 총 진행률**: 24/26 Tasks 완료 (92%)
