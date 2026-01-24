@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { Copy, Check, Link as LinkIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -23,10 +24,18 @@ export function InviteCodeSection({ inviteCode }: InviteCodeSectionProps) {
       await navigator.clipboard.writeText(inviteUrl);
       setCopied(true);
 
+      // 성공 토스트 표시
+      toast.success("클립보드에 복사되었습니다", {
+        description: "초대 링크를 친구들과 공유하세요",
+      });
+
       // 2초 후 복사 상태 초기화
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("클립보드 복사 실패:", error);
+      toast.error("복사 실패", {
+        description: "클립보드 복사 중 오류가 발생했습니다",
+      });
     }
   };
 

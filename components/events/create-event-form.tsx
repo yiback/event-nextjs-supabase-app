@@ -37,7 +37,7 @@ export function CreateEventForm({ groupId, groupName }: CreateEventFormProps) {
       }
       formData.append("cost", String(values.cost || 0));
 
-      // Server Action 호출 (redirect가 포함되어 있으므로 catch 불필요)
+      // Server Action 호출
       const result = await createEvent(groupId, formData);
 
       // redirect가 발생하지 않은 경우 (에러)
@@ -47,6 +47,7 @@ export function CreateEventForm({ groupId, groupName }: CreateEventFormProps) {
         });
         setIsSubmitting(false);
       }
+      // 성공 시 redirect가 발생하므로 토스트는 표시되지 않음
     } catch (error) {
       // NEXT_REDIRECT 에러는 정상적인 redirect이므로 무시
       if (error instanceof Error && error.message === "NEXT_REDIRECT") {
@@ -54,8 +55,8 @@ export function CreateEventForm({ groupId, groupName }: CreateEventFormProps) {
       }
 
       console.error("이벤트 생성 오류:", error);
-      toast.error("오류 발생", {
-        description: "이벤트 생성 중 오류가 발생했습니다",
+      toast.error("오류가 발생했습니다", {
+        description: "다시 시도해주세요",
       });
       setIsSubmitting(false);
     }

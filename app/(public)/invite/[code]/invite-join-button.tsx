@@ -75,15 +75,21 @@ export function InviteJoinButton({
       const result = await joinGroupByCode(inviteCode);
 
       if (result.success) {
-        toast.success(`"${groupName}" 모임에 가입되었습니다!`);
+        toast.success("모임에 가입되었습니다", {
+          description: `"${groupName}" 모임에 성공적으로 가입되었습니다`,
+        });
         router.push(`/groups/${groupId}`);
       } else {
-        toast.error(result.error || "모임 가입에 실패했습니다");
+        toast.error("모임 가입 실패", {
+          description: result.error,
+        });
         setIsJoining(false);
       }
     } catch (error) {
       console.error("모임 가입 오류:", error);
-      toast.error("모임 가입 중 오류가 발생했습니다");
+      toast.error("오류가 발생했습니다", {
+        description: "다시 시도해주세요",
+      });
       setIsJoining(false);
     }
   };

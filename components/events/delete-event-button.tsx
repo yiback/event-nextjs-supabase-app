@@ -35,11 +35,12 @@ export function DeleteEventButton({ eventId }: DeleteEventButtonProps) {
 
         // redirect가 발생하지 않은 경우 (에러)
         if (result && !result.success) {
-          toast.error("삭제 실패", {
+          toast.error("이벤트 삭제 실패", {
             description: result.error,
           });
           setOpen(false);
         }
+        // 성공 시 redirect가 발생하므로 토스트는 표시되지 않음
       } catch (error) {
         // NEXT_REDIRECT 에러는 정상적인 redirect이므로 무시
         if (error instanceof Error && error.message === "NEXT_REDIRECT") {
@@ -47,8 +48,8 @@ export function DeleteEventButton({ eventId }: DeleteEventButtonProps) {
         }
 
         console.error("이벤트 삭제 오류:", error);
-        toast.error("오류 발생", {
-          description: "이벤트 삭제 중 오류가 발생했습니다",
+        toast.error("오류가 발생했습니다", {
+          description: "다시 시도해주세요",
         });
         setOpen(false);
       }

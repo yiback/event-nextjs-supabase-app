@@ -50,14 +50,20 @@ export function MemberList({
       const result = await updateMemberRole(groupId, memberId, newRole);
 
       if (result.success) {
-        toast.success("역할이 변경되었습니다");
+        toast.success("역할이 변경되었습니다", {
+          description: "멤버의 역할이 성공적으로 변경되었습니다",
+        });
         router.refresh();
       } else {
-        toast.error(result.error);
+        toast.error("역할 변경 실패", {
+          description: result.error,
+        });
       }
     } catch (error) {
       console.error("역할 변경 오류:", error);
-      toast.error("역할 변경 중 오류가 발생했습니다");
+      toast.error("오류가 발생했습니다", {
+        description: "다시 시도해주세요",
+      });
     } finally {
       setIsRoleChanging(false);
     }
@@ -82,15 +88,21 @@ export function MemberList({
       const result = await removeMember(groupId, memberToRemove.id);
 
       if (result.success) {
-        toast.success("멤버가 제거되었습니다");
+        toast.success("멤버가 제거되었습니다", {
+          description: "모임에서 멤버가 성공적으로 제거되었습니다",
+        });
         setMemberToRemove(null);
         router.refresh();
       } else {
-        toast.error(result.error);
+        toast.error("멤버 제거 실패", {
+          description: result.error,
+        });
       }
     } catch (error) {
       console.error("멤버 제거 오류:", error);
-      toast.error("멤버 제거 중 오류가 발생했습니다");
+      toast.error("오류가 발생했습니다", {
+        description: "다시 시도해주세요",
+      });
     } finally {
       setIsRemoving(false);
     }

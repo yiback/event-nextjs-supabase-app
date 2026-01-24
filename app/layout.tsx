@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -37,6 +38,7 @@ export default function RootLayout({
           <div className="mx-auto w-full max-w-[480px] min-h-screen bg-background shadow-sm">
             {children}
           </div>
+          <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>

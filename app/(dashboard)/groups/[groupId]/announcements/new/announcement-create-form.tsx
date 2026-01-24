@@ -36,13 +36,22 @@ export function AnnouncementCreateForm({
 
       // 에러 처리 (redirect가 아닌 경우에만 result가 반환됨)
       if (result && !result.success) {
-        toast.error(result.error || "공지사항 생성에 실패했습니다");
+        toast.error("공지사항 생성 실패", {
+          description: result.error,
+        });
         setIsSubmitting(false);
       }
       // 성공 시 Server Action에서 redirect 처리
     } catch (error) {
+      // NEXT_REDIRECT 에러는 정상적인 redirect이므로 무시
+      if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+        return;
+      }
+
       console.error("공지사항 생성 오류:", error);
-      toast.error("공지사항 생성 중 오류가 발생했습니다");
+      toast.error("오류가 발생했습니다", {
+        description: "다시 시도해주세요",
+      });
       setIsSubmitting(false);
     }
   };
